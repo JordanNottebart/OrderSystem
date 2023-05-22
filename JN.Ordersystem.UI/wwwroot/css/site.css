@@ -70,9 +70,28 @@ main .sidebar {
     cursor: pointer;
 }
 
-.dropdown-toggle::after {
-    display: none !important;
+.action-icons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    font-size: 20px;
 }
+
+    .action-icons a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #f8f9fa;
+        color: #212529;
+        transition: background-color 0.2s ease;
+    }
+
+        .action-icons a:hover {
+            background-color: #e9ecef;
+        }
 
 .text-right {
     text-align: right;

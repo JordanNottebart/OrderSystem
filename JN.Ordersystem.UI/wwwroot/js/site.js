@@ -9,7 +9,7 @@ function collapseSidebar() {
 
 $(document).ready(function () {
     // Attach click event listeners to the "Home", "Orders", "Products" and "Customers" links
-    $('a[href="/"], a[href="/Order"], a[href="/Product"], a[href="/Customer"] ').on('click', function (event) {
+    $('a[href="/"], a[href="/Order"], a[href="/Product"], a[href="/Customer"]').on('click', function (event) {
         event.preventDefault(); // Prevent the default click behavior
 
         // Get the target URL from the link's "href" attribute

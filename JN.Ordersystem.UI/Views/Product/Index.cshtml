@@ -45,17 +45,11 @@
                 @Html.DisplayFor(modelItem => item.UnitsInStock)
                 </td>
                 <td class="text-right">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-@item.ProductID" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-@item.ProductID">
-                            <a class="dropdown-item" href="@Url.Action("Edit", new { id = item.ProductID })">Edit</a>
-                            <a class="dropdown-item" href="@Url.Action("Details", new { id = item.ProductID })">Details</a>
-                            <a class="dropdown-item" href="@Url.Action("Delete", new { id = item.ProductID })">Delete</a>
-                        </div>
+                    <div class="action-icons">
+                        <a href="@Url.Action("Edit", new { id = item.ProductID })" title="Edit"><i class="fa-solid fa-edit"></i></a>
+                        <a href="@Url.Action("Details", new { id = item.ProductID })" title="Details"><i class="fa-solid fa-info-circle"></i></a>
+                            <a href="@Url.Action("Delete", new { id = item.ProductID })" title="Delete"><i class="fa-solid fa-trash-can"></i></a>
                     </div>
-
                 </td>
             </tr>
         }
