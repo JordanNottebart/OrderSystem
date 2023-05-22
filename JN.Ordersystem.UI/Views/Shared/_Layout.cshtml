@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - JN.Ordersystem.UI</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/JN.Ordersystem.UI.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+</head>
+<body>
+    <div id="mySidebar" class="sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
+        @*<i class="material-icons">Logo warehouse.png </i>*@
+        <a asp-controller="Home" asp-action="Index">
+            <i class="material-icons" style="font-size: 40px;">home</i>
+            <span class="icon-text">Home</span>
+        </a><br>
+        <a asp-controller="Order" asp-action="Index">
+            <i class="material-icons" style="font-size: 40px;">checklist</i>
+            <span class="icon-text">Orders</span>
+        </a><br>
+        <a asp-controller="Product" asp-action="Index">
+            <i class="material-icons" style="font-size: 40px;">shelves</i>
+            <span class="icon-text">Products</span>
+        </a><br>
+        <a asp-controller="Customer" asp-action="Index">
+            <i class="material-icons" style="font-size: 40px;">person_search</i>
+            <span class="icon-text">Customers</span>
+        </a>
+    </div>
+
+    <div class="container" id="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script defer src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
