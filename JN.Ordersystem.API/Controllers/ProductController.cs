@@ -22,11 +22,11 @@ namespace JN.Ordersystem.API.Controllers
         /// </summary>
         /// <returns>A list of products</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var listOfProducts = _productService.GetAll();
+                var listOfProducts = await _productService.GetAll();
 
                 return Ok(listOfProducts);
             }
@@ -43,12 +43,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="id"></param>
         /// <returns>A specific product</returns>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 // Search the specific product
-                var product = _productService.GetById(id);
+                var product =  await _productService.GetById(id);
 
                 if (product == null)
                 {
@@ -71,12 +71,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="product"></param>
         /// <returns>A newly created product</returns>
         [HttpPost("create")]
-        public IActionResult Create([FromBody] ProductDto product)
+        public async Task<IActionResult> Create([FromBody] ProductDto product)
         {
             try
             {
                 // Add a new product to the list
-                var createdProduct = _productService.Create(new Product
+                var createdProduct = await _productService.Create(new Product
                 {
                     ItemName= product.ItemName,
                     Description = product.Description,
@@ -101,12 +101,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="product"></param>
         /// <returns>An updated product</returns>
         [HttpPut("update/{id}")]
-        public IActionResult Update(int id, [FromBody] ProductDto product)
+        public async Task<IActionResult> Update(int id, [FromBody] ProductDto product)
         {
             try
             {
                 // Update the product
-                var productToUpdate = _productService.Update(id, new Product
+                var productToUpdate = await _productService.Update(id, new Product
                 {
                     ItemName = product.ItemName,
                     Description = product.Description,
@@ -136,12 +136,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="id"></param>
         /// <returns>Returns a response based on if the action was successful or not</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 // Delete the product based on its id
-                var isDeleted = _productService.Delete(id);
+                var isDeleted = await _productService.Delete(id);
 
                 if (isDeleted)
                 {
