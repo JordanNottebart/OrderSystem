@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details of this product</h1>
+<h1>@Html.DisplayFor(model => model.ItemName)</h1>
 
 <div>
     <hr />
@@ -16,12 +16,6 @@
             @Html.DisplayFor(model => model.ProductID)
         </dd>
         <dt class = "col-sm-2">
-            Product Name
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ItemName)
-        </dd>
-        <dt class = "col-sm-2">
             Description
         </dt>
         <dd class = "col-sm-10">
@@ -31,7 +25,7 @@
             Price
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
+            € @Html.DisplayFor(model => model.Price)
         </dd>
         <dt class = "col-sm-2">
             Units in stock

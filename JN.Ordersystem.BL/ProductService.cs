@@ -1,5 +1,6 @@
 ﻿using JN.Ordersystem.DAL;
 using JN.Ordersystem.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 
 namespace JN.Ordersystem.BL
@@ -18,9 +19,9 @@ namespace JN.Ordersystem.BL
         /// Get all the products
         /// </summary>
         /// <returns>A list with all the products</returns>
-        public List<Product> GetAll()
+        public async Task<List<Product>> GetAll()
         {
-            return _context.Products.ToList();
+            return await _context.Products.ToListAsync();
         }
 
         /// <summary>
@@ -28,9 +29,9 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A specific product</returns>
-        public Product? GetById(int id)
+        public async Task<Product?> GetById(int id)
         {
-            return _context.Products.Where(p => p.ProductID == id).FirstOrDefault();
+            return await _context.Products.FirstOrDefaultAsync(p => p.ProductID == id);
         }
 
         /// <summary>
@@ -38,10 +39,10 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="p"></param>
         /// <returns>A newly created product</returns>
-        public Product Create(Product p)
+        public async Task<Product> Create(Product p)
         {
             _context.Products.Add(p);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return p;
         }
@@ -52,7 +53,7 @@ namespace JN.Ordersystem.BL
         /// <param name="id"></param>
         /// <param name="p"></param>
         /// <returns>An updated orderDetail</returns>
-        public Product Update(int id, Product p)
+        public async Task<Product> Update(int id, Product p)
         {
             // Find the product
             var productToUpdate = _context.Products.Where(p => p.ProductID == id).FirstOrDefault();
@@ -67,7 +68,7 @@ namespace JN.Ordersystem.BL
                 productToUpdate.UnitsInStock = p.UnitsInStock;
 
                 _context.Update(productToUpdate);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return productToUpdate;
             }
@@ -80,7 +81,7 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A boolean if the delete was successful</returns>
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             // Find the product
             var product = _context.Products.Where(p => p.ProductID == id).FirstOrDefault();
@@ -89,7 +90,7 @@ namespace JN.Ordersystem.BL
             if (product != null)
             {
                 _context.Products.Remove(product);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
 

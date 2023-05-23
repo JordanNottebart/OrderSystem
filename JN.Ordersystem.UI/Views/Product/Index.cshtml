@@ -29,7 +29,7 @@
                     </span>
                 </td>
                 <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                € @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td class="text-right">
                 @Html.DisplayFor(modelItem => item.UnitsInStock)
@@ -75,6 +75,7 @@
             $('#exampleModal').modal('show'); // Show the modal
         });
     });
+
     $(document).ready(function () {
     $('#example').DataTable();
 });
