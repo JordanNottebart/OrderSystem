@@ -23,11 +23,11 @@ namespace JN.Ordersystem.API.Controllers
         /// </summary>
         /// <returns>A list of customers</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var listOfCustomers = _customerService.GetAll();
+                var listOfCustomers = await _customerService.GetAll();
 
                 return Ok(listOfCustomers);
             }
@@ -44,12 +44,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="id"></param>
         /// <returns>A specific customer's info</returns>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 // Find the specific customer
-                var customer = _customerService.GetById(id);
+                var customer = await _customerService.GetById(id);
 
                 if (customer == null)
                 {
@@ -72,12 +72,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="customer"></param>
         /// <returns>A newly created customer</returns>
         [HttpPost("create")]
-        public IActionResult Create([FromBody] CustomerDto customer)
+        public async Task<IActionResult> Create([FromBody] CustomerDto customer)
         {
             try
             {
                 // Add a new customer to the list
-                var createdCustomer = _customerService.Create(new Customer
+                var createdCustomer = await _customerService.Create(new Customer
                 {
                     CustomerLastName = customer.CustomerLastName,
                     CustomerFirstName = customer.CustomerFirstName,
@@ -105,12 +105,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="customer"></param>
         /// <returns>An updated customer</returns>
         [HttpPut("update/{id}")]
-        public IActionResult Update(int id, [FromBody] CustomerDto customer)
+        public async Task<IActionResult> Update(int id, [FromBody] CustomerDto customer)
         {
             try
             {
                 // Update the customer's info
-                var customerToUpdate = _customerService.Update(id, new Customer
+                var customerToUpdate = await _customerService.Update(id, new Customer
                 {
                     CustomerLastName = customer.CustomerLastName,
                     CustomerFirstName = customer.CustomerFirstName,
@@ -162,12 +162,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="id"></param>
         /// <returns>Returns a response based on if the action was successful or not</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 // Delete the customer based on his id
-                var isDeleted = _customerService.Delete(id);
+                var isDeleted = await _customerService.Delete(id);
 
                 if (isDeleted)
                 {

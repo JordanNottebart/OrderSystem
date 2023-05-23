@@ -22,11 +22,11 @@ namespace JN.Ordersystem.API.Controllers
         /// </summary>
         /// <returns>A list of orders</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var listOfOrders = _orderService.GetAll();
+                var listOfOrders = await _orderService.GetAll();
 
                 return Ok(listOfOrders);
             }
@@ -44,12 +44,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="id"></param>
         /// <returns>A specific order</returns>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 // Search the specific order
-                var order = _orderService.GetById(id);
+                var order = await _orderService.GetById(id);
 
                 if (order == null)
                 {
@@ -72,12 +72,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="order"></param>
         /// <returns>A newly created order</returns>
         [HttpPost("create")]
-        public IActionResult Create([FromBody] OrderDto order)
+        public async Task<IActionResult> Create([FromBody] OrderDto order)
         {
             try
             {
                 // Add a new order to the list
-                var createdOrder = _orderService.Create(new Order
+                var createdOrder = await _orderService.Create(new Order
                 {
                     OrderDate = order.OrderDate,
                     CustomerID = order.CustomerID,
@@ -102,12 +102,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="order"></param>
         /// <returns>An updated order</returns>
         [HttpPut("update/{id}")]
-        public IActionResult Update(int id, [FromBody] OrderDto order)
+        public async Task<IActionResult> Update(int id, [FromBody] OrderDto order)
         {
             try
             {
                 // Update the order
-                var orderToUpdate = _orderService.Update(id, new Order
+                var orderToUpdate = await _orderService.Update(id, new Order
                 {
                     OrderDate = order.OrderDate,
                     CustomerID = order.CustomerID,
@@ -137,12 +137,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="id"></param>
         /// <returns>Returns a response based on if the action was successful or not</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 // Delete the order based on its id
-                var isDeleted = _orderService.Delete(id);
+                var isDeleted = await _orderService.Delete(id);
 
                 if (isDeleted)
                 {

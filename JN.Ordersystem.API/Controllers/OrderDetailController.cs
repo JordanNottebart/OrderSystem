@@ -22,11 +22,11 @@ namespace JN.Ordersystem.API.Controllers
         /// </summary>
         /// <returns>A list of orderDetails</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var listOfOrderDetails = _orderDetailService.GetAll();
+                var listOfOrderDetails = await _orderDetailService.GetAll();
 
                 return Ok(listOfOrderDetails);
             }
@@ -43,12 +43,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="id"></param>
         /// <returns>A specific orderDetail</returns>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 // Search the specific orderDetail
-                var orderDetail = _orderDetailService.GetById(id);
+                var orderDetail = await _orderDetailService.GetById(id);
 
                 if (orderDetail == null)
                 {
@@ -71,12 +71,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="orderDetail"></param>
         /// <returns>A newly created orderDetail</returns>
         [HttpPost("create")]
-        public IActionResult Create([FromBody] OrderDetailDto orderDetail)
+        public async Task<IActionResult> Create([FromBody] OrderDetailDto orderDetail)
         {
             try
             {
                 // Add a new orderDetail to the list
-                var createdOrderDetail = _orderDetailService.Create(new OrderDetail
+                var createdOrderDetail = await _orderDetailService.Create(new OrderDetail
                 {
                     OrderID = orderDetail.OrderID,
                     ProductID = orderDetail.ProductID,
@@ -101,12 +101,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="orderDetail"></param>
         /// <returns>An updated orderDetail</returns>
         [HttpPut("update/{id}")]
-        public IActionResult Update(int id, [FromBody] OrderDetailDto orderDetail)
+        public async Task<IActionResult> Update(int id, [FromBody] OrderDetailDto orderDetail)
         {
             try
             {
                 // Update the orderDetail
-                var orderDetailToUpdate = _orderDetailService.Update(id, new OrderDetail
+                var orderDetailToUpdate = await _orderDetailService.Update(id, new OrderDetail
                 {
                     OrderID = orderDetail.OrderID,
                     ProductID = orderDetail.ProductID,
@@ -136,12 +136,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="id"></param>
         /// <returns>Returns a response based on if the action was successful or not</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 // Delete the orderDetail based on its id
-                var isDeleted = _orderDetailService.Delete(id);
+                var isDeleted = await _orderDetailService.Delete(id);
 
                 if (isDeleted)
                 {

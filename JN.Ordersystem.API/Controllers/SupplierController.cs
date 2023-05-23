@@ -23,11 +23,11 @@ namespace JN.Ordersystem.API.Controllers
         /// </summary>
         /// <returns>A list of supplier infos</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var listOfSuppliers = _supplierService.GetAll();
+                var listOfSuppliers = await _supplierService.GetAll();
 
                 return Ok(listOfSuppliers);
             }
@@ -44,12 +44,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="id"></param>
         /// <returns>A specific supplier's info</returns>
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 // Search the specific supplier
-                var supplier = _supplierService.GetById(id);
+                var supplier = await _supplierService.GetById(id);
 
                 if (supplier == null)
                 {
@@ -72,12 +72,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="supplier"></param>
         /// <returns>A newly created supplier</returns>
         [HttpPost("create")]
-        public IActionResult Create([FromBody] SupplierDto supplier)
+        public async Task<IActionResult> Create([FromBody] SupplierDto supplier)
         {
             try
             {
                 // Add a new supplier to the list
-                var createdSupplier = _supplierService.Create(new Supplier
+                var createdSupplier = await _supplierService.Create(new Supplier
                 {
                     SupplierName = supplier.SupplierName,
                     ContactInfo = supplier.ContactInfo,
@@ -100,12 +100,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="supplier"></param>
         /// <returns>An updated supplier</returns>
         [HttpPut("update/{id}")]
-        public IActionResult Update(int id, [FromBody] SupplierDto supplier)
+        public async Task<IActionResult> Update(int id, [FromBody] SupplierDto supplier)
         {
             try
             {
                 // Update the supplier's info
-                var supplierToUpdate = _supplierService.Update(id, new Supplier
+                var supplierToUpdate = await _supplierService.Update(id, new Supplier
                 {
                     SupplierName = supplier.SupplierName,
                     ContactInfo = supplier.ContactInfo,
@@ -134,12 +134,12 @@ namespace JN.Ordersystem.API.Controllers
         /// <returns>Returns a response based on if the action was successful or not</returns>
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 // Delete the supplier based on his id
-                var isDeleted = _supplierService.Delete(id);
+                var isDeleted = await _supplierService.Delete(id);
 
                 if (isDeleted)
                 {
