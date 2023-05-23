@@ -43,7 +43,7 @@ namespace JN.Ordersystem.UI.Controllers
         // GET: ProductController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            _productService.Delete(id);
+            await _productService.Delete(id);
 
             return RedirectToAction("Index");
         }

@@ -14,9 +14,9 @@ namespace JN.Ordersystem.UI.Controllers
         }
 
         // GET: OrderController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(_orderService.GetAll());
+            return View(await _orderService.GetAll());
         }
 
         // GET: OrderController/Details/5
