@@ -22,9 +22,9 @@ namespace JN.Ordersystem.BL
         /// Get all the orders
         /// </summary>
         /// <returns>A list with all the orders</returns>
-        public List<Order> GetAll()
+        public async Task<List<Order>> GetAll()
         {
-            return _context.Orders.ToList();
+            return await _context.Orders.ToListAsync();
         }
 
         /// <summary>
@@ -32,9 +32,9 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A specific order</returns>
-        public Order? GetById(int id)
+        public async Task<Order?> GetById(int id)
         {
-            return _context.Orders.Where(order => order.OrderID == id).FirstOrDefault();
+            return await _context.Orders.FindAsync(id);
         }
 
         /// <summary>
@@ -42,10 +42,10 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="order"></param>
         /// <returns>A newly created order</returns>
-        public Order Create(Order order)
+        public async Task<Order> Create(Order order)
         {
             _context.Orders.Add(order);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return order;
         }
@@ -56,10 +56,10 @@ namespace JN.Ordersystem.BL
         /// <param name="id"></param>
         /// <param name="order"></param>
         /// <returns>An updated order</returns>
-        public Order Update(int id, Order order)
+        public async Task<Order?> Update(int id, Order order)
         {
             // Find the order
-            var orderToUpdate = _context.Orders.Where(order => order.OrderID == id).FirstOrDefault();
+            var orderToUpdate = await _context.Orders.FindAsync(id);
 
             // If the order is found
             if (orderToUpdate != null)
@@ -70,7 +70,7 @@ namespace JN.Ordersystem.BL
                 orderToUpdate.Status = order.Status;
 
                 _context.Update(orderToUpdate);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return orderToUpdate;
             }
@@ -83,20 +83,22 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A boolean if the delete was successful</returns>
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            // Find the orderDetail
-            var order = _context.Orders.Where(order => order.OrderID == id).FirstOrDefault();
+            // Find the order
+            var orderToDelete = await _context.Orders.FindAsync(id);
 
             // If the order is found
-            if (order != null)
+            if (orderToDelete != null)
             {
-                _context.Orders.Remove(order);
-                _context.SaveChanges();
+                _context.Orders.Remove(orderToDelete);
+                await _context.SaveChangesAsync();
+
                 return true;
             }
 
             return false;
         }
+
     }
 }

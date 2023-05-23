@@ -31,7 +31,7 @@ namespace JN.Ordersystem.BL
         /// <returns>A specific product</returns>
         public async Task<Product?> GetById(int id)
         {
-            return await _context.Products.FirstOrDefaultAsync(p => p.ProductID == id);
+            return await _context.Products.FindAsync(id);
         }
 
         /// <summary>
@@ -53,10 +53,10 @@ namespace JN.Ordersystem.BL
         /// <param name="id"></param>
         /// <param name="p"></param>
         /// <returns>An updated orderDetail</returns>
-        public async Task<Product> Update(int id, Product p)
+        public async Task<Product?> Update(int id, Product p)
         {
             // Find the product
-            var productToUpdate = _context.Products.Where(p => p.ProductID == id).FirstOrDefault();
+            var productToUpdate = await _context.Products.FindAsync(id);
 
             // If the product is found
             if (productToUpdate != null)
@@ -84,7 +84,7 @@ namespace JN.Ordersystem.BL
         public async Task<bool> Delete(int id)
         {
             // Find the product
-            var product = _context.Products.Where(p => p.ProductID == id).FirstOrDefault();
+            var product = await _context.Products.FindAsync(id);
 
             // If the product is found
             if (product != null)

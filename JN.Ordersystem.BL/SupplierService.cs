@@ -1,5 +1,6 @@
 ﻿using JN.Ordersystem.DAL;
 using JN.Ordersystem.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace JN.Ordersystem.BL
 {
@@ -16,9 +17,9 @@ namespace JN.Ordersystem.BL
         /// Get all the supplier infos
         /// </summary>
         /// <returns>A list with all the supplier infos</returns>
-        public List<Supplier> GetAll()
+        public async Task<List<Supplier>> GetAll()
         {
-            return _context.Suppliers.ToList();
+            return await _context.Suppliers.ToListAsync();
         }
 
         /// <summary>
@@ -26,9 +27,9 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="supplierId"></param>
         /// <returns>The info of a specific supplier</returns>
-        public Supplier GetById(int supplierId)
+        public async Task<Supplier?> GetById(int supplierId)
         {
-            return _context.Suppliers.Where(s => s.SupplierID == supplierId).FirstOrDefault();
+            return await _context.Suppliers.FindAsync(supplierId);
         }
 
         /// <summary>
@@ -36,10 +37,10 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="supplier"></param>
         /// <returns>A newly created supplier</returns>
-        public Supplier Create(Supplier supplier)
+        public async Task<Supplier> Create(Supplier supplier)
         {
             _context.Suppliers.Add(supplier);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return supplier;
         }
@@ -50,20 +51,19 @@ namespace JN.Ordersystem.BL
         /// <param name="id"></param>
         /// <param name="supplier"></param>
         /// <returns>All the updated info of a supplier</returns>
-        public Supplier Update(int id, Supplier supplier)
+        public async Task<Supplier?> Update(int id, Supplier supplier)
         {
             // Find the supplier
-            var supplierToUpdate = _context.Suppliers.Where(s => s.SupplierID == id).FirstOrDefault();
+            var supplierToUpdate = await _context.Suppliers.FindAsync(id);
 
             // If the supplier is found
             if (supplierToUpdate != null)
             {
-                // Fill the properties
+                // Update the properties
                 supplierToUpdate.SupplierName = supplier.SupplierName;
                 supplierToUpdate.ContactInfo = supplier.ContactInfo;
 
-                _context.Update(supplierToUpdate);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return supplierToUpdate;
             }
@@ -76,19 +76,21 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="supplierId"></param>
         /// <returns>A boolean if the delete was successful</returns>
-        public bool Delete(int supplierId)
+        public async Task<bool> Delete(int supplierId)
         {
             // Find the supplier
-            var supplierToDelete = _context.Suppliers.Find(supplierId);
+            var supplierToDelete = await _context.Suppliers.FindAsync(supplierId);
 
             // If the supplier is found
             if (supplierToDelete != null)
             {
                 _context.Suppliers.Remove(supplierToDelete);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
+
             return false;
         }
+
     }
 }

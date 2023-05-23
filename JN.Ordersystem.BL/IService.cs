@@ -35,7 +35,7 @@ namespace JN.Ordersystem.BL
         /// <param name="id"></param>
         /// <param name="entity"></param>
         /// <returns>An updated entity</returns>
-        Task<T> Update(int id, T entity);
+        Task<T?> Update(int id, T entity);
 
         /// <summary>
         /// Deletes a specific entity

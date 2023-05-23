@@ -1,5 +1,6 @@
 ﻿using JN.Ordersystem.DAL;
 using JN.Ordersystem.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace JN.Ordersystem.BL
 {
@@ -16,9 +17,9 @@ namespace JN.Ordersystem.BL
         /// Get all the customer infos
         /// </summary>
         /// <returns>A list with all the customer infos</returns>
-        public List<Customer> GetAll()
+        public async Task<List<Customer>> GetAll()
         {
-            return _context.Customers.ToList();
+            return await _context.Customers.ToListAsync();
         }
 
         /// <summary>
@@ -26,9 +27,9 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The info of a specific customer</returns>
-        public Customer? GetById(int id)
+        public async Task<Customer?> GetById(int id)
         {
-            return _context.Customers.Where(c => c.CustomerID == id).FirstOrDefault();
+            return await _context.Customers.FindAsync(id);
         }
 
         /// <summary>
@@ -36,10 +37,10 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="c"></param>
         /// <returns>A newly created customer</returns>
-        public Customer Create(Customer c)
+        public async Task<Customer> Create(Customer c)
         {
             _context.Customers.Add(c);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return c;
         }
@@ -50,10 +51,10 @@ namespace JN.Ordersystem.BL
         /// <param name="id"></param>
         /// <param name="c"></param>
         /// <returns>All the updated info of a customer</returns>
-        public Customer Update(int id, Customer c)
+        public async Task<Customer?> Update(int id, Customer c)
         {
             // Find the customer
-            var customerToUpdate = _context.Customers.Where(c => c.CustomerID == id).FirstOrDefault();
+            var customerToUpdate = await _context.Customers.FindAsync(id);
 
             // If the customer is found
             if (customerToUpdate != null)
@@ -68,7 +69,7 @@ namespace JN.Ordersystem.BL
                 customerToUpdate.Phone = c.Phone;
 
                 _context.Update(customerToUpdate);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return customerToUpdate;
             }
@@ -81,16 +82,17 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A boolean if the delete was successful</returns>
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             // Find the customer
-            var customer = _context.Customers.Where(c => c.CustomerID == id).FirstOrDefault();
+            var customer = await _context.Customers.FindAsync(id);
 
             // If the customer is found
             if (customer != null)
             {
                 _context.Customers.Remove(customer);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+
                 return true;
             }
 

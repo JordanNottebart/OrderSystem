@@ -1,5 +1,6 @@
 ﻿using JN.Ordersystem.DAL;
 using JN.Ordersystem.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace JN.Ordersystem.BL
 {
@@ -16,9 +17,9 @@ namespace JN.Ordersystem.BL
         /// Get all the orderDetails
         /// </summary>
         /// <returns>A list with all the orderDetails</returns>
-        public List<OrderDetail> GetAll()
+        public async Task<List<OrderDetail>> GetAll()
         {
-            return _context.OrderDetails.ToList();
+            return await _context.OrderDetails.ToListAsync();
         }
 
         /// <summary>
@@ -26,9 +27,9 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A specific orderDetail</returns>
-        public OrderDetail GetById(int id)
+        public async Task<OrderDetail?> GetById(int orderDetailId)
         {
-            return _context.OrderDetails.Where(o => o.OrderDetailID == id).FirstOrDefault();
+            return await _context.OrderDetails.FindAsync(orderDetailId);
         }
 
         /// <summary>
@@ -36,10 +37,10 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="orderDetail"></param>
         /// <returns>A newly created orderDetail</returns>
-        public OrderDetail Create(OrderDetail orderDetail)
+        public async Task<OrderDetail> Create(OrderDetail orderDetail)
         {
             _context.OrderDetails.Add(orderDetail);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return orderDetail;
         }
@@ -50,10 +51,10 @@ namespace JN.Ordersystem.BL
         /// <param name="orderDetailId"></param>
         /// <param name="orderDetail"></param>
         /// <returns>An updated orderDetail</returns>
-        public OrderDetail Update(int orderDetailId, OrderDetail orderDetail)
+        public async Task<OrderDetail?> Update(int orderDetailId, OrderDetail orderDetail)
         {
             // Find the orderDetail
-            var orderDetailToUpdate = _context.OrderDetails.Where(o => o.OrderDetailID == orderDetailId).FirstOrDefault();
+            var orderDetailToUpdate = await _context.OrderDetails.FindAsync(orderDetailId);
 
             // If the orderDetail is found
             if (orderDetailToUpdate != null)
@@ -65,7 +66,7 @@ namespace JN.Ordersystem.BL
                 orderDetailToUpdate.UnitPrice = orderDetail.UnitPrice;
 
                 _context.Update(orderDetailToUpdate);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return orderDetailToUpdate;
             }
@@ -78,16 +79,16 @@ namespace JN.Ordersystem.BL
         /// </summary>
         /// <param name="orderDetailId"></param>
         /// <returns>A boolean if the delete was successful</returns>
-        public bool Delete(int orderDetailId)
+        public async Task<bool> Delete(int orderDetailId)
         {
             // Find the orderDetail
-            var orderDetailToDelete = _context.OrderDetails.Find(orderDetailId);
+            var orderDetailToDelete = await _context.OrderDetails.FindAsync(orderDetailId);
 
             // If the orderDetail is found
             if (orderDetailToDelete != null)
             {
                 _context.OrderDetails.Remove(orderDetailToDelete);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return true;
             }
