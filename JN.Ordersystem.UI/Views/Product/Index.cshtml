@@ -65,22 +65,8 @@
   </div>
 </div>
 
-<script>
-     $(document).ready(function () {
-        $(".clickable-name").click(function (e) {
-            e.preventDefault(); // Prevent the default behavior of the link
+<script src="~/js/site.js" asp-append-version="true"></script>
 
-            var url = $(this).data("url");
-            $('#exampleModal .modal-body').load(url); // Load the details content into the modal's body
-            $('#exampleModal').modal('show'); // Show the modal
-        });
-    });
 
-    $(document).ready(function () {
-    $('#example').DataTable();
-});
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
 

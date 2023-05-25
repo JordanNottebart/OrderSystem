@@ -25,10 +25,37 @@ $(document).ready(function () {
 
             // Replace the content of the container with the main content
             $('#container').html($mainContent.html());
+
+            // Update the URL without triggering a page refresh
+            history.pushState(null, '', url);
         });
     });
+
+    // Handle browser back/forward navigation
+    $(window).on('popstate', function () {
+        // Get the current URL
+        var url = window.location.href;
+
+        // Make an AJAX request to load the content from the target URL
+        $.get(url, function (response) {
+            // Create a temporary container to hold the loaded content
+            var $tempContainer = $('<div>').html(response);
+
+            // Find the main content area within the loaded content
+            var $mainContent = $tempContainer.find('main');
+
+            // Replace the content of the container with the main content
+            $('#container').html($mainContent.html());
+        });
+    });
+
+    $(".clickable-name").click(function (e) {
+        e.preventDefault(); // Prevent the default behavior of the link
+
+        var url = $(this).data("url");
+        $('#exampleModal .modal-body').load(url); // Load the details content into the modal's body
+        $('#exampleModal').modal('show'); // Show the modal
+    });
+
+    $('#example').DataTable();
 });
-
-
-
-
