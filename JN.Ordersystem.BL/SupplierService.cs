@@ -104,7 +104,7 @@ namespace JN.Ordersystem.BL
 
             if (lastSupplier != null)
             {
-                return lastSupplier.SupplierID
+                return lastSupplier.SupplierID;
             }
 
             // Return a default value if no products exist

@@ -30,9 +30,15 @@ namespace JN.Ordersystem.UI.Controllers
 
         // GET: /Product/Create
         [HttpGet]
-        public ActionResult Create(Product product, int id)
+        public async Task<ActionResult> Create(int id)
         {
-            product.ProductID = _productService.GetById()
+            int lastProductId = await _productService.GetLastId();
+
+            var product = new Product
+            {
+                ProductID = lastProductId + 1
+            };
+
             return View(product);
         }
 
