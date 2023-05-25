@@ -35,10 +35,55 @@ namespace JN.Ordersystem.UI.Controllers
         }
 
         // GET: ProductController/Edit/5
+        [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            // Get the product by its ID
+            var product = await _productService.GetById(id);
+
+            if (product == null)
+            {
+                return NotFound(); // Handle the case where the product is not found
+            }
+
+            return View(product);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(int id, Product updatedProduct)
+        {
+            if (id != updatedProduct.ProductID)
+            {
+                return BadRequest(); // Handle the case where the ID in the URL and the product ID don't match
+            }
+
+            if (ModelState.IsValid)
+            {
+                var existingProduct = await _productService.GetById(id);
+
+                if (existingProduct == null)
+                {
+                    return NotFound(); // Handle the case where the product is not found
+                }
+
+                existingProduct.Description = updatedProduct.Description;
+                existingProduct.ItemName = updatedProduct.ItemName;
+                existingProduct.Price = updatedProduct.Price;
+                existingProduct.UnitsInStock = updatedProduct.UnitsInStock;
+
+                var updatedEntity = await _productService.Update(id, existingProduct);
+
+                if (updatedEntity == null)
+                {
+                    return NotFound(); // Handle the case where the update was not successful
+                }
+
+                return RedirectToAction("Index"); // Redirect to the product index page after successful update
+            }
+
+            return View(updatedProduct); // Return the view with validation errors if the model is not valid
+        }
+
 
         // GET: ProductController/Delete/5
         public async Task<ActionResult> Delete(int id)

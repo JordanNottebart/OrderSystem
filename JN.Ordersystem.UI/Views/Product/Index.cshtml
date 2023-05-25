@@ -37,7 +37,7 @@
                 <td class="text-right">
                     <div class="action-icons">
                         <a href="@Url.Action("Edit", new { id = item.ProductID })" title="Edit"><i class="fa-solid fa-edit"></i></a>
-                        <a href="@Url.Action("Details", new { id = item.ProductID })" title="Details"><i class="fa-solid fa-info-circle"></i></a>
+                        <a id="detailsLink" href="@Url.Action("Details", new { id = item.ProductID })" title="Details"><i class="fa-solid fa-info-circle"></i></a>
                         <a href="@Url.Action("Delete", new { id = item.ProductID })" title="Delete"><i class="fa-solid fa-trash-can"></i></a>
                     </div>
                 </td>
@@ -47,22 +47,18 @@
 </table>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
+<div class="modal fade" tabindex="-1" role="dialog" id="details-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Product Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+        </div>
     </div>
-  </div>
 </div>
 
 <script src="~/js/site.js" asp-append-version="true"></script>

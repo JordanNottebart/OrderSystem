@@ -49,7 +49,7 @@ $(document).ready(function () {
         });
     });
 
-    $(".clickable-name").click(function (e) {
+    $(".detailsLink").click(function (e) {
         e.preventDefault(); // Prevent the default behavior of the link
 
         var url = $(this).data("url");
