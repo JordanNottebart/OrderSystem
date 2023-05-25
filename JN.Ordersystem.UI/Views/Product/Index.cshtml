@@ -6,11 +6,11 @@
 
 <h1>Products</h1>
 
-<table id="example" class="table table-hover table-responsive">
+<table id="myDatatable" class="table table-hover table-responsive">
     <thead>
         <tr>
-            <th>Product ID</th>
-            <th>Product Name</th>
+            <th class="align-left">Product ID</th>
+            <th class="align-left">Product Name</th>
             <th>Price</th>
             <th>Units in stock</th>
             <th>Action</th>
@@ -20,7 +20,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td> 
                 @Html.DisplayFor(modelItem => item.ProductID)
                 </td>
                 <td>
@@ -28,7 +28,7 @@
                         @Html.DisplayFor(modelItem => item.ItemName)
                     </span>
                 </td>
-                <td>
+                <td class="text-right">
                 € @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td class="text-right">

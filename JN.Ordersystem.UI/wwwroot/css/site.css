@@ -97,6 +97,14 @@ main .sidebar {
     text-align: right;
 }
 
+#myDatatable th {
+    text-align: right;
+}
+
+#myDatatable th.align-left {
+    text-align: left;
+}
+
 #main {
     padding: 16px;
     margin-left: 85px;
