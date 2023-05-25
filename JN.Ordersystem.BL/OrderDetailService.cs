@@ -95,5 +95,24 @@ namespace JN.Ordersystem.BL
 
             return false;
         }
+
+        /// <summary>
+        /// Gets the last ID of the list of orderDetails
+        /// </summary>
+        /// <returns>The last ID</returns>
+        public async Task<int> GetLastId()
+        {
+            var lastOrderDetail = await _context.OrderDetails
+                .OrderByDescending(o => o.OrderDetailID)
+                .FirstOrDefaultAsync();
+
+            if (lastOrderDetail != null)
+            {
+                return lastOrderDetail.OrderDetailID;
+            }
+
+            // Return a default value if no products exist
+            return 0;
+        }
     }
 }

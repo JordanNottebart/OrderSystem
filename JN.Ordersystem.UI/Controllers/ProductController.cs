@@ -28,10 +28,25 @@ namespace JN.Ordersystem.UI.Controllers
             return View(product);
         }
 
-        // GET: ProductController/Create
+        // GET: /Product/Create
+        [HttpGet]
+        public ActionResult Create(Product product, int id)
+        {
+            product.ProductID = _productService.GetById()
+            return View(product);
+        }
+
+        // POST: /Product/Create
+        [HttpPost]
         public async Task<ActionResult> Create(Product product)
         {
-            return View(await _productService.Create(product));
+            if (ModelState.IsValid)
+            {
+                await _productService.Create(product);
+                return RedirectToAction("Index", "Product"); // Redirect to the product listing page
+            }
+
+            return View(product);
         }
 
         // GET: ProductController/Edit/5
