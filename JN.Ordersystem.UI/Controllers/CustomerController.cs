@@ -8,15 +8,16 @@ namespace JN.Ordersystem.UI.Controllers
     {
         CustomerService _customerService;
 
-        public CustomerController(CustomerService service)
+        public CustomerController(CustomerService customerService)
         {
-            _customerService = service;
+            _customerService = customerService;
         }
 
         // GET: CustomerController
         public async Task<ActionResult> Index()
         {
-            return View(await _customerService.GetAll());
+            var customers = await _customerService.GetAll();
+            return View(customers);
         }
 
         // GET: CustomerController/Details/5

@@ -57,5 +57,5 @@ $(document).ready(function () {
         $('#exampleModal').modal('show'); // Show the modal
     });
 
-    $('#myDatatable').DataTable();
+    $('#productDatatable').DataTable();
 });

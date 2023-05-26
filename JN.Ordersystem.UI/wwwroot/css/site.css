@@ -97,13 +97,13 @@ main .sidebar {
     text-align: right;
 }
 
-#myDatatable th {
+#productDatatable th {
     text-align: right;
 }
 
-#myDatatable th.align-left {
-    text-align: left;
-}
+    #productDatatable th.align-left {
+        text-align: left;
+    }
 
 #main {
     padding: 16px;
