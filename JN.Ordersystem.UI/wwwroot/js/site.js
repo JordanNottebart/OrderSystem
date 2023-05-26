@@ -15,8 +15,8 @@ $(document).ready(function () {
         // Get the target URL from the link's "href" attribute
         var url = $(this).attr('href');
 
-        // Check if the target URL is the same as the current URL
-        if (url === window.location.href) {
+        // Check if the target URL path is the same as the current URL path
+        if (url === window.location.pathname) {
             return; // Exit the event handler, nothing happens
         }
 
@@ -30,13 +30,6 @@ $(document).ready(function () {
 
             // Replace the content of the container with the main content
             $('#container').html($mainContent.html());
-
-            // Initialize DataTable only if the target page contains the respective table
-            if (url === '/Product' && $mainContent.find('#productDatatable').length) {
-                $('#productDatatable').DataTable();
-            } else if (url === '/Customer' && $mainContent.find('#customerDatatable').length) {
-                $('#customerDatatable').DataTable();
-            }
 
             // Update the URL without triggering a page refresh
             history.pushState(null, '', url);
@@ -61,14 +54,14 @@ $(document).ready(function () {
         });
     });
 
-    $(".detailsLink").click(function (e) {
-        e.preventDefault(); // Prevent the default behavior of the link
+    $('#myDatatable').DataTable();
 
-        var url = $(this).data("url");
-        $('#exampleModal .modal-body').load(url); // Load the details content into the modal's body
-        $('#exampleModal').modal('show'); // Show the modal
-    });
+    //$(".detailsLink").click(function (e) {
+    //    e.preventDefault(); // Prevent the default behavior of the link
 
-    $('#productDatatable').DataTable();
-    $('#customerDatatable').DataTable();
+    //    var url = $(this).data("url");
+    //    $('#exampleModal .modal-body').load(url); // Load the details content into the modal's body
+    //    $('#exampleModal').modal('show'); // Show the modal
+    //});
+
 });

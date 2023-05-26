@@ -97,11 +97,11 @@ main .sidebar {
     text-align: right;
 }
 
-#productDatatable th {
+#myDatatable th {
     text-align: right;
 }
 
-    #productDatatable th.align-left {
+    #myDatatable th.align-left {
         text-align: left;
     }
 
