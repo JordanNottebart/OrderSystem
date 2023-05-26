@@ -1,4 +1,5 @@
 ﻿using JN.Ordersystem.BL;
+using JN.Ordersystem.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,72 +22,99 @@ namespace JN.Ordersystem.UI.Controllers
         }
 
         // GET: CustomerController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            var customer = await _customerService.GetById(id);
+            return View(customer);
         }
 
         // GET: CustomerController/Create
-        public ActionResult Create()
+        [HttpGet]
+        public async Task<ActionResult> Create(int id)
         {
-            return View();
+            int lastCustomerId = await _customerService.GetLastId();
+
+            var customer = new Customer
+            {
+                CustomerID = lastCustomerId + 1
+            };
+
+            return View(customer);
         }
 
         // POST: CustomerController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Customer customer)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                await _customerService.Create(customer);
+                return RedirectToAction("Index", "Customer"); // Redirect to the customer listing page
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(customer);
         }
 
         // GET: CustomerController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            // Get the customer by its ID
+            var customer = await _customerService.GetById(id);
+
+            if (customer == null)
+            {
+                return NotFound(); // Handle the case where the customer is not found
+            }
+
+            return View(customer);
         }
 
         // POST: CustomerController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, Customer updatedCustomer)
         {
-            try
+            if (id != updatedCustomer.CustomerID)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest(); // Handle the case where the ID in the URL and the product ID don't match
             }
-            catch
+
+            if (ModelState.IsValid)
             {
-                return View();
+                var existingCustomer = await _customerService.GetById(id);
+
+                if (existingCustomer == null)
+                {
+                    return NotFound(); // Handle the case where the product is not found
+                }
+
+                existingCustomer.CustomerLastName = updatedCustomer.CustomerLastName;
+                existingCustomer.CustomerFirstName = updatedCustomer.CustomerFirstName;
+                existingCustomer.Address = updatedCustomer.Address;
+                existingCustomer.City = updatedCustomer.City;
+                existingCustomer.PostalCode = updatedCustomer.PostalCode;
+                existingCustomer.Email = updatedCustomer.Email;
+                existingCustomer.Phone = updatedCustomer.Phone;
+
+                var updatedEntity = await _customerService.Update(id, existingCustomer);
+
+                if (updatedEntity == null)
+                {
+                    return NotFound(); // Handle the case where the update was not successful
+                }
+
+                return RedirectToAction("Index"); // Redirect to the product index page after successful update
             }
+
+            return View(updatedCustomer);
         }
 
         // GET: CustomerController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
-        }
+            await _customerService.Delete(id);
 
-        // POST: CustomerController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
     }
 }
