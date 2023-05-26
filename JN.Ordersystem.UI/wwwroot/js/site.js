@@ -15,6 +15,11 @@ $(document).ready(function () {
         // Get the target URL from the link's "href" attribute
         var url = $(this).attr('href');
 
+        // Check if the target URL is the same as the current URL
+        if (url === window.location.href) {
+            return; // Exit the event handler, nothing happens
+        }
+
         // Make an AJAX request to load the content from the target URL
         $.get(url, function (response) {
             // Create a temporary container to hold the loaded content
@@ -25,6 +30,13 @@ $(document).ready(function () {
 
             // Replace the content of the container with the main content
             $('#container').html($mainContent.html());
+
+            // Initialize DataTable only if the target page contains the respective table
+            if (url === '/Product' && $mainContent.find('#productDatatable').length) {
+                $('#productDatatable').DataTable();
+            } else if (url === '/Customer' && $mainContent.find('#customerDatatable').length) {
+                $('#customerDatatable').DataTable();
+            }
 
             // Update the URL without triggering a page refresh
             history.pushState(null, '', url);
