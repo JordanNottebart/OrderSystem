@@ -11,18 +11,15 @@
       <div class="text-right mb-3">
         <a href="@Url.Action("Create", "Customer")" class="btn btn-primary">+ New Customer</a>
       </div>
-      <table id="myDatatable" class="table table-hover table-responsive">
+      <table id="customerDatatable" class="table table-hover table-responsive">
         <thead>
             <tr>
-                <th class="align-left">Customer ID</th>
-                <th class="align-left">Last Name</th>
+                <th>Customer ID</th>
+                <th>Last Name</th>
                 <th>First Name</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>PostalCode</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Action</th>
+                <th class="align-right">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -42,19 +39,10 @@
                             @Html.DisplayFor(modelItem => item.CustomerFirstName)
                         </span>
                     </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => item.City)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => item.PostalCode)
-                    </td>
-                    <td class="text-right">
+                    <td>
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
-                    <td class="text-right">
+                    <td>
                         @Html.DisplayFor(modelItem => item.Phone)
                     </td>
                     <td class="text-right">

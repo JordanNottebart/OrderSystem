@@ -54,7 +54,9 @@ $(document).ready(function () {
         });
     });
 
-    $('#myDatatable').DataTable();
+    $('#customerDatatable').DataTable();
+    $('#productDatatable').DataTable();
+
 
     //$(".detailsLink").click(function (e) {
     //    e.preventDefault(); // Prevent the default behavior of the link

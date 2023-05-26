@@ -97,14 +97,17 @@ main .sidebar {
     text-align: right;
 }
 
-#myDatatable th {
+#productDatatable th {
     text-align: right;
 }
 
-    #myDatatable th.align-left {
+    #productDatatable th.align-left {
         text-align: left;
     }
 
+#customerDatatable th.align-right {
+    text-align : right;
+}
 #main {
     padding: 16px;
     margin-left: 85px;
