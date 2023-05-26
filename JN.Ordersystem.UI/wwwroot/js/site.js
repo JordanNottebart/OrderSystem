@@ -58,4 +58,5 @@ $(document).ready(function () {
     });
 
     $('#productDatatable').DataTable();
+    $('#customerDatatable').DataTable();
 });
