@@ -24,7 +24,7 @@ namespace JN.Ordersystem.BL
         /// <returns>A list with all the orders</returns>
         public async Task<List<Order>> GetAll()
         {
-            return await _context.Orders.ToListAsync();
+            return await _context.Orders.Include(o => o.Customer).ToListAsync();
         }
 
         /// <summary>

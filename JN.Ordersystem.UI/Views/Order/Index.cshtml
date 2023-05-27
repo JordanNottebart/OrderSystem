@@ -10,16 +10,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OrderID)
+                Order ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OrderDate)
+                Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerID)
+                Customer
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                Total Items
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.OrderDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerID)
+                @Html.DisplayFor(modelItem => item.Customer.CustomerLastName) @Html.DisplayFor(modelItem => item.Customer.CustomerFirstName) 
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)

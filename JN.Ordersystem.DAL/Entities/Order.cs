@@ -17,5 +17,8 @@ namespace JN.Ordersystem.DAL.Entities
 
         public string Status { get; set; }
 
+        // Navigation Property
+        public Customer Customer { get; set; }
+
     }
 }
