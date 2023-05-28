@@ -81,8 +81,7 @@ namespace JN.Ordersystem.API.Controllers
                 {
                     OrderDate = order.OrderDate,
                     CustomerID = order.CustomerID,
-                    Quantity = order.Quantity,
-                    Status = order.Status,
+                    Status = order.Status
                 });
 
                 // Return the statuscode 201 (created)
@@ -111,8 +110,7 @@ namespace JN.Ordersystem.API.Controllers
                 {
                     OrderDate = order.OrderDate,
                     CustomerID = order.CustomerID,
-                    Quantity = order.Quantity,
-                    Status = order.Status,
+                    Status = order.Status
                 });
 
                 // Return 404 if the order is not found

@@ -80,8 +80,7 @@ namespace JN.Ordersystem.API.Controllers
                 {
                     OrderID = orderDetail.OrderID,
                     ProductID = orderDetail.ProductID,
-                    Quantity = orderDetail.Quantity,
-                    UnitPrice = orderDetail.UnitPrice,
+                    Quantity = orderDetail.Quantity
                 });
 
                 // Return the statuscode 201 (created)
@@ -110,8 +109,7 @@ namespace JN.Ordersystem.API.Controllers
                 {
                     OrderID = orderDetail.OrderID,
                     ProductID = orderDetail.ProductID,
-                    Quantity = orderDetail.Quantity,
-                    UnitPrice = orderDetail.UnitPrice,
+                    Quantity = orderDetail.Quantity
                 });
 
                 // Return 404 if the orderDetail is not found

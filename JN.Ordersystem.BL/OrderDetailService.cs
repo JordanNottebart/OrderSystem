@@ -63,7 +63,6 @@ namespace JN.Ordersystem.BL
                 orderDetailToUpdate.OrderID = orderDetail.OrderID;
                 orderDetailToUpdate.ProductID = orderDetail.ProductID;
                 orderDetailToUpdate.Quantity = orderDetail.Quantity;
-                orderDetailToUpdate.UnitPrice = orderDetail.UnitPrice;
 
                 _context.Update(orderDetailToUpdate);
                 await _context.SaveChangesAsync();

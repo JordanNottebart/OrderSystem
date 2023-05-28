@@ -12,7 +12,5 @@ namespace JN.Ordersystem.API.Dto
 
         [Required(ErrorMessage = "Please provide a quantity of the chosen product")]
         public int Quantity { get; set; }
-
-        public decimal UnitPrice { get; set; }
     }
 }

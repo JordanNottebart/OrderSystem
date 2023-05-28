@@ -56,6 +56,7 @@ $(document).ready(function () {
 
     $('#customerDatatable').DataTable();
     $('#productDatatable').DataTable();
+    $('#orderDatatable').DataTable();
 
 
     //$(".detailsLink").click(function (e) {

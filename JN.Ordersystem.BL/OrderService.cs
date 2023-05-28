@@ -24,7 +24,7 @@ namespace JN.Ordersystem.BL
         /// <returns>A list with all the orders</returns>
         public async Task<List<Order>> GetAll()
         {
-            return await _context.Orders.Include(o => o.Customer).ToListAsync();
+            return await _context.Orders.Include(o => o.Customer).Include(o => o.OrderDetail).ToListAsync();
         }
 
         /// <summary>
@@ -65,8 +65,8 @@ namespace JN.Ordersystem.BL
             if (orderToUpdate != null)
             {
                 // Fill the properties
+                orderToUpdate.OrderDate = order.OrderDate;
                 orderToUpdate.CustomerID = order.CustomerID;
-                orderToUpdate.Quantity = order.Quantity;
                 orderToUpdate.Status = order.Status;
 
                 _context.Update(orderToUpdate);

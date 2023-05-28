@@ -4,53 +4,66 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Orders</h1>
+<div class="container">
+    <h1>Orders</h1>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="text-right mb-3">
+        <a href="@Url.Action("Create", "Order")" class="btn btn-primary">+ New Order</a>
+      </div>
+      <table id="orderDatatable" class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Total Items</th>
+                <th>Status</th>
+                <th class="align-right">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td> 
+                    @Html.DisplayFor(modelItem => item.OrderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Customer", new { id = item.CustomerID })">
+                        @Html.DisplayFor(modelItem => item.Customer.CustomerLastName) @Html.DisplayFor(modelItem => item.Customer.CustomerFirstName)
+                    </a>
+                </td>
+                    <td>
+                    @{
+                        int totalQuantity = 0;
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Order ID
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                Customer
-            </th>
-            <th>
-                Total Items
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerLastName) @Html.DisplayFor(modelItem => item.Customer.CustomerFirstName) 
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                        foreach (var detail in item.OrderDetail)
+                        {
+                            totalQuantity += detail.Quantity;
+                        }
+                    }
+                    @totalQuantity
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td class="text-right">
+                    <div class="action-icons">
+                        <a href="@Url.Action("Edit", new { id = item.OrderID })" title="Edit"><i class="fa-solid fa-edit"></i></a>
+                        <a id="detailsLink" href="@Url.Action("Details", new { id = item.OrderID })" title="Details"><i class="fa-solid fa-info-circle"></i></a>
+                        <a href="@Url.Action("Delete", new { id = item.OrderID })" title="Delete"><i class="fa-solid fa-trash-can"></i></a>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+       </table>
+    </div>
+  </div>
+</div>
+
+<script src="~/js/site.js" asp-append-version="true"></script>
