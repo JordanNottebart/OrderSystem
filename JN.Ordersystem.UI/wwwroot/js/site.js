@@ -69,7 +69,7 @@ $(document).ready(function () {
         if ($(this).hasClass('confirm-button')) {
             status = 'Pending';
         } else if ($(this).hasClass('process-button')) {
-            status = 'Fulfilled';
+            status = 'Shipped';
         }
 
         // Send the AJAX POST request

@@ -18,6 +18,7 @@
                 <th>Date</th>
                 <th>Customer</th>
                 <th>Total Items</th>
+                <th>Sales Total</th>
                 <th>Status</th>
                 <th class="align-right">Action</th>
             </tr>
@@ -37,7 +38,7 @@
                         @Html.DisplayFor(modelItem => item.Customer.CustomerLastName) @Html.DisplayFor(modelItem => item.Customer.CustomerFirstName)
                     </a>
                 </td>
-                    <td>
+                <td>
                     @{
                         int totalQuantity = 0;
 
@@ -47,6 +48,17 @@
                         }
                     }
                     @totalQuantity
+                </td>
+                <td>
+                    @{
+                        decimal totalSales = 0;
+
+                        foreach (var detail in item.OrderDetail)
+                        {
+                            totalSales += detail.Quantity * detail.Product.Price;
+                        }
+                    }
+                    € @totalSales
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Status)

@@ -19,7 +19,7 @@ namespace JN.Ordersystem.BL
         /// <returns>A list with all the orderDetails</returns>
         public async Task<List<OrderDetail>> GetAll()
         {
-            return await _context.OrderDetails.ToListAsync();
+            return await _context.OrderDetails.Include(od => od.Product).ToListAsync();
         }
 
         /// <summary>

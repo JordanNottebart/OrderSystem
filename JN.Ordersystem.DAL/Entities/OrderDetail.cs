@@ -20,5 +20,8 @@ namespace JN.Ordersystem.DAL.Entities
 
         public int Quantity { get; set; }
 
+        // Navigation Property
+        public Product Product { get; set; }
+
     }
 }

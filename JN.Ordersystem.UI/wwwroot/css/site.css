@@ -66,10 +66,6 @@ main .sidebar {
     margin-left: -10px;
 }
 
-.clickable-name {
-    cursor: pointer;
-}
-
 .action-icons {
     display: flex;
     justify-content: flex-end;

@@ -18,6 +18,6 @@ namespace JN.Ordersystem.DAL.Entities
         // Navigation Properties
         public Customer Customer { get; set; }
 
-        public ICollection<OrderDetail> OrderDetail { get; set; }
+        public List<OrderDetail> OrderDetail { get; set; }
     }
 }

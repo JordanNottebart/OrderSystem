@@ -29,9 +29,7 @@
                     @Html.DisplayFor(modelItem => item.ProductID)
                 </td>
                 <td>
-                    <span class="clickable-name" data-url="@Url.Action("Details", new { id = item.ProductID })">
-                        @Html.DisplayFor(modelItem => item.ItemName)
-                    </span>
+                    @Html.DisplayFor(modelItem => item.ItemName)
                 </td>
                 <td class="text-right">
                     € @Html.DisplayFor(modelItem => item.Price)
