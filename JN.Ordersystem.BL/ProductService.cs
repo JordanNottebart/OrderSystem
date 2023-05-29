@@ -8,17 +8,20 @@ namespace JN.Ordersystem.BL
 
     public class ProductService : IService<Product>
     {
+        DataContext _context;
+
+        public ProductService(DataContext context)
+        {
+            _context = context;
+        }
+
         /// <summary>
         /// Get all the products
         /// </summary>
         /// <returns>A list with all the products</returns>
         public async Task<List<Product>> GetAll()
         {
-            using (var context = new DataContext())
-            {
-                return await context.Products.ToListAsync();
-
-            }
+            return await _context.Products.ToListAsync();
         }
 
         /// <summary>
@@ -28,10 +31,7 @@ namespace JN.Ordersystem.BL
         /// <returns>A specific product</returns>
         public async Task<Product?> GetById(int id)
         {
-            using (var context = new DataContext())
-            {
-                return await context.Products.FindAsync(id);
-            }
+            return await _context.Products.FindAsync(id);
         }
 
         /// <summary>
@@ -41,13 +41,10 @@ namespace JN.Ordersystem.BL
         /// <returns>A newly created product</returns>
         public async Task<Product> Create(Product p)
         {
-            using (var context = new DataContext())
-            {
-                context.Products.Add(p);
-                await context.SaveChangesAsync();
+            _context.Products.Add(p);
+            await _context.SaveChangesAsync();
 
-                return p;
-            }
+            return p;
         }
 
         /// <summary>
@@ -58,28 +55,25 @@ namespace JN.Ordersystem.BL
         /// <returns>An updated orderDetail</returns>
         public async Task<Product?> Update(int id, Product p)
         {
-            using (var context = new DataContext())
+            // Find the product
+            var productToUpdate = await _context.Products.FindAsync(id);
+
+            // If the product is found
+            if (productToUpdate != null)
             {
-                // Find the product
-                var productToUpdate = await context.Products.FindAsync(id);
+                // Fill the properties
+                productToUpdate.Description = p.Description;
+                productToUpdate.ItemName = p.ItemName;
+                productToUpdate.Price = p.Price;
+                productToUpdate.UnitsInStock = p.UnitsInStock;
 
-                // If the product is found
-                if (productToUpdate != null)
-                {
-                    // Fill the properties
-                    productToUpdate.Description = p.Description;
-                    productToUpdate.ItemName = p.ItemName;
-                    productToUpdate.Price = p.Price;
-                    productToUpdate.UnitsInStock = p.UnitsInStock;
+                _context.Update(productToUpdate);
+                await _context.SaveChangesAsync();
 
-                    context.Update(productToUpdate);
-                    await context.SaveChangesAsync();
-
-                    return productToUpdate;
-                }
-
-                return null;
+                return productToUpdate;
             }
+
+            return null;
         }
 
         /// <summary>
@@ -89,41 +83,35 @@ namespace JN.Ordersystem.BL
         /// <returns>A boolean if the delete was successful</returns>
         public async Task<bool> Delete(int id)
         {
-            using (var context = new DataContext())
+            // Find the product
+            var product = await _context.Products.FindAsync(id);
+
+            // If the product is found
+            if (product != null)
             {
-                // Find the product
-                var product = await context.Products.FindAsync(id);
-
-                // If the product is found
-                if (product != null)
-                {
-                    context.Products.Remove(product);
-                    await context.SaveChangesAsync();
-                    return true;
-                }
-
-                return false;
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+                return true;
             }
+
+            return false;
         }
 
         public Product UpdateInventory(int id, int unitsInStock)
         {
-            using (var context = new DataContext())
+            var productToUpdate = _context.Products.Where(p => p.ProductID == id).FirstOrDefault();
+
+            if (productToUpdate != null)
             {
-                var productToUpdate = context.Products.Where(p => p.ProductID == id).FirstOrDefault();
+                productToUpdate.UnitsInStock = unitsInStock;
 
-                if (productToUpdate != null)
-                {
-                    productToUpdate.UnitsInStock = unitsInStock;
+                _context.Update(productToUpdate);
+                _context.SaveChanges();
 
-                    context.Update(productToUpdate);
-                    context.SaveChanges();
-
-                    return productToUpdate;
-                }
-
-                return null;
+                return productToUpdate;
             }
+
+            return null;
         }
 
         /// <summary>
@@ -132,20 +120,17 @@ namespace JN.Ordersystem.BL
         /// <returns>The last ID</returns>
         public async Task<int> GetLastId()
         {
-            using (var context = new DataContext())
-            {
-                var lastProduct = await context.Products
+            var lastProduct = await _context.Products
                 .OrderByDescending(p => p.ProductID)
                 .FirstOrDefaultAsync();
 
-                if (lastProduct != null)
-                {
-                    return lastProduct.ProductID;
-                }
-
-                // Return a default value if no products exist
-                return 0;
+            if (lastProduct != null)
+            {
+                return lastProduct.ProductID;
             }
+
+            // Return a default value if no products exist
+            return 0;
         }
     }
 }

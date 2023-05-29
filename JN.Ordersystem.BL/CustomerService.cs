@@ -6,17 +6,20 @@ namespace JN.Ordersystem.BL
 {
     public class CustomerService : IService<Customer>
     {
+        DataContext _context;
+
+        public CustomerService(DataContext context)
+        {
+            _context = context;
+        }
+
         /// <summary>
         /// Get all the customer infos
         /// </summary>
         /// <returns>A list with all the customer infos</returns>
         public async Task<List<Customer>> GetAll()
         {
-            using (var context = new DataContext())
-            {
-                return await context.Customers.ToListAsync();
-
-            }
+            return await _context.Customers.ToListAsync();
         }
 
         /// <summary>
@@ -26,11 +29,7 @@ namespace JN.Ordersystem.BL
         /// <returns>The info of a specific customer</returns>
         public async Task<Customer?> GetById(int id)
         {
-            using (var context = new DataContext())
-            {
-                return await context.Customers.FindAsync(id);
-
-            }
+            return await _context.Customers.FindAsync(id);
         }
 
         /// <summary>
@@ -40,13 +39,10 @@ namespace JN.Ordersystem.BL
         /// <returns>A newly created customer</returns>
         public async Task<Customer> Create(Customer c)
         {
-            using (var context = new DataContext())
-            {
-                context.Customers.Add(c);
-                await context.SaveChangesAsync();
+            _context.Customers.Add(c);
+            await _context.SaveChangesAsync();
 
-                return c;
-            }
+            return c;
         }
 
         /// <summary>
@@ -57,31 +53,28 @@ namespace JN.Ordersystem.BL
         /// <returns>All the updated info of a customer</returns>
         public async Task<Customer?> Update(int id, Customer c)
         {
-            using (var context = new DataContext())
+            // Find the customer
+            var customerToUpdate = await _context.Customers.FindAsync(id);
+
+            // If the customer is found
+            if (customerToUpdate != null)
             {
-                // Find the customer
-                var customerToUpdate = await context.Customers.FindAsync(id);
+                // Fill the properties
+                customerToUpdate.CustomerLastName = c.CustomerLastName;
+                customerToUpdate.CustomerFirstName = c.CustomerFirstName;
+                customerToUpdate.Address = c.Address;
+                customerToUpdate.City = c.City;
+                customerToUpdate.PostalCode = c.PostalCode;
+                customerToUpdate.Email = c.Email;
+                customerToUpdate.Phone = c.Phone;
 
-                // If the customer is found
-                if (customerToUpdate != null)
-                {
-                    // Fill the properties
-                    customerToUpdate.CustomerLastName = c.CustomerLastName;
-                    customerToUpdate.CustomerFirstName = c.CustomerFirstName;
-                    customerToUpdate.Address = c.Address;
-                    customerToUpdate.City = c.City;
-                    customerToUpdate.PostalCode = c.PostalCode;
-                    customerToUpdate.Email = c.Email;
-                    customerToUpdate.Phone = c.Phone;
+                _context.Update(customerToUpdate);
+                await _context.SaveChangesAsync();
 
-                    context.Update(customerToUpdate);
-                    await context.SaveChangesAsync();
-
-                    return customerToUpdate;
-                }
-
-                return null;
+                return customerToUpdate;
             }
+
+            return null;
         }
 
         /// <summary>
@@ -91,22 +84,19 @@ namespace JN.Ordersystem.BL
         /// <returns>A boolean if the delete was successful</returns>
         public async Task<bool> Delete(int id)
         {
-            using (var context = new DataContext())
+            // Find the customer
+            var customer = await _context.Customers.FindAsync(id);
+
+            // If the customer is found
+            if (customer != null)
             {
-                // Find the customer
-                var customer = await context.Customers.FindAsync(id);
+                _context.Customers.Remove(customer);
+                await _context.SaveChangesAsync();
 
-                // If the customer is found
-                if (customer != null)
-                {
-                    context.Customers.Remove(customer);
-                    await context.SaveChangesAsync();
-
-                    return true;
-                }
-
-                return false;
+                return true;
             }
+
+            return false;
         }
 
         //public Customer Patch(int id, Customer c)
@@ -134,20 +124,17 @@ namespace JN.Ordersystem.BL
         /// <returns>The last ID</returns>
         public async Task<int> GetLastId()
         {
-            using (var context = new DataContext())
-            {
-                var lastCustomer = await context.Customers
+            var lastCustomer = await _context.Customers
                 .OrderByDescending(c => c.CustomerID)
                 .FirstOrDefaultAsync();
 
-                if (lastCustomer != null)
-                {
-                    return lastCustomer.CustomerID;
-                }
-
-                // Return a default value if no products exist
-                return 0;
+            if (lastCustomer != null)
+            {
+                return lastCustomer.CustomerID;
             }
+
+            // Return a default value if no products exist
+            return 0;
         }
     }
 }
