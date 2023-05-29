@@ -6,20 +6,16 @@ namespace JN.Ordersystem.BL
 {
     public class OrderDetailService : IService<OrderDetail>
     {
-        DataContext _context;
-
-        public OrderDetailService(DataContext context)
-        {
-            _context = context;
-        }
-
         /// <summary>
         /// Get all the orderDetails
         /// </summary>
         /// <returns>A list with all the orderDetails</returns>
         public async Task<List<OrderDetail>> GetAll()
         {
-            return await _context.OrderDetails.Include(od => od.Product).ToListAsync();
+            using (var context = new DataContext())
+            {
+                return await context.OrderDetails.Include(od => od.Product).ToListAsync();
+            }
         }
 
         /// <summary>
@@ -29,7 +25,10 @@ namespace JN.Ordersystem.BL
         /// <returns>A specific orderDetail</returns>
         public async Task<OrderDetail?> GetById(int orderDetailId)
         {
-            return await _context.OrderDetails.FindAsync(orderDetailId);
+            using (var context = new DataContext())
+            {
+                return await context.OrderDetails.FindAsync(orderDetailId);
+            }
         }
 
         /// <summary>
@@ -39,10 +38,13 @@ namespace JN.Ordersystem.BL
         /// <returns>A newly created orderDetail</returns>
         public async Task<OrderDetail> Create(OrderDetail orderDetail)
         {
-            _context.OrderDetails.Add(orderDetail);
-            await _context.SaveChangesAsync();
+            using (var context = new DataContext())
+            {
+                context.OrderDetails.Add(orderDetail);
+                await context.SaveChangesAsync();
 
-            return orderDetail;
+                return orderDetail;
+            }
         }
 
         /// <summary>
@@ -53,24 +55,27 @@ namespace JN.Ordersystem.BL
         /// <returns>An updated orderDetail</returns>
         public async Task<OrderDetail?> Update(int orderDetailId, OrderDetail orderDetail)
         {
-            // Find the orderDetail
-            var orderDetailToUpdate = await _context.OrderDetails.FindAsync(orderDetailId);
-
-            // If the orderDetail is found
-            if (orderDetailToUpdate != null)
+            using (var context = new DataContext())
             {
-                // Fill the properties
-                orderDetailToUpdate.OrderID = orderDetail.OrderID;
-                orderDetailToUpdate.ProductID = orderDetail.ProductID;
-                orderDetailToUpdate.Quantity = orderDetail.Quantity;
+                // Find the orderDetail
+                var orderDetailToUpdate = await context.OrderDetails.FindAsync(orderDetailId);
 
-                _context.Update(orderDetailToUpdate);
-                await _context.SaveChangesAsync();
+                // If the orderDetail is found
+                if (orderDetailToUpdate != null)
+                {
+                    // Fill the properties
+                    orderDetailToUpdate.OrderID = orderDetail.OrderID;
+                    orderDetailToUpdate.ProductID = orderDetail.ProductID;
+                    orderDetailToUpdate.Quantity = orderDetail.Quantity;
 
-                return orderDetailToUpdate;
+                    context.Update(orderDetailToUpdate);
+                    await context.SaveChangesAsync();
+
+                    return orderDetailToUpdate;
+                }
+
+                return null;
             }
-
-            return null;
         }
 
         /// <summary>
@@ -80,19 +85,22 @@ namespace JN.Ordersystem.BL
         /// <returns>A boolean if the delete was successful</returns>
         public async Task<bool> Delete(int orderDetailId)
         {
-            // Find the orderDetail
-            var orderDetailToDelete = await _context.OrderDetails.FindAsync(orderDetailId);
-
-            // If the orderDetail is found
-            if (orderDetailToDelete != null)
+            using (var context = new DataContext())
             {
-                _context.OrderDetails.Remove(orderDetailToDelete);
-                await _context.SaveChangesAsync();
+                // Find the orderDetail
+                var orderDetailToDelete = await context.OrderDetails.FindAsync(orderDetailId);
 
-                return true;
+                // If the orderDetail is found
+                if (orderDetailToDelete != null)
+                {
+                    context.OrderDetails.Remove(orderDetailToDelete);
+                    await context.SaveChangesAsync();
+
+                    return true;
+                }
+
+                return false;
             }
-
-            return false;
         }
 
         /// <summary>
@@ -101,17 +109,20 @@ namespace JN.Ordersystem.BL
         /// <returns>The last ID</returns>
         public async Task<int> GetLastId()
         {
-            var lastOrderDetail = await _context.OrderDetails
-                .OrderByDescending(o => o.OrderDetailID)
-                .FirstOrDefaultAsync();
-
-            if (lastOrderDetail != null)
+            using (var context = new DataContext())
             {
-                return lastOrderDetail.OrderDetailID;
-            }
+                var lastOrderDetail = await context.OrderDetails
+                    .OrderByDescending(o => o.OrderDetailID)
+                    .FirstOrDefaultAsync();
 
-            // Return a default value if no products exist
-            return 0;
+                if (lastOrderDetail != null)
+                {
+                    return lastOrderDetail.OrderDetailID;
+                }
+
+                // Return a default value if no products exist
+                return 0;
+            }
         }
     }
 }

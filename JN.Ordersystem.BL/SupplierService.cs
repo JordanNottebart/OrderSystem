@@ -6,20 +6,16 @@ namespace JN.Ordersystem.BL
 {
     public class SupplierService : IService<Supplier>
     {
-        DataContext _context;
-
-        public SupplierService(DataContext context)
-        {
-            _context = context;
-        }
-
         /// <summary>
         /// Get all the supplier infos
         /// </summary>
         /// <returns>A list with all the supplier infos</returns>
         public async Task<List<Supplier>> GetAll()
         {
-            return await _context.Suppliers.ToListAsync();
+            using (var context = new DataContext())
+            {
+                return await context.Suppliers.ToListAsync();
+            }    
         }
 
         /// <summary>
@@ -29,7 +25,10 @@ namespace JN.Ordersystem.BL
         /// <returns>The info of a specific supplier</returns>
         public async Task<Supplier?> GetById(int supplierId)
         {
-            return await _context.Suppliers.FindAsync(supplierId);
+            using (var context = new DataContext())
+            {
+                return await context.Suppliers.FindAsync(supplierId);
+            }
         }
 
         /// <summary>
@@ -39,10 +38,13 @@ namespace JN.Ordersystem.BL
         /// <returns>A newly created supplier</returns>
         public async Task<Supplier> Create(Supplier supplier)
         {
-            _context.Suppliers.Add(supplier);
-            await _context.SaveChangesAsync();
+            using (var context = new DataContext())
+            {
+                context.Suppliers.Add(supplier);
+                await context.SaveChangesAsync();
 
-            return supplier;
+                return supplier;
+            }
         }
 
         /// <summary>
@@ -53,22 +55,25 @@ namespace JN.Ordersystem.BL
         /// <returns>All the updated info of a supplier</returns>
         public async Task<Supplier?> Update(int id, Supplier supplier)
         {
-            // Find the supplier
-            var supplierToUpdate = await _context.Suppliers.FindAsync(id);
-
-            // If the supplier is found
-            if (supplierToUpdate != null)
+            using (var context = new DataContext())
             {
-                // Update the properties
-                supplierToUpdate.SupplierName = supplier.SupplierName;
-                supplierToUpdate.ContactInfo = supplier.ContactInfo;
+                // Find the supplier
+                var supplierToUpdate = await context.Suppliers.FindAsync(id);
 
-                await _context.SaveChangesAsync();
+                // If the supplier is found
+                if (supplierToUpdate != null)
+                {
+                    // Update the properties
+                    supplierToUpdate.SupplierName = supplier.SupplierName;
+                    supplierToUpdate.ContactInfo = supplier.ContactInfo;
 
-                return supplierToUpdate;
+                    await context.SaveChangesAsync();
+
+                    return supplierToUpdate;
+                }
+
+                return null;
             }
-
-            return null;
         }
 
         /// <summary>
@@ -78,18 +83,21 @@ namespace JN.Ordersystem.BL
         /// <returns>A boolean if the delete was successful</returns>
         public async Task<bool> Delete(int supplierId)
         {
-            // Find the supplier
-            var supplierToDelete = await _context.Suppliers.FindAsync(supplierId);
-
-            // If the supplier is found
-            if (supplierToDelete != null)
+            using (var context = new DataContext())
             {
-                _context.Suppliers.Remove(supplierToDelete);
-                await _context.SaveChangesAsync();
-                return true;
-            }
+                // Find the supplier
+                var supplierToDelete = await context.Suppliers.FindAsync(supplierId);
 
-            return false;
+                // If the supplier is found
+                if (supplierToDelete != null)
+                {
+                    context.Suppliers.Remove(supplierToDelete);
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         /// <summary>
@@ -98,18 +106,20 @@ namespace JN.Ordersystem.BL
         /// <returns>The last ID</returns>
         public async Task<int> GetLastId()
         {
-            var lastSupplier = await _context.Suppliers
+            using (var context = new DataContext())
+            {
+                var lastSupplier = await context.Suppliers
                 .OrderByDescending(s => s.SupplierID)
                 .FirstOrDefaultAsync();
 
-            if (lastSupplier != null)
-            {
-                return lastSupplier.SupplierID;
+                if (lastSupplier != null)
+                {
+                    return lastSupplier.SupplierID;
+                }
+
+                // Return a default value if no products exist
+                return 0;
             }
-
-            // Return a default value if no products exist
-            return 0;
         }
-
     }
 }

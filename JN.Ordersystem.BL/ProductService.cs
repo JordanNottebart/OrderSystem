@@ -8,20 +8,17 @@ namespace JN.Ordersystem.BL
 
     public class ProductService : IService<Product>
     {
-        DataContext _context;
-
-        public ProductService(DataContext context)
-        {
-            _context = context;
-        }
-
         /// <summary>
         /// Get all the products
         /// </summary>
         /// <returns>A list with all the products</returns>
         public async Task<List<Product>> GetAll()
         {
-            return await _context.Products.ToListAsync();
+            using (var context = new DataContext())
+            {
+                return await context.Products.ToListAsync();
+
+            }
         }
 
         /// <summary>
@@ -31,7 +28,10 @@ namespace JN.Ordersystem.BL
         /// <returns>A specific product</returns>
         public async Task<Product?> GetById(int id)
         {
-            return await _context.Products.FindAsync(id);
+            using (var context = new DataContext())
+            {
+                return await context.Products.FindAsync(id);
+            }
         }
 
         /// <summary>
@@ -41,10 +41,13 @@ namespace JN.Ordersystem.BL
         /// <returns>A newly created product</returns>
         public async Task<Product> Create(Product p)
         {
-            _context.Products.Add(p);
-            await _context.SaveChangesAsync();
+            using (var context = new DataContext())
+            {
+                context.Products.Add(p);
+                await context.SaveChangesAsync();
 
-            return p;
+                return p;
+            }
         }
 
         /// <summary>
@@ -55,25 +58,28 @@ namespace JN.Ordersystem.BL
         /// <returns>An updated orderDetail</returns>
         public async Task<Product?> Update(int id, Product p)
         {
-            // Find the product
-            var productToUpdate = await _context.Products.FindAsync(id);
-
-            // If the product is found
-            if (productToUpdate != null)
+            using (var context = new DataContext())
             {
-                // Fill the properties
-                productToUpdate.Description = p.Description;
-                productToUpdate.ItemName = p.ItemName;
-                productToUpdate.Price = p.Price;
-                productToUpdate.UnitsInStock = p.UnitsInStock;
+                // Find the product
+                var productToUpdate = await context.Products.FindAsync(id);
 
-                _context.Update(productToUpdate);
-                await _context.SaveChangesAsync();
+                // If the product is found
+                if (productToUpdate != null)
+                {
+                    // Fill the properties
+                    productToUpdate.Description = p.Description;
+                    productToUpdate.ItemName = p.ItemName;
+                    productToUpdate.Price = p.Price;
+                    productToUpdate.UnitsInStock = p.UnitsInStock;
 
-                return productToUpdate;
+                    context.Update(productToUpdate);
+                    await context.SaveChangesAsync();
+
+                    return productToUpdate;
+                }
+
+                return null;
             }
-
-            return null;
         }
 
         /// <summary>
@@ -83,35 +89,41 @@ namespace JN.Ordersystem.BL
         /// <returns>A boolean if the delete was successful</returns>
         public async Task<bool> Delete(int id)
         {
-            // Find the product
-            var product = await _context.Products.FindAsync(id);
-
-            // If the product is found
-            if (product != null)
+            using (var context = new DataContext())
             {
-                _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
-                return true;
-            }
+                // Find the product
+                var product = await context.Products.FindAsync(id);
 
-            return false;
+                // If the product is found
+                if (product != null)
+                {
+                    context.Products.Remove(product);
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         public Product UpdateInventory(int id, int unitsInStock)
         {
-            var productToUpdate = _context.Products.Where(p => p.ProductID == id).FirstOrDefault();
-
-            if (productToUpdate != null)
+            using (var context = new DataContext())
             {
-                productToUpdate.UnitsInStock = unitsInStock;
+                var productToUpdate = context.Products.Where(p => p.ProductID == id).FirstOrDefault();
 
-                _context.Update(productToUpdate);
-                _context.SaveChanges();
+                if (productToUpdate != null)
+                {
+                    productToUpdate.UnitsInStock = unitsInStock;
 
-                return productToUpdate;
+                    context.Update(productToUpdate);
+                    context.SaveChanges();
+
+                    return productToUpdate;
+                }
+
+                return null;
             }
-
-            return null;
         }
 
         /// <summary>
@@ -120,17 +132,20 @@ namespace JN.Ordersystem.BL
         /// <returns>The last ID</returns>
         public async Task<int> GetLastId()
         {
-            var lastProduct = await _context.Products
+            using (var context = new DataContext())
+            {
+                var lastProduct = await context.Products
                 .OrderByDescending(p => p.ProductID)
                 .FirstOrDefaultAsync();
 
-            if (lastProduct != null)
-            {
-                return lastProduct.ProductID;
-            }
+                if (lastProduct != null)
+                {
+                    return lastProduct.ProductID;
+                }
 
-            // Return a default value if no products exist
-            return 0;
+                // Return a default value if no products exist
+                return 0;
+            }
         }
     }
 }
