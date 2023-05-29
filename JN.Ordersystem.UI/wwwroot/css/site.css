@@ -77,6 +77,9 @@ main .sidebar {
     font-size: 20px;
 }
 
+.actions-column {
+    width: 240px;
+}
     .action-icons a {
         display: inline-flex;
         align-items: center;
@@ -89,8 +92,34 @@ main .sidebar {
         transition: background-color 0.2s ease;
     }
 
+        .action-icons a.confirm-button {
+            width: auto;
+            padding: 6px;
+            float: left; 
+            border-radius: 4px;
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .action-icons a.process-button {
+            width: auto;
+            padding: 6px;
+            float: left;
+            border-radius: 4px;
+            background-color: #17a2b8; /* Update the background color as desired */
+            color: #fff;
+        }
+
         .action-icons a:hover {
             background-color: #e9ecef;
+        }
+
+        .action-icons a.confirm-button:hover {
+            background-color: #218838;
+        }
+
+        .action-icons a.process-button:hover {
+            background-color: #138496; /* Update the hover background color as desired */
         }
 
 .text-right {

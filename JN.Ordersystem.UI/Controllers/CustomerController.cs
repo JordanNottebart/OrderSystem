@@ -81,22 +81,7 @@ namespace JN.Ordersystem.UI.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingCustomer = await _customerService.GetById(id);
-
-                if (existingCustomer == null)
-                {
-                    return NotFound(); // Handle the case where the product is not found
-                }
-
-                existingCustomer.CustomerLastName = updatedCustomer.CustomerLastName;
-                existingCustomer.CustomerFirstName = updatedCustomer.CustomerFirstName;
-                existingCustomer.Address = updatedCustomer.Address;
-                existingCustomer.City = updatedCustomer.City;
-                existingCustomer.PostalCode = updatedCustomer.PostalCode;
-                existingCustomer.Email = updatedCustomer.Email;
-                existingCustomer.Phone = updatedCustomer.Phone;
-
-                var updatedEntity = await _customerService.Update(id, existingCustomer);
+                var updatedEntity = await _customerService.Update(id, updatedCustomer);
 
                 if (updatedEntity == null)
                 {

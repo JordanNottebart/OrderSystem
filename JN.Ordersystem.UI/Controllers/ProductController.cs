@@ -80,19 +80,7 @@ namespace JN.Ordersystem.UI.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingProduct = await _productService.GetById(id);
-
-                if (existingProduct == null)
-                {
-                    return NotFound(); // Handle the case where the product is not found
-                }
-
-                existingProduct.Description = updatedProduct.Description;
-                existingProduct.ItemName = updatedProduct.ItemName;
-                existingProduct.Price = updatedProduct.Price;
-                existingProduct.UnitsInStock = updatedProduct.UnitsInStock;
-
-                var updatedEntity = await _productService.Update(id, existingProduct);
+                var updatedEntity = await _productService.Update(id, updatedProduct);
 
                 if (updatedEntity == null)
                 {
