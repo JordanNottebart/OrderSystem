@@ -7,6 +7,7 @@ namespace JN.Ordersystem.DAL.Entities
     public class Customer
     {
         [Key]
+        [Required(ErrorMessage = "Please select a customer.")]
         public int CustomerID { get; set; }
 
         public string CustomerLastName { get; set; }
@@ -22,5 +23,11 @@ namespace JN.Ordersystem.DAL.Entities
         public string Email { get; set; }
 
         public string Phone { get; set; }
+
+        public string CustomerFullName
+        {
+            get { return $"{CustomerID}. {CustomerLastName} {CustomerFirstName}" ; }
+        }
+
     }
 }

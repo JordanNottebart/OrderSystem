@@ -140,6 +140,25 @@ main .sidebar {
     transition: margin-left 0.5s;
 }
 
+.search-input {
+    padding-right: 34px; /* Adjust the padding to make room for the search icon */
+}
+
+.input-group .form-control {
+    border-top-right-radius: 20px; /* Add this line */
+    border-bottom-right-radius: 20px; /* Add this line */
+}
+
+.input-group-addon.search-icon {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    bottom: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    background-color: #fff;
+}
 @media screen and (max-height: 450px) {
     .sidebar {
         padding-top: 15px;

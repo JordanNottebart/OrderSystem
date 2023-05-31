@@ -34,7 +34,7 @@ namespace JN.Ordersystem.BL
         /// <returns>A specific order</returns>
         public async Task<Order?> GetById(int id)
         {
-            return await _context.Orders.FindAsync(id);
+            return await _context.Orders.Include(o => o.OrderDetail).FirstOrDefaultAsync(o => o.OrderID == id);
         }
 
         /// <summary>

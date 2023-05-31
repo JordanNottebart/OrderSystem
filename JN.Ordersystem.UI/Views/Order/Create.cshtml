@@ -1,0 +1,59 @@
+﻿@model JN.Ordersystem.DAL.Entities.Order
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OrderID">Order ID</label>
+                <input type="text" class="form-control" readonly value="@Model.OrderID" style="background-color: lightgray;" />
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderDate" class="control-label">Order Date</label>
+                <input asp-for="OrderDate" class="form-control" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerID" class="control-label">Customer</label>
+                <div class="d-flex">
+                    <select id="customerDropdown" name="CustomerID" class="form-control">
+                        <option value="" disabled selected>-- Select Customer --</option>
+                            @foreach (var customer in ViewBag.Customers as SelectList)
+                            {
+                                <option value="@customer.Value">@customer.Text</option>
+                            }
+                    </select>
+                    <div class="input-group ml-2">
+                        <input type="text" id="customerIdFilter" class="form-control search-input" placeholder="Search Customer..." />
+                        <span class="input-group-addon search-icon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+                <span asp-validation-for="CustomerID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <a href="@Url.Action("Index", "OrderDetail")" class="btn btn-success ml-2">Add Products</a>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -58,41 +58,44 @@ $(document).ready(function () {
     $('#productDatatable').DataTable();
     $('#orderDatatable').DataTable();
 
-    $('.confirm-button, .process-button').click(function (e) {
-        e.preventDefault();
+    //$('.confirm-button, .process-button').click(function (e) {
+    //    e.preventDefault();
 
-        // Get the order ID from the data attribute
-        var orderId = $(this).data('order-id');
+    //    // Get the order ID from the data attribute
+    //    var orderId = $(this).data('order-id');
 
-        // Determine the status based on the clicked button
-        var status = '';
-        if ($(this).hasClass('confirm-button')) {
-            status = 'Pending';
-        } else if ($(this).hasClass('process-button')) {
-            status = 'Shipped';
-        }
+    //    // Determine the status based on the clicked button
+    //    var status = '';
+    //    if ($(this).hasClass('confirm-button')) {
+    //        status = 'Pending';
+    //    } else if ($(this).hasClass('process-button')) {
+    //        status = 'Shipped';
+    //    }
 
-        // Send the AJAX POST request
-        $.ajax({
-            url: '/Order/UpdateStatus', // Replace with the correct URL for your action
-            type: 'POST',
-            data: { orderId: orderId, status: status },
-            success: function (response) {
-                // Handle the success response
-                if (response.success) {
-                    // Reload the page to show the updated status
-                    location.reload();
-                } else {
-                    // Display an error message if the update failed
-                    console.error(response.message);
-                }
-            },
-            error: function (xhr, status, error) {
-                // Handle the error response
-                console.error(error);
-            }
-        });
-    });
+    //    // Send the AJAX POST request
+    //    $.ajax({
+    //        url: '/Order/UpdateStatus',
+    //        type: 'POST',
+    //        data: { orderId: orderId, status: status },
+    //        success: function (response) {
+    //            // Handle the success response
+    //            if (response.success) {
+    //                // Update units in stock
+    //                updateUnitsInStock(orderId);
+
+    //                // Reload the page to show the updated status
+    //                location.reload();
+    //            } else {
+    //                // Display an error message if the update failed
+    //                console.error(response.message);
+    //            }
+    //        },
+    //        error: function (xhr, status, error) {
+    //            // Handle the error response
+    //            console.error(error);
+    //        }
+    //    });
+    //});
     //$(".detailsLink").click(function (e) {
     //    e.preventDefault(); // Prevent the default behavior of the link
 
@@ -101,4 +104,97 @@ $(document).ready(function () {
     //    $('#exampleModal').modal('show'); // Show the modal
     //});
 
+});
+
+$('.confirm-button').click(function (e) {
+    e.preventDefault();
+
+    // Get the order ID from the data attribute
+    var orderId = $(this).data('order-id');
+
+    // Determine the status
+    var status = 'Pending';
+
+    // Send the AJAX POST request to update the order status
+    updateOrderStatus(orderId, status, false);
+});
+
+$('.process-button').click(function (e) {
+    e.preventDefault();
+
+    // Get the order ID from the data attribute
+    var orderId = $(this).data('order-id');
+
+    // Determine the status
+    var status = 'Shipped';
+
+    // Send the AJAX POST request to update the order status and units in stock
+    updateOrderStatus(orderId, status, true);
+});
+
+function updateOrderStatus(orderId, status, updateUnits) {
+    $.ajax({
+        url: '/Order/UpdateStatus',
+        type: 'POST',
+        data: { orderId: orderId, status: status },
+        success: function (response) {
+            // Handle the success response
+            if (response.success) {
+                if (updateUnits) {
+                    // Send the AJAX POST request to update the units in stock
+                    updateUnitsInStock(orderId);
+                } else {
+                    // Reload the page to show the updated status
+                    location.reload();
+                }
+            } else {
+                // Display an error message if the update failed
+                console.error(response.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            // Handle the error response
+            console.error(error);
+        }
+    });
+}
+
+function updateUnitsInStock(orderId) {
+    $.ajax({
+        url: '/Order/UpdateUnitsInStock',
+        type: 'POST',
+        data: { orderId: orderId },
+        success: function (response) {
+            // Manually reload the page to show the updated units in stock
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            // Handle the error response
+            console.error(error);
+        }
+    });
+}
+
+$(document).ready(function () {
+    // Store the original dropdown options
+    var originalOptions = $("#customerDropdown").html();
+
+    // Handle the keyup event on the filter input
+    $("#customerIdFilter").keyup(function () {
+        var filterValue = $(this).val().trim().toLowerCase();
+        if (filterValue !== "") {
+            // Filter the dropdown options based on the input value
+            var filteredOptions = $(originalOptions).filter(function () {
+                var optionValue = $(this).val().toLowerCase();
+                var optionText = $(this).text().toLowerCase();
+                return optionValue.startsWith(filterValue) || optionText.includes(filterValue);
+            });
+
+            // Update the dropdown with the filtered options
+            $("#customerDropdown").html(filteredOptions);
+        } else {
+            // If no filter value, restore the original options
+            $("#customerDropdown").html(originalOptions);
+        }
+    });
 });
