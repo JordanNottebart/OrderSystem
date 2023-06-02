@@ -7,7 +7,7 @@ namespace JN.Ordersystem.UI.Controllers
 {
     public class ProductController : Controller
     {
-        ProductService _productService;
+        readonly ProductService _productService;
 
         public ProductController(ProductService productService)
         {
@@ -92,7 +92,6 @@ namespace JN.Ordersystem.UI.Controllers
 
             return View(updatedProduct); // Return the view with validation errors if the model is not valid
         }
-
 
         // GET: ProductController/Delete/5
         public async Task<ActionResult> Delete(int id)

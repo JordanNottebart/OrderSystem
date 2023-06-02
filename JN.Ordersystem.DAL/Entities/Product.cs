@@ -17,5 +17,10 @@ namespace JN.Ordersystem.DAL.Entities
         public decimal Price { get; set; }
 
         public int UnitsInStock { get; set; }
+
+        public string ProductFull
+        {
+            get { return $"{ProductID}. {ItemName}" ; }
+        }
     }
 }

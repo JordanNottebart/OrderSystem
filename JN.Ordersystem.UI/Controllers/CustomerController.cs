@@ -7,7 +7,7 @@ namespace JN.Ordersystem.UI.Controllers
 {
     public class CustomerController : Controller
     {
-        CustomerService _customerService;
+        readonly CustomerService _customerService;
 
         public CustomerController(CustomerService customerService)
         {

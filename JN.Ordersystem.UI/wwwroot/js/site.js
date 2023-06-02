@@ -60,6 +60,8 @@ $(document).ready(function () {
 
     $('#customerDropdown').select2({
     });
+    $('#productDropdown').select2({
+    });
 });
 
 $('.confirm-button').click(function (e) {

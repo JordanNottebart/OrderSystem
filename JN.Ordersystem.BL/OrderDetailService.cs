@@ -6,7 +6,7 @@ namespace JN.Ordersystem.BL
 {
     public class OrderDetailService : IService<OrderDetail>
     {
-        DataContext _context;
+        readonly DataContext _context;
 
         public OrderDetailService(DataContext context)
         {
