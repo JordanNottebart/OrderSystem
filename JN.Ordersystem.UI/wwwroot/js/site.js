@@ -58,6 +58,8 @@ $(document).ready(function () {
     $('#productDatatable').DataTable();
     $('#orderDatatable').DataTable();
 
+    $('#customerDropdown').select2({
+    });
 });
 
 $('.confirm-button').click(function (e) {
@@ -129,27 +131,27 @@ function updateUnitsInStock(orderId) {
     });
 }
 
-$(document).ready(function () {
-    // Store the original dropdown options
-    var originalOptions = $("#customerDropdown").html();
+//$(document).ready(function () {
+//    // Store the original dropdown options
+//    var originalOptions = $("#customerDropdown").html();
 
-    // Handle the keyup event on the filter input
-    $("#customerIdFilter").keyup(function () {
-        var filterValue = $(this).val().trim().toLowerCase();
-        if (filterValue !== "") {
-            // Filter the dropdown options based on the input value
-            var filteredOptions = $(originalOptions).filter(function () {
-                var optionValue = $(this).val().toLowerCase();
-                var optionText = $(this).text().toLowerCase();
-                return optionValue.startsWith(filterValue) || optionText.includes(filterValue);
-            });
+//    // Handle the keyup event on the filter input
+//    $("#customerIdFilter").keyup(function () {
+//        var filterValue = $(this).val().trim().toLowerCase();
+//        if (filterValue !== "") {
+//            // Filter the dropdown options based on the input value
+//            var filteredOptions = $(originalOptions).filter(function () {
+//                var optionValue = $(this).val().toLowerCase();
+//                var optionText = $(this).text().toLowerCase();
+//                return optionValue.startsWith(filterValue) || optionText.includes(filterValue);
+//            });
 
-            // Update the dropdown with the filtered options
-            $("#customerDropdown").html(filteredOptions);
-        } else {
-            // If no filter value, restore the original options
-            $("#customerDropdown").html(originalOptions);
-        }
-    });
-});
+//            // Update the dropdown with the filtered options
+//            $("#customerDropdown").html(filteredOptions);
+//        } else {
+//            // If no filter value, restore the original options
+//            $("#customerDropdown").html(originalOptions);
+//        }
+//    });
+//});
 
