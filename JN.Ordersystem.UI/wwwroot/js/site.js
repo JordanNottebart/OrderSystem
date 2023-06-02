@@ -58,52 +58,6 @@ $(document).ready(function () {
     $('#productDatatable').DataTable();
     $('#orderDatatable').DataTable();
 
-    //$('.confirm-button, .process-button').click(function (e) {
-    //    e.preventDefault();
-
-    //    // Get the order ID from the data attribute
-    //    var orderId = $(this).data('order-id');
-
-    //    // Determine the status based on the clicked button
-    //    var status = '';
-    //    if ($(this).hasClass('confirm-button')) {
-    //        status = 'Pending';
-    //    } else if ($(this).hasClass('process-button')) {
-    //        status = 'Shipped';
-    //    }
-
-    //    // Send the AJAX POST request
-    //    $.ajax({
-    //        url: '/Order/UpdateStatus',
-    //        type: 'POST',
-    //        data: { orderId: orderId, status: status },
-    //        success: function (response) {
-    //            // Handle the success response
-    //            if (response.success) {
-    //                // Update units in stock
-    //                updateUnitsInStock(orderId);
-
-    //                // Reload the page to show the updated status
-    //                location.reload();
-    //            } else {
-    //                // Display an error message if the update failed
-    //                console.error(response.message);
-    //            }
-    //        },
-    //        error: function (xhr, status, error) {
-    //            // Handle the error response
-    //            console.error(error);
-    //        }
-    //    });
-    //});
-    //$(".detailsLink").click(function (e) {
-    //    e.preventDefault(); // Prevent the default behavior of the link
-
-    //    var url = $(this).data("url");
-    //    $('#exampleModal .modal-body').load(url); // Load the details content into the modal's body
-    //    $('#exampleModal').modal('show'); // Show the modal
-    //});
-
 });
 
 $('.confirm-button').click(function (e) {
@@ -198,3 +152,4 @@ $(document).ready(function () {
         }
     });
 });
+
