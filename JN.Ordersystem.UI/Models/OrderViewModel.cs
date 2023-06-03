@@ -12,13 +12,8 @@ namespace JN.Ordersystem.UI.Models
 
         public int CustomerID { get; set; }
 
-        public int ProductID { get; set; }
-
-        public int Quantity { get; set; }
-
         public SelectList Customers { get; set; }
 
-        public SelectList Products { get; set; }
-
+        public List<OrderDetailViewModel> OrderDetails { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace JN.Ordersystem.DAL.Entities
 
         public string ProductFull
         {
-            get { return $"{ProductID}. {ItemName}" ; }
+            get { return $"{ProductID}. {ItemName} ({UnitsInStock})" ; }
         }
     }
 }

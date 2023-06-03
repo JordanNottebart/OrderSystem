@@ -42,12 +42,21 @@ namespace JN.Ordersystem.UI.Controllers
             DateTime now = DateTime.Now;
             DateTime dateTimeWithSecondsZero = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
 
+            var orderDetailsList = new List<OrderDetailViewModel>();
+
+            var orderDetailOne = new OrderDetailViewModel
+            {
+                Products = productList
+            };
+
+            orderDetailsList.Add(orderDetailOne);
+
             var order = new OrderViewModel
             {
                 OrderID = lastOrderId + 1,
                 OrderDate = dateTimeWithSecondsZero,
                 Customers = customerList,
-                Products = productList
+                OrderDetails = orderDetailsList
             };
 
             return View(order);
@@ -71,8 +80,8 @@ namespace JN.Ordersystem.UI.Controllers
             var orderDetail = new OrderDetail
             {
                 OrderID = order.OrderID,
-                ProductID = model.ProductID,
-                Quantity = model.Quantity
+                ProductID = model.OrderDetails[0].ProductID,
+                Quantity = model.OrderDetails[0].Quantity
             };
 
             await _orderDetailService.Create(orderDetail);
