@@ -89,22 +89,6 @@ namespace JN.Ordersystem.UI.Controllers
             return RedirectToAction("Index", "Order"); // Redirect to the order index page
         }
 
-        // Helper method to get Customers as SelectList
-        private async Task<SelectList> GetCustomersAsSelectListAsync()
-        {
-            // Replace with your logic to fetch customers and return them as a SelectList
-            var customers = await _customerService.GetAll();
-            return new SelectList(customers, "CustomerID", "CustomerFullName");
-        }
-
-        // Helper method to get Products as SelectList
-        private async Task<SelectList> GetProductsAsSelectListAsync()
-        {
-            // Replace with your logic to fetch products and return them as a SelectList
-            var products = await _productService.GetAll();
-            return new SelectList(products, "ProductID", "ProductFull");
-        }
-
         public async Task<IActionResult> UpdateStatus(int orderId, string status)
         {
             // Update the status in the database
