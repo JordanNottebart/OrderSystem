@@ -62,6 +62,53 @@ $(document).ready(function () {
     });
     $('#productDropdown').select2({
     });
+
+    var selectedProducts = [];
+
+        $('#addToCartButton').click(function () {
+            var selectedProductID = $('#productDropdown option:selected').val();
+            var selectedQuantity = $('input[name^="OrderDetails"]').map(function () {
+                return $(this).val();
+            }).get();
+
+            if (selectedProductID !== "" && selectedQuantity.length > 0) {
+                // Check if the selected product ID already exists
+                var existingProduct = selectedProducts.find(function (product) {
+                    return product.productID === selectedProductID;
+                });
+
+                if (existingProduct) {
+                    // Product already exists, update the quantity
+                    existingProduct.quantities = existingProduct.quantities.map(function (quantity, index) {
+                        var newQuantity = parseInt(quantity) + parseInt(selectedQuantity[index]);
+                        return newQuantity.toString();
+                    });
+                } else {
+                    // Product doesn't exist, add a new entry
+                    selectedProducts.push({
+                        productID: selectedProductID,
+                        quantities: selectedQuantity
+                    });
+                }
+
+                updateSelectedProducts();
+                clearSelections();
+            }
+        });
+
+        function updateSelectedProducts() {
+            $('#selectedProductList').empty();
+
+            selectedProducts.forEach(function (product) {
+                var productItem = $('<li>').text('Product ID: ' + product.productID + ', Quantity: ' + product.quantities.join(', '));
+                $('#selectedProductList').append(productItem);
+            });
+        }
+
+        function clearSelections() {
+            $('input[name^="OrderDetails"]').val('1');
+        }
+    
 });
 
 $('.confirm-button').click(function (e) {
