@@ -66,6 +66,18 @@ namespace JN.Ordersystem.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(OrderViewModel model)
         {
+            if (model.CustomerID == 0 || model.OrderDetails[0].ProductID == 0)
+            {
+                ModelState.AddModelError("", "Please select a customer and a product.");
+                // Retrieve the customers and products again to pass to the view
+                List<Customer> customers = await _customerService.GetAll();
+                List<Product> products = await _productService.GetAll();
+                model.Customers = new SelectList(customers, "CustomerID", "CustomerFullName");
+                model.OrderDetails[0].Products = new SelectList(products, "ProductID", "ProductFull");
+                model.OrderID = await _orderService.GetLastId() + 1;
+                return View(model);
+            }
+
             // Create the order
             var order = new Order
             {
