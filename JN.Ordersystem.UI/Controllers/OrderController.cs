@@ -64,7 +64,7 @@ namespace JN.Ordersystem.UI.Controllers
 
         // POST: /Order/Create
         [HttpPost]
-        public async Task<IActionResult> Create(OrderViewModel model)
+        public async Task<IActionResult> Create(OrderViewModel model, List<OrderDetailViewModel> selectedProducts)
         {
             if (model.CustomerID == 0 || model.OrderDetails[0].ProductID == 0)
             {
@@ -88,15 +88,27 @@ namespace JN.Ordersystem.UI.Controllers
 
             await _orderService.Create(order);
 
-            // Create the order detail
-            var orderDetail = new OrderDetail
+            foreach (var orderDetail in selectedProducts)
             {
-                OrderID = order.OrderID,
-                ProductID = model.OrderDetails[0].ProductID,
-                Quantity = model.OrderDetails[0].Quantity
-            };
+                var newOrderDetail = new OrderDetail
+                {
+                    OrderID = order.OrderID,
+                    ProductID = orderDetail.ProductID,
+                    Quantity = orderDetail.Quantity
+                };
 
-            await _orderDetailService.Create(orderDetail);
+                await _orderDetailService.Create(newOrderDetail);
+            }
+
+            //// Create the order detail
+            //var orderDetail = new OrderDetail
+            //{
+            //    OrderID = order.OrderID,
+            //    ProductID = model.OrderDetails[0].ProductID,
+            //    Quantity = model.OrderDetails[0].Quantity
+            //};
+
+            //await _orderDetailService.Create(orderDetail);
 
             return RedirectToAction("Index", "Order"); // Redirect to the order index page
         }
