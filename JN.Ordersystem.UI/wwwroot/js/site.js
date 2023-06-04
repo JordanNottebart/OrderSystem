@@ -54,6 +54,7 @@ $(document).ready(function () {
         });
     });
 
+
     $('#customerDatatable').DataTable();
     $('#productDatatable').DataTable();
     $('#orderDatatable').DataTable();
@@ -63,9 +64,11 @@ $(document).ready(function () {
     $('#productDropdown').select2({
     });
 
+
     var selectedProducts = [];
 
     $('#addToCartButton').click(function () {
+        var customerDropdown = $('#customerDropdown');
         var selectedProductID = $('#productDropdown option:selected').val();
         var selectedQuantity = $('input[name^="OrderDetails"]').map(function () {
             return $(this).val();
@@ -94,6 +97,11 @@ $(document).ready(function () {
             updateSelectedProducts();
             clearSelections();
             updateHiddenInputFields();
+
+            if (selectedProducts.length > 0) {
+                // Disable the customerDropdown
+                customerDropdown.prop('disabled', true).trigger('change.select2');
+            }
         }
     });
 

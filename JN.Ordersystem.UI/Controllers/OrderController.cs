@@ -29,6 +29,12 @@ namespace JN.Ordersystem.UI.Controllers
             return View(await _orderService.GetAll());
         }
 
+        public async Task<ActionResult> Details(int id)
+        {
+            var order = await _orderService.GetById(id);
+            return View(order);
+        }
+
         // GET: /Product/Create
         [HttpGet]
         public async Task<ActionResult> Create(int id)
@@ -64,11 +70,11 @@ namespace JN.Ordersystem.UI.Controllers
 
         // POST: /Order/Create
         [HttpPost]
-        public async Task<IActionResult> Create(OrderViewModel model, List<OrderDetailViewModel> selectedProducts)
+        public async Task<ActionResult> Create(OrderViewModel model, List<OrderDetailViewModel> selectedProducts)
         {
-            if (model.CustomerID == 0 || model.OrderDetails[0].ProductID == 0)
+            if (model.CustomerID == 0 || selectedProducts.Count == 0)
             {
-                ModelState.AddModelError("", "Please select a customer and a product.");
+                ModelState.AddModelError("", "Please select a customer and a product to the cart.");
                 // Retrieve the customers and products again to pass to the view
                 List<Customer> customers = await _customerService.GetAll();
                 List<Product> products = await _productService.GetAll();
@@ -90,30 +96,20 @@ namespace JN.Ordersystem.UI.Controllers
 
             foreach (var orderDetail in selectedProducts)
             {
-                var newOrderDetail = new OrderDetail
+                var multipleOrderDetail = new OrderDetail
                 {
                     OrderID = order.OrderID,
                     ProductID = orderDetail.ProductID,
                     Quantity = orderDetail.Quantity
                 };
 
-                await _orderDetailService.Create(newOrderDetail);
+                await _orderDetailService.Create(multipleOrderDetail);
             }
-
-            //// Create the order detail
-            //var orderDetail = new OrderDetail
-            //{
-            //    OrderID = order.OrderID,
-            //    ProductID = model.OrderDetails[0].ProductID,
-            //    Quantity = model.OrderDetails[0].Quantity
-            //};
-
-            //await _orderDetailService.Create(orderDetail);
-
+            
             return RedirectToAction("Index", "Order"); // Redirect to the order index page
         }
 
-        public async Task<IActionResult> UpdateStatus(int orderId, string status)
+        public async Task<ActionResult> UpdateStatus(int orderId, string status)
         {
             // Update the status in the database
             var order = await _orderService.GetById(orderId);

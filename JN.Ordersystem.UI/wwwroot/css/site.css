@@ -102,7 +102,7 @@ main .sidebar {
             padding: 6px;
             float: left;
             border-radius: 4px;
-            background-color: #17a2b8; /* Update the background color as desired */
+            background-color: #17a2b8;
             border-color: #147e8f;
             color: #fff;
         }
@@ -116,7 +116,7 @@ main .sidebar {
         }
 
         .action-icons a.process-button:hover {
-            background-color: #138496; /* Update the hover background color as desired */
+            background-color: #138496;
         }
 
 .text-right {
@@ -135,31 +135,16 @@ main .sidebar {
     text-align : right;
 }
 
+#orderDatatable th.align-right {
+    text-align: right;
+}
+
 #main {
     padding: 16px;
     margin-left: 85px;
     transition: margin-left 0.5s;
 }
 
-.search-input {
-    padding-right: 34px; /* Adjust the padding to make room for the search icon */
-}
-
-.input-group .form-control {
-    border-top-right-radius: 20px; /* Add this line */
-    border-bottom-right-radius: 20px; /* Add this line */
-}
-
-.input-group-addon.search-icon {
-    position: absolute;
-    right: 8px;
-    top: 8px;
-    bottom: 8px;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    background-color: #fff;
-}
 @media screen and (max-height: 450px) {
     .sidebar {
         padding-top: 15px;
