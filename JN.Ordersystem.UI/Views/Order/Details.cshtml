@@ -6,27 +6,44 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>Order</h4>
+<div class="order-details">
+    <h4>Order #@Html.DisplayFor(model => model.OrderID)</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OrderID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OrderID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OrderDate)
+            Order Date
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.OrderDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerID)
+            Customer ID
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CustomerID)
+        </dd>
+        <dt class = "col-sm-2">
+            Customer Name
+        </dt>
+        <dd class = "col-sm-10">
+            <a href="@Url.Action("Details", "Customer", new { id = Model.CustomerID })">
+                @Html.DisplayFor(model => model.Customer.CustomerLastName) @Html.DisplayFor(model => model.Customer.CustomerFirstName)
+            </a>
+        </dd>
+        <dt class = "col-sm-2">
+            Products
+        </dt>
+        <dd class = "col-sm-10">
+            @foreach (var product in Model.OrderDetail)
+            {
+                <div class="product-item">
+                    <a href="@Url.Action("Details", "Product", new { id = product.ProductID})">
+                        <span class="product-name">@product.Product.ProductFull</span>
+                        <span class="product-price">Unit Price: € @product.Product.Price</span>
+                        <span class="product-quantity">Quantity: @product.Quantity</span>
+                    </a>
+                </div>
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Status)

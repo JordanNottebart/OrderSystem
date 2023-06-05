@@ -50,12 +50,12 @@ namespace JN.Ordersystem.UI.Controllers
 
             var orderDetailsList = new List<OrderDetailViewModel>();
 
-            var orderDetailOne = new OrderDetailViewModel
+            var initOrderDetail = new OrderDetailViewModel
             {
                 Products = productList
             };
 
-            orderDetailsList.Add(orderDetailOne);
+            orderDetailsList.Add(initOrderDetail);
 
             var order = new OrderViewModel
             {
@@ -74,7 +74,7 @@ namespace JN.Ordersystem.UI.Controllers
         {
             if (model.CustomerID == 0 || selectedProducts.Count == 0)
             {
-                ModelState.AddModelError("", "Please select a customer and a product to the cart.");
+                ModelState.AddModelError("", "Please select a customer and add at least one product to the cart.");
                 // Retrieve the customers and products again to pass to the view
                 List<Customer> customers = await _customerService.GetAll();
                 List<Product> products = await _productService.GetAll();
