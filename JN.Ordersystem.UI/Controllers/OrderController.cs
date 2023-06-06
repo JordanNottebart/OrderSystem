@@ -109,6 +109,58 @@ namespace JN.Ordersystem.UI.Controllers
             return RedirectToAction("Index", "Order"); // Redirect to the order index page
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            List<Customer> customers = await _customerService.GetAll();
+            SelectList customerList = new SelectList(customers, "CustomerID", "CustomerFullName");
+            // Get the product by its ID
+            var order = await _orderService.GetById(id);
+
+            if (order == null)
+            {
+                return NotFound(); // Handle the case where the product is not found
+            }
+
+            var orderViewModel = new OrderViewModel
+            {
+                OrderID = order.OrderID,
+                CustomerID = order.CustomerID,
+                OrderDate = order.OrderDate,
+                Status = order.Status,
+                Customer = order.Customer,
+                Customers = customerList
+            };
+
+            return View(orderViewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(int id, OrderViewModel updatedOrderViewModel)
+        {
+            if (id != updatedOrderViewModel.OrderID)
+            {
+                return BadRequest(); // Handle the case where the ID in the URL and the order ID don't match
+            }
+
+            var updatedOrder = new Order
+            {
+                OrderID = updatedOrderViewModel.OrderID,
+                OrderDate = updatedOrderViewModel.OrderDate,
+                CustomerID = updatedOrderViewModel.CustomerID,
+                Status = updatedOrderViewModel.Status
+            };
+
+            var updatedEntity = await _orderService.Update(id, updatedOrder);
+
+            if (updatedEntity == null)
+            {
+                return NotFound(); // Handle the case where the update was not successful
+            }
+
+            return RedirectToAction("Index"); // Redirect to the product index page after successful update
+        }
+
         public async Task<ActionResult> UpdateStatus(int orderId, string status)
         {
             // Update the status in the database
