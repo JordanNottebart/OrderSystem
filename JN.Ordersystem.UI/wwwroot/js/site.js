@@ -99,8 +99,13 @@ $(document).ready(function () {
             updateHiddenInputFields();
 
             if (selectedProducts.length > 0) {
+
+                // Store the selected value in the hidden field
+                var selectedCustomerID = customerDropdown.val();
+                $('#customerIDHidden').val(selectedCustomerID);
                 // Disable the customerDropdown
                 customerDropdown.prop('disabled', true).trigger('change.select2');
+
             }
         }
     });

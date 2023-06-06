@@ -24,6 +24,7 @@
             <div class="form-group">
                 <label asp-for="CustomerID" class="control-label">Customer</label>
                 <div class="d-flex">
+                <input type="hidden" id="customerIDHidden" name="CustomerID" value="@Model.CustomerID" />
                 <select id="customerDropdown" name="CustomerID" class="form-control">
                     <option value="" disabled selected>-- Select Customer --</option>
                         @foreach (var customer in Model.Customers as SelectList)
