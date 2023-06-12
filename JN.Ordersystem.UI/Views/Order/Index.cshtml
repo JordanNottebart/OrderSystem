@@ -65,20 +65,25 @@
                 </td>
                 <td class="text-right actions-column">
                     <div class="action-icons">
-                        @if (item.Status == "Pending")
+                        @if (item.Status != "Shipped")
                         {
-                            <a href="#" class="btn btn-success process-button" data-order-id="@item.OrderID">Process</a>
-                        }
-                        else if (item.Status == "Unfulfilled")
-                        {
-                            <a href="#" class="btn btn-success confirm-button" data-order-id="@item.OrderID">Confirm</a>
+                            @if (item.Status == "Pending")
+                            {
+                                <a href="#" class="btn btn-success process-button" data-order-id="@item.OrderID">Process</a>               
+                            }
+                            else
+                            {
+                                <a href="#" class="btn btn-success confirm-button" data-order-id="@item.OrderID">Confirm</a>      
+                            }
+                            <a href="@Url.Action("Edit", new { id = item.OrderID })" title="Edit"><i class="fa-solid fa-edit action-button"></i></a>
+                            <a href="@Url.Action("Details", new { id = item.OrderID })" title="Details"><i class="fa-solid fa-info-circle action-button"></i></a>
+                            <a href="@Url.Action("Delete", new { id = item.OrderID })" title="Delete"><i class="fa-solid fa-trash-can action-button"></i></a>            
                         }
                         else
                         {
+                            <a href="@Url.Action("Details", new { id = item.OrderID })" title="Details"><i class="fa-solid fa-info-circle action-button"></i></a>
+                            <a href="@Url.Action("Delete", new { id = item.OrderID })" title="Delete"><i class="fa-solid fa-trash-can action-button"></i></a>                   
                         }
-                        <a href="@Url.Action("Edit", new { id = item.OrderID })" title="Edit"><i class="fa-solid fa-edit"></i></a>
-                        <a id="detailsLink" href="@Url.Action("Details", new { id = item.OrderID })" title="Details"><i class="fa-solid fa-info-circle"></i></a>
-                        <a href="@Url.Action("Delete", new { id = item.OrderID })" title="Delete"><i class="fa-solid fa-trash-can"></i></a>
                     </div>
                 </td>
             </tr>

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using NuGet.Versioning;
 
 namespace JN.Ordersystem.UI.Controllers
 {
@@ -113,7 +115,9 @@ namespace JN.Ordersystem.UI.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             List<Customer> customers = await _customerService.GetAll();
+            List<Product> products = await _productService.GetAll();
             SelectList customerList = new SelectList(customers, "CustomerID", "CustomerFullName");
+            SelectList productList = new SelectList(products, "ProductID", "ProductFull");
             // Get the product by its ID
             var order = await _orderService.GetById(id);
 
@@ -122,14 +126,30 @@ namespace JN.Ordersystem.UI.Controllers
                 return NotFound(); // Handle the case where the product is not found
             }
 
+            var orderDetailViewModelList = new List<OrderDetailViewModel>();
+
+            foreach (var orderDetail in order.OrderDetail)
+            {
+                var orderDetailViewModel = new OrderDetailViewModel
+                {
+                    OrderDetailViewID = orderDetail.OrderDetailID,
+                    ProductID = orderDetail.ProductID,
+                    Quantity = orderDetail.Quantity,
+                    Products = productList
+                };
+
+                orderDetailViewModelList.Add(orderDetailViewModel);
+            }
+
             var orderViewModel = new OrderViewModel
             {
                 OrderID = order.OrderID,
-                CustomerID = order.CustomerID,
                 OrderDate = order.OrderDate,
-                Status = order.Status,
+                CustomerID = order.CustomerID,
                 Customer = order.Customer,
-                Customers = customerList
+                Customers = customerList,
+                OrderDetails = orderDetailViewModelList,
+                Status = order.Status,
             };
 
             return View(orderViewModel);
@@ -143,22 +163,36 @@ namespace JN.Ordersystem.UI.Controllers
                 return BadRequest(); // Handle the case where the ID in the URL and the order ID don't match
             }
 
-            var updatedOrder = new Order
+            foreach (var orderDetailViewModel in updatedOrderViewModel.OrderDetails)
             {
-                OrderID = updatedOrderViewModel.OrderID,
-                OrderDate = updatedOrderViewModel.OrderDate,
-                CustomerID = updatedOrderViewModel.CustomerID,
-                Status = updatedOrderViewModel.Status
-            };
+                var selectedOrderDetail = await _orderDetailService.GetById(orderDetailViewModel.OrderDetailViewID);
+                selectedOrderDetail.ProductID = orderDetailViewModel.ProductID;
+                selectedOrderDetail.Quantity = orderDetailViewModel.Quantity;
 
-            var updatedEntity = await _orderService.Update(id, updatedOrder);
-
-            if (updatedEntity == null)
-            {
-                return NotFound(); // Handle the case where the update was not successful
+                await _orderDetailService.Update(selectedOrderDetail.OrderDetailID, selectedOrderDetail);
             }
 
+            var selectedOrder = await _orderService.GetById(updatedOrderViewModel.OrderID);
+            selectedOrder.OrderDate = updatedOrderViewModel.OrderDate;
+            selectedOrder.CustomerID = updatedOrderViewModel.CustomerID;
+            selectedOrder.Status = updatedOrderViewModel.Status;
+
+            await _orderService.Update(selectedOrder.OrderID, selectedOrder);
+
             return RedirectToAction("Index"); // Redirect to the product index page after successful update
+        }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            var orderToDelete = await _orderService.GetById(id);
+
+            for (int index = 0; index < orderToDelete.OrderDetail.Count; index++)
+            {
+                await _orderDetailService.Delete(orderToDelete.OrderDetail[index].OrderDetailID);
+            }
+
+            await _orderService.Delete(id);
+            return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> UpdateStatus(int orderId, string status)

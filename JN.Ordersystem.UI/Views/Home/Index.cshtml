@@ -1,8 +1,77 @@
-﻿@{
+﻿@model JN.Ordersystem.UI.Models.HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+<div id="recentOrderContainer" style="position: absolute; top: 0; right: 0; width: 40%;">
+    <h5>Most Recent Order:</h5>
+        <table class="custom-table custom-table-single-item"">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Total Items</th>
+                    <th>Sales Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Model.Order.OrderID
+                    </td>
+                    <td>
+                        @Model.Order.OrderDate
+                    </td>
+                    <td>
+                        @Model.Order.Customer.CustomerFullName
+                    </td>
+                    <td>
+                    @{
+                        int totalQuantity = 0;
+
+                        foreach (var detail in Model.Order.OrderDetail)
+                        {
+                            totalQuantity += detail.Quantity;
+                        }
+                    }
+                    @totalQuantity
+                    </td>
+                    <td>
+                    @{
+                        decimal totalSales = 0;
+
+                        foreach (var detail in Model.Order.OrderDetail)
+                        {
+                            totalSales += detail.Quantity * detail.Product.Price;
+                        }
+                    }
+                    € @totalSales
+                    </td>
+                    <td>
+                        @Model.Order.Status
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+
+<div id ="lowStockProductsContainer" style= "margin-top: 10px;">
+    <h5 style="margin-bottom: 0;">Low Units in Stock:</h5>
+    <div style="margin-left: 110px;">
+    @if (Model.Products.Any())
+    {
+        <button type="button" id="resupplyButton" class="btn btn-primary">Resupply (+50 Units)</button>
+        @Html.Partial("_LowStockProductsPartial", Model.Products)
+    }
+    else
+    {
+        <p>No products are currently low enough.</p>
+    }
+    </div>
+
 </div>

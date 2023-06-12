@@ -63,8 +63,28 @@ $(document).ready(function () {
     });
     $('#productDropdown').select2({
     });
+    $('.product-dropdown').select2({
+    });
 
+    /*Home Index View*/
+    $("#resupplyButton").click(function () {
+        $.ajax({
+            url: '/Home/Resupply',
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                // Handle the success response here
+                alert("Resupply successful!");
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                // Handle the error response here
+                alert("Resupply failed: " + error);
+            }
+        });
+    });
 
+    /*Order Create View*/
     var selectedProducts = [];
     var customerDropdown = $('#customerDropdown');
 
@@ -103,8 +123,6 @@ $(document).ready(function () {
                 // Store the selected value in the hidden field
                 var selectedCustomerID = customerDropdown.val();
                 $('#customerIDHidden').val(selectedCustomerID);
-                // Disable the customerDropdown
-                customerDropdown.prop('disabled', true).trigger('change.select2');
 
             }
         }
@@ -144,17 +162,11 @@ $(document).ready(function () {
         selectedProducts.splice(index, 1);
         updateSelectedProducts();
         updateHiddenInputFields();
-        checkIfLast();
-    }
-
-    function checkIfLast() {
-        if (selectedProducts.length === 0) {
-            // Re-enable the customerDropdown
-            customerDropdown.prop('disabled', false).trigger('change.select2');
-        }
     }
 });
 
+
+    /*Order Index View*/
 $('.confirm-button').click(function (e) {
     e.preventDefault();
 

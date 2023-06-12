@@ -1,0 +1,7 @@
+﻿@model IEnumerable<JN.Ordersystem.DAL.Entities.Product>
+<ul>
+    @foreach (var product in Model)
+    {
+        <li>@product.ProductID. @product.ItemName - Units in Stock: @product.UnitsInStock</li>
+    }
+</ul>
