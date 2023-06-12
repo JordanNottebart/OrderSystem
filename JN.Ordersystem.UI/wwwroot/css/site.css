@@ -81,6 +81,13 @@ main .sidebar {
     width: 40%;
 }
 
+#mostProfitableCustomer {
+    position: absolute;
+    top: 40%;
+    right: 0;
+    width: 40%;
+}
+
 #lowStockProductsContainer {
     position: absolute;
     top: 80%;

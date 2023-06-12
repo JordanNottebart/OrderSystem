@@ -56,7 +56,8 @@ namespace JN.Ordersystem.UI.Controllers
             {
                 Products = listOfLowProducts,
                 Order = mostRecentOrder,
-                MostProfitableCustomer = mostProfitableCustomer
+                MostProfitableCustomer = mostProfitableCustomer,
+                MaxSales = maxTotalSales
                 
             };
 

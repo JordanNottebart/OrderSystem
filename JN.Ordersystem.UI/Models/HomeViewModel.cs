@@ -13,5 +13,7 @@ namespace JN.Ordersystem.UI.Models
         public Order Order { get; set; }
 
         public Customer MostProfitableCustomer { get; set; }
+
+        public decimal MaxSales { get; set; }
     }
 }

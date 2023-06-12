@@ -76,10 +76,12 @@
     }
 </div>
 
-<div style="position: absolute; top: 200px; right: 0; ">
+<div id = "mostProfitableCustomer" style="/*position: absolute; top: 200px; right: 0; */">
     @if (Model.MostProfitableCustomer != null)
     {
-        @Model.MostProfitableCustomer.CustomerFullName
+        <h4>The most profitable customer is:</h4>
+        <h4>@Model.MostProfitableCustomer.CustomerFullName</h4>
+        <p>Total sales: € @Model.MaxSales</p>
     }
     else
     {
@@ -87,7 +89,7 @@
     }
 </div>
 
-<div id ="lowStockProductsContainer" style= "margin-top: 10px;">
+<div id ="lowStockProductsContainer">
     <h4 style="margin-bottom: 0;">Low Units in Stock:</h4>
     <div>
     @if (Model.Products.Any())
