@@ -86,14 +86,37 @@ main .sidebar {
     top: 40%;
     right: 0;
     width: 40%;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
+
+    #mostProfitableCustomer h4 {
+        margin-bottom: 5px;
+    }
+
+    #mostProfitableCustomer p {
+        margin-top: 5px;
+    }
 
 #lowStockProductsContainer {
     position: absolute;
     top: 80%;
     right: 0;
     width: 40%;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
+
+    #lowStockProductsContainer h4 {
+        margin-bottom: 0;
+    }
+
+    #lowStockProductsContainer button {
+        margin-bottom: 0;
+    }
 
 .material-icons,
 .icon-text {
