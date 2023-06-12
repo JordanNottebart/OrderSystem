@@ -8,6 +8,10 @@ namespace JN.Ordersystem.UI.Models
 
         public List<Customer> Customers { get; set; }
 
-        public Order Order { get; set; } 
+        public List<Order> Orders { get; set; }
+
+        public Order Order { get; set; }
+
+        public Customer MostProfitableCustomer { get; set; }
     }
 }

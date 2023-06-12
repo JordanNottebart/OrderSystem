@@ -19,4 +19,8 @@
     <ProjectReference Include="..\JN.Ordersystem.DAL\JN.Ordersystem.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\lib\Images\financial-graph.jpg" />
+  </ItemGroup>
+
 </Project>

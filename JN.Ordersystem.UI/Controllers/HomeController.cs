@@ -11,26 +11,53 @@ namespace JN.Ordersystem.UI.Controllers
         private readonly ILogger<HomeController> _logger;
         readonly ProductService _productService;
         readonly OrderService _orderService;
+        readonly CustomerService _customerService;
 
-        public HomeController(ILogger<HomeController> logger, ProductService productService, OrderService orderService)
+        public HomeController(ILogger<HomeController> logger, ProductService productService, OrderService orderService, CustomerService customerService)
         {
             _logger = logger;
             _productService = productService;
             _orderService = orderService;
+            _customerService = customerService;
         }
 
         public async Task<IActionResult> Index()
         {
             var listOfProducts = await _productService.GetAll();
             var listOfOrders = await _orderService.GetAll();
+            var customerOrders = listOfOrders.GroupBy(o => o.Customer);
 
             var listOfLowProducts = listOfProducts.Where(p => p.UnitsInStock < 20).ToList();
             var mostRecentOrder = listOfOrders.OrderByDescending(o => o.OrderDate).FirstOrDefault();
 
+            decimal maxTotalSales = 0;
+            Customer mostProfitableCustomer = null;
+
+            foreach (var customerGroup in customerOrders)
+            {
+                decimal totalSales = 0;
+
+                foreach (var order in customerGroup)
+                {
+                    foreach (var detail in order.OrderDetail)
+                    {
+                        totalSales += detail.Quantity * detail.Product.Price;
+                    }
+                }
+
+                if (totalSales > maxTotalSales)
+                {
+                    maxTotalSales = totalSales;
+                    mostProfitableCustomer = customerGroup.Key;
+                }
+            }
+
             var lowProductViewModel = new HomeViewModel
             {
                 Products = listOfLowProducts,
-                Order = mostRecentOrder
+                Order = mostRecentOrder,
+                MostProfitableCustomer = mostProfitableCustomer
+                
             };
 
             return View(lowProductViewModel);
