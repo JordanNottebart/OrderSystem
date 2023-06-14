@@ -22,20 +22,16 @@
                 <input asp-for="OrderDate" class="form-control" />
                 <span asp-validation-for="OrderDate" class="text-danger"></span>
             </div>
-            <div>
-                <label>Current Customer</label>
-                <div>@Model.Customer.CustomerFullName</div>
-            </div>
             <div class="form-group">
                 <label asp-for="CustomerID" class="control-label">Select a new customer</label>
                 <div class="d-flex">
-                <select id="customerDropdown" name="CustomerID" class="form-control">
-                    <option value="" selected>-- Select Customer --</option>
-                        @foreach (var customer in Model.Customers as SelectList)
-                        {
-                            <option value="@customer.Value">@customer.Text</option>
-                        }
-                </select>
+                    <select id="customerDropdown" name="CustomerID" class="form-control">
+                        <option value="@Model.Customer.CustomerID" selected>@Model.Customer.CustomerFullName</option>
+                            @foreach (var customer in Model.Customers as SelectList)
+                            {
+                                <option value="@customer.Value">@customer.Text</option>
+                            }
+                    </select>
                 </div>
                 <span asp-validation-for="CustomerID" class="text-danger"></span>
             </div>
@@ -48,22 +44,20 @@
                 @for (var i = 0; i < Model.OrderDetails.Count; i++)
                 {
                     var productID = Model.OrderDetails[i].ProductID;
+                    var productToShow = Model.OrderDetails[i].Product;
                     var quantity = Model.OrderDetails[i].Quantity;
-
-                    <div>
-                        <label>Current Product</label>
-                        <span>Product: @productID</span>
-                        <span>Quantity: @quantity</span>
-                    </div>
 
                     <div class="form-group">
                         <label asp-for="OrderDetails[i].ProductID" class="control-label">Select a new product</label>
                         <div class="d-flex">
                             <select name="OrderDetails[@i].ProductID" class="form-control product-dropdown">
-                                <option value="0" selected>-- Select Product --</option>
+                                <option value="@productToShow.ProductID" selected>@productToShow.ProductFull</option>
                                 @foreach (var product in Model.OrderDetails[i].Products as SelectList)
                                 {
-                                    <option value="@product.Value">@product.Text</option>
+                                    if (product.Value != productToShow.ProductID.ToString())
+                                    {
+                                        <option value="@product.Value">@product.Text</option>
+                                    }
                                 }
                             </select>
                         </div>
@@ -72,7 +66,7 @@
 
                     <div class="form-group">
                         <label asp-for="OrderDetails[i].Quantity" class="control-label">Quantity</label>
-                        <input asp-for="OrderDetails[i].Quantity" class="form-control" type="number" min="1" value="1" />
+                        <input asp-for="OrderDetails[i].Quantity" class="form-control" type="number" min="1" value="@Model.OrderDetails[i].Quantity" />
                         <span asp-validation-for="OrderDetails[i].Quantity" class="text-danger"></span>
                     </div>
 

@@ -123,7 +123,7 @@ namespace JN.Ordersystem.UI.Controllers
 
             if (order == null)
             {
-                return NotFound(); // Handle the case where the product is not found
+                return NotFound(); // Handle the case where the order is not found
             }
 
             var orderDetailViewModelList = new List<OrderDetailViewModel>();
@@ -135,7 +135,8 @@ namespace JN.Ordersystem.UI.Controllers
                     OrderDetailViewID = orderDetail.OrderDetailID,
                     ProductID = orderDetail.ProductID,
                     Quantity = orderDetail.Quantity,
-                    Products = productList
+                    Products = productList,
+                    Product = orderDetail.Product
                 };
 
                 orderDetailViewModelList.Add(orderDetailViewModel);
@@ -161,6 +162,58 @@ namespace JN.Ordersystem.UI.Controllers
             if (id != updatedOrderViewModel.OrderID)
             {
                 return BadRequest(); // Handle the case where the ID in the URL and the order ID don't match
+            }
+
+            var customer = await _customerService.GetById(updatedOrderViewModel.CustomerID);
+
+            foreach (var orderDetailViewModel in updatedOrderViewModel.OrderDetails)
+            {
+                var product = await _productService.GetById(orderDetailViewModel.ProductID);
+                
+                if (orderDetailViewModel.Quantity > product.UnitsInStock)
+                {
+                    ModelState.AddModelError("", "The quantity chosen for product: " + product.ProductFull + " is higher than the Units in Stock!");
+                    List<Customer> customers = await _customerService.GetAll();
+                    List<Product> products = await _productService.GetAll();
+                    SelectList customerList = new SelectList(customers, "CustomerID", "CustomerFullName");
+                    SelectList productList = new SelectList(products, "ProductID", "ProductFull");
+                    // Get the product by its ID
+                    var order = await _orderService.GetById(id);
+
+                    if (order == null)
+                    {
+                        return NotFound(); // Handle the case where the order is not found
+                    }
+
+                    var orderDetailViewModelList = new List<OrderDetailViewModel>();
+
+                    foreach (var orderDetail in order.OrderDetail)
+                    {
+                        var newOrderDetailViewModel = new OrderDetailViewModel
+                        {
+                            OrderDetailViewID = orderDetail.OrderDetailID,
+                            ProductID = orderDetail.ProductID,
+                            Quantity = orderDetail.Quantity,
+                            Products = productList,
+                            Product = orderDetail.Product
+                        };
+
+                        orderDetailViewModelList.Add(newOrderDetailViewModel);
+                    }
+
+                    var orderViewModel = new OrderViewModel
+                    {
+                        OrderID = order.OrderID,
+                        OrderDate = order.OrderDate,
+                        CustomerID = order.CustomerID,
+                        Customer = order.Customer,
+                        Customers = customerList,
+                        OrderDetails = orderDetailViewModelList,
+                        Status = order.Status,
+                    };
+
+                    return View(orderViewModel);
+                }
             }
 
             foreach (var orderDetailViewModel in updatedOrderViewModel.OrderDetails)

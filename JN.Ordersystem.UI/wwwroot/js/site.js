@@ -90,6 +90,7 @@ $(document).ready(function () {
 
     $('#addToCartButton').click(function () {
         var selectedProductID = $('#productDropdown option:selected').val();
+        var selectedProductName = $('#productDropdown option:selected').text();
         var selectedQuantity = $('input[name^="OrderDetails"]').map(function () {
             return $(this).val();
         }).get();
@@ -110,7 +111,8 @@ $(document).ready(function () {
                 // Product doesn't exist, add a new entry
                 selectedProducts.push({
                     productID: selectedProductID,
-                    quantities: selectedQuantity
+                    quantities: selectedQuantity,
+                    productName: selectedProductName
                 });
             }
 
@@ -132,11 +134,21 @@ $(document).ready(function () {
         $('#selectedProductList').empty();
 
         selectedProducts.forEach(function (product, index) {
-            var productItem = $('<li>').text('Product ID: ' + product.productID + ', Quantity: ' + product.quantities.join(', '));
+            var productItem = $('<li>');
+            var productName = $('<span>').text('Product: ' + product.productName);
             var deleteButton = $('<button>').text('X').click(function () {
                 removeProduct(index);
             });
+            productItem.append(productName);
             productItem.append(deleteButton);
+
+            var quantityList = $('<ul>'); // Create a nested <ul> for quantities
+            product.quantities.forEach(function (quantity) {
+                var quantityItem = $('<li>').text('Quantity: ' + quantity);
+                quantityList.append(quantityItem); // Append each quantity as a <li> to the nested <ul>
+            });
+
+            productItem.append(quantityList); // Append the nested <ul> to the product item
             $('#selectedProductList').append(productItem);
         });
     }
