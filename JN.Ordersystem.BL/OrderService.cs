@@ -30,11 +30,11 @@ namespace JN.Ordersystem.BL
         /// <summary>
         /// Get the specific order
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="orderId"></param>
         /// <returns>A specific order</returns>
-        public async Task<Order?> GetById(int id)
+        public async Task<Order?> GetById(int orderId)
         {
-            return await _context.Orders.Include(o => o.Customer).Include(o => o.OrderDetail).ThenInclude(od => od.Product).FirstOrDefaultAsync(o => o.OrderID == id);
+            return await _context.Orders.Include(o => o.Customer).Include(o => o.OrderDetail).ThenInclude(od => od.Product).FirstOrDefaultAsync(o => o.OrderID == orderId);
         }
 
         /// <summary>
@@ -53,13 +53,13 @@ namespace JN.Ordersystem.BL
         /// <summary>
         /// Update the entire order
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="orderId"></param>
         /// <param name="order"></param>
         /// <returns>An updated order</returns>
-        public async Task<Order?> Update(int id, Order order)
+        public async Task<Order?> Update(int orderId, Order order)
         {
             // Find the order
-            var orderToUpdate = await _context.Orders.FindAsync(id);
+            var orderToUpdate = await _context.Orders.FindAsync(orderId);
 
             // If the order is found
             if (orderToUpdate != null)
@@ -81,12 +81,12 @@ namespace JN.Ordersystem.BL
         /// <summary>
         /// Deletes a specific order
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="orderId"></param>
         /// <returns>A boolean if the delete was successful</returns>
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int orderId)
         {
             // Find the order
-            var orderToDelete = await _context.Orders.FindAsync(id);
+            var orderToDelete = await _context.Orders.FindAsync(orderId);
 
             // If the order is found
             if (orderToDelete != null)

@@ -25,7 +25,7 @@ namespace JN.Ordersystem.BL
         /// <summary>
         /// Create a new entity and add it to the list
         /// </summary>
-        /// <param name="c"></param>
+        /// <param name="entity"></param>
         /// <returns>A newly created entity</returns>
         Task<T> Create(T entity);
 

@@ -48,13 +48,13 @@ namespace JN.Ordersystem.BL
         /// <summary>
         /// Update the entire info of a specific supplier
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="supplierId"></param>
         /// <param name="supplier"></param>
         /// <returns>All the updated info of a supplier</returns>
-        public async Task<Supplier?> Update(int id, Supplier supplier)
+        public async Task<Supplier?> Update(int supplierId, Supplier supplier)
         {
             // Find the supplier
-            var supplierToUpdate = await _context.Suppliers.FindAsync(id);
+            var supplierToUpdate = await _context.Suppliers.FindAsync(supplierId);
 
             // If the supplier is found
             if (supplierToUpdate != null)

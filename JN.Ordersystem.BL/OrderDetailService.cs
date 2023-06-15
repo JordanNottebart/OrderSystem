@@ -6,7 +6,7 @@ namespace JN.Ordersystem.BL
 {
     public class OrderDetailService : IService<OrderDetail>
     {
-        readonly DataContext _context;
+        DataContext _context;
 
         public OrderDetailService(DataContext context)
         {
@@ -25,7 +25,7 @@ namespace JN.Ordersystem.BL
         /// <summary>
         /// Get the specific orderDetail
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="orderDetailId"></param>
         /// <returns>A specific orderDetail</returns>
         public async Task<OrderDetail?> GetById(int orderDetailId)
         {
@@ -114,6 +114,11 @@ namespace JN.Ordersystem.BL
             return 0;
         }
 
+        /// <summary>
+        /// Gets all the orderDetails associated with a specific order ID.
+        /// </summary>
+        /// <param name="orderId">The ID of the order to retrieve the details for.</param>
+        /// <returns>A list of order details for the specified order.</returns>
         public async Task<List<OrderDetail>> GetAllOrderDetailsByOrderId(int orderId)
         {
             return await _context.OrderDetails.Where(od => od.OrderID == orderId).ToListAsync();

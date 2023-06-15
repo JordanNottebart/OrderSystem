@@ -27,45 +27,45 @@ namespace JN.Ordersystem.BL
         /// <summary>
         /// Get the specific product
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="productId"></param>
         /// <returns>A specific product</returns>
-        public async Task<Product?> GetById(int id)
+        public async Task<Product?> GetById(int productId)
         {
-            return await _context.Products.FindAsync(id);
+            return await _context.Products.FindAsync(productId);
         }
 
         /// <summary>
         /// Create a new product and add to the list
         /// </summary>
-        /// <param name="p"></param>
+        /// <param name="product"></param>
         /// <returns>A newly created product</returns>
-        public async Task<Product> Create(Product p)
+        public async Task<Product> Create(Product product)
         {
-            _context.Products.Add(p);
+            _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return p;
+            return product;
         }
 
         /// <summary>
         /// Update the entire product
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="p"></param>
+        /// <param name="productId"></param>
+        /// <param name="product"></param>
         /// <returns>An updated orderDetail</returns>
-        public async Task<Product?> Update(int id, Product p)
+        public async Task<Product?> Update(int productId, Product product)
         {
             // Find the product
-            var productToUpdate = await _context.Products.FindAsync(id);
+            var productToUpdate = await _context.Products.FindAsync(productId);
 
             // If the product is found
             if (productToUpdate != null)
             {
                 // Fill the properties
-                productToUpdate.Description = p.Description;
-                productToUpdate.ItemName = p.ItemName;
-                productToUpdate.Price = p.Price;
-                productToUpdate.UnitsInStock = p.UnitsInStock;
+                productToUpdate.Description = product.Description;
+                productToUpdate.ItemName = product.ItemName;
+                productToUpdate.Price = product.Price;
+                productToUpdate.UnitsInStock = product.UnitsInStock;
 
                 _context.Update(productToUpdate);
                 await _context.SaveChangesAsync();
@@ -79,12 +79,12 @@ namespace JN.Ordersystem.BL
         /// <summary>
         /// Deletes a specific product
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="productId"></param>
         /// <returns>A boolean if the delete was successful</returns>
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int productId)
         {
             // Find the product
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(productId);
 
             // If the product is found
             if (product != null)
@@ -97,20 +97,31 @@ namespace JN.Ordersystem.BL
             return false;
         }
 
-        public Product UpdateInventory(int id, int unitsInStock)
+        /// <summary>
+        /// Updates the inventory of a product with the specified product ID.
+        /// </summary>
+        /// <param name="productId">The ID of the product.</param>
+        /// <param name="unitsInStock">The new units in stock for the product.</param>
+        /// <returns>The updated product with the new inventory information, or null if the product was not found.</returns>
+        public Product UpdateInventory(int productId, int unitsInStock)
         {
-            var productToUpdate = _context.Products.Where(p => p.ProductID == id).FirstOrDefault();
+            // Find the product to update by its product ID
+            var productToUpdate = _context.Products.Where(p => p.ProductID == productId).FirstOrDefault();
 
             if (productToUpdate != null)
             {
+                // Update the units in stock
                 productToUpdate.UnitsInStock = unitsInStock;
 
+                // Save the changes to the database
                 _context.Update(productToUpdate);
                 _context.SaveChanges();
 
+                // Return the updated product
                 return productToUpdate;
             }
 
+            // If the product was not found, return null
             return null;
         }
 
