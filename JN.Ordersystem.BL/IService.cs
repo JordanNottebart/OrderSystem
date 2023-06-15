@@ -43,11 +43,5 @@ namespace JN.Ordersystem.BL
         /// <param name="id"></param>
         /// <returns>A boolean if the delete was successful</returns>
         Task<bool> Delete(int id);
-
-        /// <summary>
-        /// Gets the last ID of an entity
-        /// </summary>
-        /// <returns>An integer, the last id of the entity</returns>
-        Task<int> GetLastId();
     }
 }

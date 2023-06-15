@@ -91,25 +91,5 @@ namespace JN.Ordersystem.BL
 
             return false;
         }
-
-        /// <summary>
-        /// Gets the last ID of the list of suppliers
-        /// </summary>
-        /// <returns>The last ID</returns>
-        public async Task<int> GetLastId()
-        {
-            var lastSupplier = await _context.Suppliers
-                .OrderByDescending(s => s.SupplierID)
-                .FirstOrDefaultAsync();
-
-            if (lastSupplier != null)
-            {
-                return lastSupplier.SupplierID;
-            }
-
-            // Return a default value if no products exist
-            return 0;
-        }
-
     }
 }

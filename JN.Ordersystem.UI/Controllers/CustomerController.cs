@@ -17,27 +17,27 @@ namespace JN.Ordersystem.UI.Controllers
         // GET: CustomerController
         public async Task<ActionResult> Index()
         {
+            // Retrieve all customers from the customer service
             var customers = await _customerService.GetAll();
+
             return View(customers);
         }
 
         // GET: CustomerController/Details/5
         public async Task<ActionResult> Details(int id)
         {
+            // Retrieve the customer with the specified ID from the customer service
             var customer = await _customerService.GetById(id);
+
             return View(customer);
         }
 
         // GET: CustomerController/Create
         [HttpGet]
-        public async Task<ActionResult> Create(int id)
+        public async Task<ActionResult> Create()
         {
-            int lastCustomerId = await _customerService.GetLastId();
-
-            var customer = new Customer
-            {
-                CustomerID = lastCustomerId + 1
-            };
+            // Create a new instance of Customer
+            var customer = new Customer();
 
             return View(customer);
         }
@@ -49,7 +49,7 @@ namespace JN.Ordersystem.UI.Controllers
             if (ModelState.IsValid)
             {
                 await _customerService.Create(customer);
-                return RedirectToAction("Index", "Customer"); // Redirect to the customer listing page
+                return RedirectToAction("Index", "Customer"); // Redirect to the customer index page
             }
 
             return View(customer);

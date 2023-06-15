@@ -99,25 +99,5 @@ namespace JN.Ordersystem.BL
 
             return false;
         }
-
-        /// <summary>
-        /// Gets the last ID of the list of orders
-        /// </summary>
-        /// <returns>The last ID</returns>
-        public async Task<int> GetLastId()
-        {
-            var lastOrder = await _context.Orders
-                .OrderByDescending(o => o.OrderID)
-                .FirstOrDefaultAsync();
-
-            if (lastOrder != null)
-            {
-                return lastOrder.OrderID;
-            }
-
-            // Return a default value if no products exist
-            return 0;
-        }
-
     }
 }

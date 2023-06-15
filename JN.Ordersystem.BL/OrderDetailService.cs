@@ -96,25 +96,6 @@ namespace JN.Ordersystem.BL
         }
 
         /// <summary>
-        /// Gets the last ID of the list of orderDetails
-        /// </summary>
-        /// <returns>The last ID</returns>
-        public async Task<int> GetLastId()
-        {
-            var lastOrderDetail = await _context.OrderDetails
-                .OrderByDescending(o => o.OrderDetailID)
-                .FirstOrDefaultAsync();
-
-            if (lastOrderDetail != null)
-            {
-                return lastOrderDetail.OrderDetailID;
-            }
-
-            // Return a default value if no products exist
-            return 0;
-        }
-
-        /// <summary>
         /// Gets all the orderDetails associated with a specific order ID.
         /// </summary>
         /// <param name="orderId">The ID of the order to retrieve the details for.</param>

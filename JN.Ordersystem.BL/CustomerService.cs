@@ -126,24 +126,5 @@ namespace JN.Ordersystem.BL
 
             return null;
         }
-
-        /// <summary>
-        /// Gets the last ID of the list of products
-        /// </summary>
-        /// <returns>The last ID</returns>
-        public async Task<int> GetLastId()
-        {
-            var lastCustomer = await _context.Customers
-                .OrderByDescending(c => c.CustomerID)
-                .FirstOrDefaultAsync();
-
-            if (lastCustomer != null)
-            {
-                return lastCustomer.CustomerID;
-            }
-
-            // Return a default value if no products exist
-            return 0;
-        }
     }
 }

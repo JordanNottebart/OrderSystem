@@ -46,7 +46,6 @@ namespace JN.Ordersystem.UI.Controllers
             SelectList customerList = new SelectList(customers, "CustomerID", "CustomerFullName");
             SelectList productList = new SelectList(products, "ProductID", "ProductFull");
 
-            int lastOrderId = await _orderService.GetLastId();
             DateTime now = DateTime.Now;
             DateTime dateTimeWithSecondsZero = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
 
@@ -61,7 +60,6 @@ namespace JN.Ordersystem.UI.Controllers
 
             var order = new OrderViewModel
             {
-                OrderID = lastOrderId + 1,
                 OrderDate = dateTimeWithSecondsZero,
                 Customers = customerList,
                 OrderDetails = orderDetailsList
@@ -82,7 +80,6 @@ namespace JN.Ordersystem.UI.Controllers
                 List<Product> products = await _productService.GetAll();
                 model.Customers = new SelectList(customers, "CustomerID", "CustomerFullName");
                 model.OrderDetails[0].Products = new SelectList(products, "ProductID", "ProductFull");
-                model.OrderID = await _orderService.GetLastId() + 1;
                 return View(model);
             }
 

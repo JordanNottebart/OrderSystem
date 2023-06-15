@@ -22,12 +22,15 @@ body {
 }
 
 .sidebar {
-    height: 100%;
+    /* Positioning */
+    height: 100%; /* Set the height to cover the entire parent container */
     width: 85px;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
+
+    /* Appearance */
     background-color: #111;
     transition: 0.5s;
     overflow-x: hidden;
@@ -36,10 +39,15 @@ body {
 }
 
     .sidebar a {
+        /* Padding */
         padding: 8px 8px 8px 32px;
+
+        /* Text */
         text-decoration: none;
         font-size: 25px;
         color: #818181;
+
+        /*Display*/
         display: block;
     }
 
@@ -48,56 +56,76 @@ body {
         }
 
 main .sidebar {
+    /* Positioning */
     position: absolute;
     top: 0;
     right: 25px;
+
+    /* Font */
     font-size: 36px;
+
+    /*Margin*/
     margin-left: 50px;
 }
 
 .custom-table {
+    /* Layout */
     width: 100%;
     border-collapse: collapse;
+
+    /* Spacing */
     margin-bottom: 20px;
 }
 
     .custom-table th,
     .custom-table td {
+        /* Spacing and Borders */
         padding: 8px;
         border: 1px solid #ccc;
+
+        /* Text */
         font-size: 14px;
     }
 
     .custom-table th {
+        /* Background and Text */
         background-color: #f7f7f7;
         font-weight: bold;
         text-align: left;
     }
 
 #recentOrderContainer {
+    /* Positioning and Dimensions */
     position: absolute;
     top: 0;
     right: 0;
     width: 40%;
+
+    /* Background and Appearance */
     background-color: #f2f2f2;
     padding: 10px;
     border: 1px solid #999;
     border-radius: 5px;
 }
     #recentOrderContainer thead th {
+        /* Header Styling */
         background-color: #333;
         color: white;
     }
 
     #recentOrderContainer tbody {
+        /* Body Styling */
         background-color: #fff;
     }
 
 #mostProfitableCustomer {
+    /* Positioning and Dimensions */
     position: absolute;
     top: 40%;
     right: 0;
     width: 40%;
+
+    /* Background and Appearance */
     background-color: #f2f2f2;
     padding: 10px;
     border: 1px solid #999;
@@ -105,18 +133,23 @@ main .sidebar {
 }
 
     #mostProfitableCustomer h4 {
+        /* Heading Styling */
         margin-bottom: 5px;
     }
 
     #mostProfitableCustomer p {
+        /* Paragraph Styling */
         margin-top: 5px;
     }
 
 #lowStockProductsContainer {
+    /* Positioning and Dimensions */
     position: absolute;
     top: 80%;
     right: 0;
     width: 40%;
+
+    /* Background and Appearance */
     background-color: #f2f2f2;
     padding: 10px;
     border: 1px solid #999;
@@ -124,28 +157,34 @@ main .sidebar {
 }
 
     #lowStockProductsContainer h4 {
+        /* Heading Styling */
         margin-bottom: 5px;
     }
 
     #lowStockProductsContainer p {
+        /* Paragraph Styling */
         margin-top: 5px;
     }
 
     #lowStockProductsContainer button {
+        /* Button Styling */
         margin-bottom: 0;
     }
 
+/* Vertical Alignment */
 .material-icons,
 .icon-text {
     vertical-align: middle;
 }
 
+/* Material Icons Styling */
 .material-icons {
     padding-top: 2px;
     margin-right: 30px;
     margin-left: -10px;
 }
 
+/* Action Icons Styling */
 .action-icons {
     display: flex;
     justify-content: flex-end;

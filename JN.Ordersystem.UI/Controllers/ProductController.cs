@@ -32,12 +32,7 @@ namespace JN.Ordersystem.UI.Controllers
         [HttpGet]
         public async Task<ActionResult> Create(int id)
         {
-            int lastProductId = await _productService.GetLastId();
-
-            var product = new Product
-            {
-                ProductID = lastProductId + 1
-            };
+            var product = new Product();
 
             return View(product);
         }
