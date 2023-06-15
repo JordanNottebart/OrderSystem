@@ -60,4 +60,16 @@
         <span class="separator">|</span>
     }
     <a asp-action="Index">Back to List</a>
+    @if (Model.Status != "Shipped")
+    {
+        <span class="separator">|</span>
+        @if (Model.Status == "Pending")
+        {
+            <a href="#" id="processButton" class="btn btn-success process-button" data-order-id="@Model.OrderID">Process</a>               
+        }
+        else
+        {
+            <a href="#" id="confirmButton" class="btn btn-success confirm-button" data-order-id="@Model.OrderID">Confirm</a>      
+        }
+    }
 </div>

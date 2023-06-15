@@ -177,6 +177,19 @@ main .sidebar {
             color: #fff;
         }
 
+        #confirmButton {
+            width: auto;
+            padding: 6px;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: #fff;
+            transition: background-color 0.2s ease;
+        }
+
+            #confirmButton:hover {
+                background-color: #218838;
+            }
+
         .action-icons a.process-button {
             width: auto;
             padding: 6px;
@@ -186,6 +199,20 @@ main .sidebar {
             border-color: #147e8f;
             color: #fff;
         }
+
+        #processButton {
+            width: auto;
+            padding: 6px;
+            border-radius: 4px;
+            background-color: #17a2b8;
+            border-color: #147e8f;
+            color: #fff;
+            transition: background-color 0.2s ease;
+        }
+
+            #processButton:hover {
+                background-color: #138496;
+            }
 
         .action-icons a:hover {
             background-color: #e9ecef;
