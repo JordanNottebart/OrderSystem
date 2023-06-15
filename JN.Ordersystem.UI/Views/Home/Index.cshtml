@@ -15,8 +15,8 @@
 </div>
 
 
-<div id="recentOrderContainer" style="position: absolute; top: 0; right: 0; width: 40%;">
-    <h4>Most Recent Order:</h4>
+<div id="recentOrderContainer">
+    <h4>Latest Order Needing Attention:</h4>
     @if (Model.Order != null && Model.Order.Status != "Shipped")
     {
         <table class="custom-table custom-table-single-item">
@@ -33,13 +33,17 @@
             <tbody>
                 <tr>
                     <td>
-                        @Model.Order.OrderID
+                        <a href="@Url.Action("Details", "Order", new { id = Model.Order.OrderID })">
+                            @Model.Order.OrderID
+                        </a>
                     </td>
                     <td>
                         @Model.Order.OrderDate
                     </td>
                     <td>
-                        @Model.Order.Customer.CustomerFullName
+                        <a href="@Url.Action("Details", "Customer", new { id = Model.Order.Customer.CustomerID })">
+                            @Model.Order.Customer.CustomerFullName
+                        </a>
                     </td>
                     <td>
                     @{
@@ -76,11 +80,14 @@
     }
 </div>
 
+
 <div id = "mostProfitableCustomer">
+    <h4>Most Profitable Customer</h4>
     @if (Model.MostProfitableCustomer != null)
     {
-        <h4>The most profitable customer is:</h4>
-        <h4>@Model.MostProfitableCustomer.CustomerFullName</h4>
+        <a href="@Url.Action("Details", "Customer", new { id = Model.MostProfitableCustomer.CustomerID })">
+            <h3>@Model.MostProfitableCustomer.CustomerFullName</h3>
+        </a>
         <p>Total sales: € @Model.MaxSales</p>
     }
     else
@@ -90,15 +97,17 @@
 </div>
 
 <div id ="lowStockProductsContainer">
-    <h4 style="margin-bottom: 0;">Low Units in Stock:</h4>
+    
     <div>
     @if (Model.Products.Any())
     {
+        <h4>Low Units in Stock:</h4>
         <button type="button" id="resupplyButton" class="btn btn-primary">Resupply (+50 Units)</button>
         @Html.Partial("_LowStockProductsPartial", Model.Products)
     }
     else
     {
+        <h4>Low Units in Stock (&lt;20 units):</h4>
         <p>No products are currently low enough.</p>
     }
     </div>

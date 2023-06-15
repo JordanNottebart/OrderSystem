@@ -29,7 +29,10 @@
                         <option value="@Model.Customer.CustomerID" selected>@Model.Customer.CustomerFullName</option>
                             @foreach (var customer in Model.Customers as SelectList)
                             {
-                                <option value="@customer.Value">@customer.Text</option>
+                                if (customer.Value != Model.Customer.CustomerID.ToString())
+                                {
+                                    <option value="@customer.Value">@customer.Text</option>
+                                }
                             }
                     </select>
                 </div>
@@ -37,7 +40,7 @@
             </div>
             <div>
                 <label asp-for="Status" class="control-label">Current Status</label>
-                <input asp-for="Status" class="form-control" value="@Model.Status"/>
+                <input asp-for="Status" class="form-control" readonly value="@Model.Status"/>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">

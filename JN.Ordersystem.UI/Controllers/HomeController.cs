@@ -28,7 +28,7 @@ namespace JN.Ordersystem.UI.Controllers
             var customerOrders = listOfOrders.GroupBy(o => o.Customer);
 
             var listOfLowProducts = listOfProducts.Where(p => p.UnitsInStock < 20).ToList();
-            var mostRecentOrder = listOfOrders.OrderByDescending(o => o.OrderDate).FirstOrDefault();
+            var mostRecentOrder = listOfOrders.OrderByDescending(o => o.OrderDate).Where(o => o.Status != "Shipped").FirstOrDefault();
 
             decimal maxTotalSales = 0;
             Customer mostProfitableCustomer = null;
