@@ -238,13 +238,14 @@ namespace JN.Ordersystem.UI.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var orderToDelete = await _orderService.GetById(id);
+            var orderDetailsToDelete = await _orderDetailService.GetAllOrderDetailsByOrderId(id);
 
-            for (int index = 0; index < orderToDelete.OrderDetail.Count; index++)
+            foreach (var orderDetail in orderDetailsToDelete)
             {
-                await _orderDetailService.Delete(orderToDelete.OrderDetail[index].OrderDetailID);
+                await _orderDetailService.Delete(orderDetail.OrderDetailID);
             }
 
-            await _orderService.Delete(id);
+            await _orderService.Delete(orderToDelete.OrderID);
             return RedirectToAction("Index");
         }
 
@@ -252,6 +253,20 @@ namespace JN.Ordersystem.UI.Controllers
         {
             // Update the status in the database
             var order = await _orderService.GetById(orderId);
+            var orderDetails = await _orderDetailService.GetAllOrderDetailsByOrderId(orderId);
+            Product productToCheck;
+
+            foreach (var orderDetail in orderDetails)
+            {
+                productToCheck = await _productService.GetById(orderDetail.ProductID);
+                if (orderDetail.Quantity > productToCheck.UnitsInStock)
+                {
+                    return Json(new { succes = false, 
+                                    quantityProduct = orderDetail.Quantity, 
+                                    unitsInStockProduct = productToCheck.UnitsInStock, 
+                                    productName = $"{productToCheck.ProductID}. {productToCheck.ItemName}" });
+                }
+            }
             order.Status = status;
             await _orderService.Update(orderId, order);
 
@@ -276,6 +291,7 @@ namespace JN.Ordersystem.UI.Controllers
                 foreach (var detail in order.OrderDetail)
                 {
                     var product = await _productService.GetById(detail.ProductID);
+
                     if (product != null)
                     {
                         product.UnitsInStock -= detail.Quantity;

@@ -222,7 +222,7 @@ function updateOrderStatus(orderId, status, updateUnits) {
                 }
             } else {
                 // Display an error message if the update failed
-                console.error(response.message);
+                alert(`The quantity you have chosen (${response.quantityProduct}) is higher than the available units in stock (${response.unitsInStockProduct}) for the product ${response.productName}!`);
             }
         },
         error: function (xhr, status, error) {

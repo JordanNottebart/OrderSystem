@@ -101,7 +101,7 @@
     <div>
     @if (Model.Products.Any())
     {
-        <h4>Low Units in Stock:</h4>
+        <h4>Low Units in Stock (&lt;20 units):</h4>
         <button type="button" id="resupplyButton" class="btn btn-primary">Resupply (+50 Units)</button>
         @Html.Partial("_LowStockProductsPartial", Model.Products)
     }

@@ -113,5 +113,10 @@ namespace JN.Ordersystem.BL
             // Return a default value if no products exist
             return 0;
         }
+
+        public async Task<List<OrderDetail>> GetAllOrderDetailsByOrderId(int orderId)
+        {
+            return await _context.OrderDetails.Where(od => od.OrderID == orderId).ToListAsync();
+        }
     }
 }
