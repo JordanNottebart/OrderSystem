@@ -10,9 +10,9 @@ namespace JN.Ordersystem.API.Controllers
     [ApiController]
     public class OrderDetailController : ControllerBase
     {
-        IService<OrderDetail> _orderDetailService;
+        AbstractOrderDetailService _orderDetailService;
 
-        public OrderDetailController(IService<OrderDetail> orderDetailService)
+        public OrderDetailController(AbstractOrderDetailService orderDetailService)
         {
             _orderDetailService = orderDetailService;
         }

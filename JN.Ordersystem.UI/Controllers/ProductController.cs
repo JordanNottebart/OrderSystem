@@ -65,6 +65,7 @@ namespace JN.Ordersystem.UI.Controllers
             return View(product);
         }
 
+        // POST: ProductController/Edit/5
         [HttpPost]
         public async Task<ActionResult> Edit(int id, Product updatedProduct)
         {

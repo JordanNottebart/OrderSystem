@@ -11,11 +11,11 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("JN.Ordersystem")));
 
-builder.Services.AddScoped<IService<OrderDetail>, OrderDetailService>();
 builder.Services.AddTransient<AbstractProductService>();
 builder.Services.AddTransient<AbstractCustomerService>();
 builder.Services.AddTransient<AbstractSupplierService>();
 builder.Services.AddTransient<AbstractOrderService>();
+builder.Services.AddTransient<AbstractOrderDetailService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
