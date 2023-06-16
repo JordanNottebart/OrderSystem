@@ -117,7 +117,7 @@ namespace JN.Ordersystem.API.Controllers
                     return NotFound("Supplier not found");
                 }
 
-                // Returns a CreatedAtAction result with the newly created supplier
+                // Returns a CreatedAtAction result with the newly updated supplier
                 return CreatedAtAction("GetById", new { id = supplierToUpdate.SupplierID }, supplierToUpdate);
             }
             catch (Exception e)

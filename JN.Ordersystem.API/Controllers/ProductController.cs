@@ -120,7 +120,7 @@ namespace JN.Ordersystem.API.Controllers
                     return NotFound("Product not found");
                 }
 
-                // Returns a CreatedAtAction result with the newly created product
+                // Returns a CreatedAtAction result with the newly updated product
                 return CreatedAtAction("GetById", new { id = productToUpdate.ProductID }, productToUpdate);
             }
             catch (Exception e)
@@ -135,10 +135,10 @@ namespace JN.Ordersystem.API.Controllers
         {
             try
             {
-                // Update the address info of a customer
+                // Update the units in stock of a product
                 var productToPatch = _productService.UpdateInventory(id, product.UnitsInStock);
 
-                // Returns a CreatedAtAction result with the newly patched customer
+                // Returns a CreatedAtAction result with the newly patched product
                 return CreatedAtAction("GetById", new { id = productToPatch.ProductID }, productToPatch);
             }
             catch (Exception)

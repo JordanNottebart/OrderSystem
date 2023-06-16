@@ -119,7 +119,7 @@ namespace JN.Ordersystem.API.Controllers
                     return NotFound("Order not found");
                 }
 
-                // Returns a CreatedAtAction result with the newly created order
+                // Returns a CreatedAtAction result with the newly updated order
                 return CreatedAtAction("GetById", new { id = orderToUpdate.OrderID }, orderToUpdate);
             }
             catch (Exception e)

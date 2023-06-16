@@ -127,7 +127,7 @@ namespace JN.Ordersystem.API.Controllers
                     return NotFound("Customer not found");
                 }
 
-                // Returns a CreatedAtAction result with the newly created customer
+                // Returns a CreatedAtAction result with the newly updated customer
                 return CreatedAtAction("GetById", new { id = customerToUpdate.CustomerID }, customerToUpdate);
             }
             catch (Exception e)

@@ -118,7 +118,7 @@ namespace JN.Ordersystem.API.Controllers
                     return NotFound("Order detail not found");
                 }
 
-                // Returns a CreatedAtAction result with the newly created orderDetail
+                // Returns a CreatedAtAction result with the newly updated orderDetail
                 return CreatedAtAction("GetById", new { id = orderDetailToUpdate.OrderDetailID }, orderDetailToUpdate);
             }
             catch (Exception e)
