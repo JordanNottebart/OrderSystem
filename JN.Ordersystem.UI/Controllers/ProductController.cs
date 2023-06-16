@@ -7,9 +7,9 @@ namespace JN.Ordersystem.UI.Controllers
 {
     public class ProductController : Controller
     {
-        readonly ProductServiceAbstract _productService;
+        readonly AbstractProductService _productService;
 
-        public ProductController(ProductServiceAbstract productService)
+        public ProductController(AbstractProductService productService)
         {
             _productService = productService;
         }

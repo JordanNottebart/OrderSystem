@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace JN.Ordersystem.BL
 {
-    public class ProductServiceAbstract : BaseService<Product>
+    public class AbstractProductService : BaseService<Product>
     {
-        public ProductServiceAbstract(DataContext context) : base(context)
+        public AbstractProductService(DataContext context) : base(context)
         {
         }
 

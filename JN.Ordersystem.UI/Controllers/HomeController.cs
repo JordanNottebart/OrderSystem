@@ -9,11 +9,11 @@ namespace JN.Ordersystem.UI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        readonly ProductService _productService;
+        readonly AbstractProductService _productService;
         readonly OrderService _orderService;
         readonly CustomerService _customerService;
 
-        public HomeController(ILogger<HomeController> logger, ProductService productService, OrderService orderService, CustomerService customerService)
+        public HomeController(ILogger<HomeController> logger, AbstractProductService productService, OrderService orderService, CustomerService customerService)
         {
             _logger = logger;
             _productService = productService;

@@ -12,9 +12,9 @@ builder.Services.AddTransient<DataContext>();
 builder.Services.AddTransient<CustomerService>();
 builder.Services.AddTransient<OrderDetailService>();
 builder.Services.AddTransient<OrderService>();
-builder.Services.AddTransient<ProductService>();
+builder.Services.AddTransient<AbstractProductService>();
+builder.Services.AddTransient<AbstractCustomerService>();
 builder.Services.AddTransient<SupplierService>();
-builder.Services.AddTransient<ProductServiceAbstract>();
 
 
 var app = builder.Build();

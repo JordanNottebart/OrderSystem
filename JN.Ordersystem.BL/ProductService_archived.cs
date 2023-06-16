@@ -6,11 +6,11 @@ using System.ComponentModel;
 namespace JN.Ordersystem.BL
 {
 
-    public class ProductService : IService<Product>
+    public class ProductService_archived : IService<Product>
     {
         DataContext _context;
 
-        public ProductService(DataContext context)
+        public ProductService_archived(DataContext context)
         {
             _context = context;
         }
