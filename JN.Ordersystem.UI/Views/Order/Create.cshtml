@@ -13,10 +13,6 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="OrderID">Order ID</label>
-                <input type="text" class="form-control" readonly value="@Model.OrderID" style="background-color: lightgray;" />
-            </div>
-            <div class="form-group">
                 <label asp-for="OrderDate" class="control-label">Order Date</label>
                 <input asp-for="OrderDate" class="form-control" />
                 <span asp-validation-for="OrderDate" class="text-danger"></span>
