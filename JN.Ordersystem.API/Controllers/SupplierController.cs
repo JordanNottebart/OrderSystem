@@ -11,9 +11,9 @@ namespace JN.Ordersystem.API.Controllers
     [ApiController]
     public class SupplierController : ControllerBase
     {
-        IService<Supplier> _supplierService;
+        AbstractSupplierService _supplierService;
 
-        public SupplierController(IService<Supplier> supplierService)
+        public SupplierController(AbstractSupplierService supplierService)
         {
             _supplierService = supplierService;
         }

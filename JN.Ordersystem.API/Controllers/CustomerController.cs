@@ -11,9 +11,9 @@ namespace JN.Ordersystem.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        IService<Customer> _customerService;
+        AbstractCustomerService _customerService;
 
-        public CustomerController(IService<Customer> customerService)
+        public CustomerController(AbstractCustomerService customerService)
         {
             _customerService = customerService;
         }
@@ -143,28 +143,28 @@ namespace JN.Ordersystem.API.Controllers
         /// <param name="id"></param>
         /// <param name="customer"></param>
         /// <returns>An updated customer</returns>
-        //[HttpPatch("address/{id}")]
-        //public IActionResult UpdateCustomerAddress(int id, [FromBody] CustomerDto customer)
-        //{
-        //    try
-        //    {
-        //        // Update the address info of a customer
-        //        var customerToPatch = _customerService.UpdateAddress(id, new Customer
-        //        {
-        //            Address = customer.Address,
-        //            City = customer.City,
-        //            PostalCode = customer.PostalCode,
-        //        });
+        [HttpPatch("address/{id}")]
+        public IActionResult UpdateCustomerAddress(int id, [FromBody] CustomerDto customer)
+        {
+            try
+            {
+                // Update the address info of a customer
+                var customerToPatch = _customerService.UpdateAddress(id, new Customer
+                {
+                    Address = customer.Address,
+                    City = customer.City,
+                    PostalCode = customer.PostalCode,
+                });
 
-        //        // Returns a CreatedAtAction result with the newly patched customer
-        //        return CreatedAtAction("GetById", new { id = customerToPatch.CustomerID }, customerToPatch);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        // Return an error code if something went wrong
-        //        return StatusCode(StatusCodes.Status500InternalServerError, (new { Message = "Something went wrong please try again" }));
-        //    }
-        //}
+                // Returns a CreatedAtAction result with the newly patched customer
+                return CreatedAtAction("GetById", new { id = customerToPatch.CustomerID }, customerToPatch);
+            }
+            catch (Exception)
+            {
+                // Return an error code if something went wrong
+                return StatusCode(StatusCodes.Status500InternalServerError, (new { Message = "Something went wrong please try again" }));
+            }
+        }
 
         /// <summary>
         /// Deletes a customer

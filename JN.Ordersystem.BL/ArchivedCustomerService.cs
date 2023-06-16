@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JN.Ordersystem.BL
 {
-    public class CustomerService : IService<Customer>
+    public class ArchivedCustomerService : IService<Customer>
     {
         DataContext _context;
 
-        public CustomerService(DataContext context)
+        public ArchivedCustomerService(DataContext context)
         {
             _context = context;
         }

@@ -13,11 +13,11 @@ namespace JN.Ordersystem.UI.Controllers
     public class OrderController : Controller
     {
         readonly OrderService _orderService;
-        readonly CustomerService _customerService;
+        readonly AbstractCustomerService _customerService;
         readonly AbstractProductService _productService;
         readonly OrderDetailService _orderDetailService;
 
-        public OrderController(OrderService orderService, CustomerService customerService, AbstractProductService productService, OrderDetailService orderDetailService)
+        public OrderController(OrderService orderService, AbstractCustomerService customerService, AbstractProductService productService, OrderDetailService orderDetailService)
         {
             _orderService = orderService;
             _customerService = customerService;
