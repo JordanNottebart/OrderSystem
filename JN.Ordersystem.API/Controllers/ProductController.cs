@@ -10,9 +10,9 @@ namespace JN.Ordersystem.API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        IService<Product> _productService;
+        ProductServiceAbstract _productService;
 
-        public ProductController(IService<Product> productService)
+        public ProductController(ProductServiceAbstract productService)
         {
             _productService = productService;
         }

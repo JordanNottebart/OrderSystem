@@ -1,5 +1,6 @@
 using JN.Ordersystem.BL;
 using JN.Ordersystem.DAL;
+using JN.Ordersystem.DAL.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddTransient<OrderDetailService>();
 builder.Services.AddTransient<OrderService>();
 builder.Services.AddTransient<ProductService>();
 builder.Services.AddTransient<SupplierService>();
+builder.Services.AddTransient<ProductServiceAbstract>();
 
 
 var app = builder.Build();
