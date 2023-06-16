@@ -137,22 +137,32 @@ namespace JN.Ordersystem.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Update the address information of a customer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="customer"></param>
+        /// <returns>An updated customer</returns>
         //[HttpPatch("address/{id}")]
         //public IActionResult UpdateCustomerAddress(int id, [FromBody] CustomerDto customer)
         //{
         //    try
         //    {
-        //        var customerToPatch = _customerService.patch(id, new Customer
+        //        // Update the address info of a customer
+        //        var customerToPatch = _customerService.UpdateAddress(id, new Customer
         //        {
         //            Address = customer.Address,
         //            City = customer.City,
         //            PostalCode = customer.PostalCode,
         //        });
+
+        //        // Returns a CreatedAtAction result with the newly patched customer
+        //        return CreatedAtAction("GetById", new { id = customerToPatch.CustomerID }, customerToPatch);
         //    }
         //    catch (Exception)
         //    {
-
-        //        throw;
+        //        // Return an error code if something went wrong
+        //        return StatusCode(StatusCodes.Status500InternalServerError, (new { Message = "Something went wrong please try again" }));
         //    }
         //}
 

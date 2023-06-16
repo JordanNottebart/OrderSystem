@@ -30,14 +30,10 @@
                         @Html.DisplayFor(modelItem => item.CustomerID)
                     </td>
                     <td>
-                        <span class="clickable-name" data-url="@Url.Action("Details", new { id = item.CustomerID })">
-                            @Html.DisplayFor(modelItem => item.CustomerLastName)
-                        </span>
+                        @Html.DisplayFor(modelItem => item.CustomerLastName)
                     </td>
                     <td>
-                        <span class="clickable-name" data-url="@Url.Action("Details", new { id = item.CustomerID })">
-                            @Html.DisplayFor(modelItem => item.CustomerFirstName)
-                        </span>
+                        @Html.DisplayFor(modelItem => item.CustomerFirstName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Email)
@@ -48,7 +44,7 @@
                     <td class="text-right">
                         <div class="action-icons">
                             <a href="@Url.Action("Edit", new { id = item.CustomerID })" title="Edit"><i class="fa-solid fa-edit"></i></a>
-                            <a id="detailsLink" href="@Url.Action("Details", new { id = item.CustomerID })" title="Details"><i class="fa-solid fa-info-circle"></i></a>
+                            <a href="@Url.Action("Details", new { id = item.CustomerID })" title="Details"><i class="fa-solid fa-info-circle"></i></a>
                             <a href="@Url.Action("Delete", new { id = item.CustomerID })" title="Delete"><i class="fa-solid fa-trash-can"></i></a>
                         </div>
                     </td>

@@ -62,11 +62,14 @@ namespace JN.Ordersystem.UI.Controllers
             // Get the customer by its ID
             var customer = await _customerService.GetById(id);
 
+            // If the customer is not found by its id
             if (customer == null)
             {
-                return NotFound(); // Handle the case where the customer is not found
+                // Return a blank page
+                return NotFound();
             }
 
+            // Pass the customer that was found to the view
             return View(customer);
         }
 
