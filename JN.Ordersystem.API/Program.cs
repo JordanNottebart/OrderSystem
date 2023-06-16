@@ -9,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("JN.Ordersystem")));
 
+builder.Services.AddTransient<DataContext>();
 builder.Services.AddTransient<AbstractProductService>();
 builder.Services.AddTransient<AbstractCustomerService>();
 builder.Services.AddTransient<AbstractSupplierService>();

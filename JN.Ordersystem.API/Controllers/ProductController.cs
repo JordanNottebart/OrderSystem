@@ -130,6 +130,24 @@ namespace JN.Ordersystem.API.Controllers
             }
         }
 
+        [HttpPatch("inventory/{id}")]
+        public IActionResult UpdateInventory(int id, [FromBody] ProductDto product)
+        {
+            try
+            {
+                // Update the address info of a customer
+                var productToPatch = _productService.UpdateInventory(id, product.UnitsInStock);
+
+                // Returns a CreatedAtAction result with the newly patched customer
+                return CreatedAtAction("GetById", new { id = productToPatch.ProductID }, productToPatch);
+            }
+            catch (Exception)
+            {
+                // Return an error code if something went wrong
+                return StatusCode(StatusCodes.Status500InternalServerError, (new { Message = "Something went wrong please try again" }));
+            }
+        }
+
         /// <summary>
         /// Deletes a product
         /// </summary>
