@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace JN.Ordersystem.BL
 {
-    public class OrderService : IService<Order>
+    public class ArchivedOrderService : IService<Order>
     {
         DataContext _context;
 
-        public OrderService(DataContext context)
+        public ArchivedOrderService(DataContext context)
         {
             _context = context;
         }

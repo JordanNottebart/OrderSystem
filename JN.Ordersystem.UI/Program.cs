@@ -10,10 +10,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<DataContext>();
 builder.Services.AddTransient<OrderDetailService>();
-builder.Services.AddTransient<OrderService>();
 builder.Services.AddTransient<AbstractProductService>();
 builder.Services.AddTransient<AbstractCustomerService>();
 builder.Services.AddTransient<AbstractSupplierService>();
+builder.Services.AddTransient<AbstractOrderService>();
 
 
 var app = builder.Build();

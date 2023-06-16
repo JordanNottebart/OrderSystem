@@ -14,6 +14,12 @@ namespace JN.Ordersystem.BL
         {
         }
 
+        /// <summary>
+        /// Updates the inventory of a product with the specified product ID.
+        /// </summary>
+        /// <param name="productId">The ID of the product.</param>
+        /// <param name="unitsInStock">The new units in stock for the product.</param>
+        /// <returns>The updated product with the new inventory information, or null if the product was not found.</returns>
         public Product UpdateInventory(int productId, int unitsInStock)
         {
             // Find the product to update by its product ID
