@@ -25,39 +25,61 @@ namespace JN.Ordersystem.UI.Controllers
             _orderDetailService = orderDetailService;
         }
 
-        // GET: OrderController
+        // GET: Order
         public async Task<ActionResult> Index()
         {
-            return View(await _orderService.GetAll());
+            // Retrieve all the orders
+            var orders = await _orderService.GetAll();
+
+            return View(orders);
         }
 
+        // GET: Order/Details/5
         public async Task<ActionResult> Details(int id)
         {
+            // Retrieve the order with the specified ID
             var order = await _orderService.GetById(id);
+
             return View(order);
         }
 
-        // GET: /Product/Create
+        /// <summary>
+        /// GET: Order/Create
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>An OrderViewModel that has a list of OrderDetailViewModels</returns>
         [HttpGet]
         public async Task<ActionResult> Create(int id)
         {
+            // Get all the customers
             List<Customer> customers = await _customerService.GetAll();
+
+            // Get all the products
             List<Product> products = await _productService.GetAll();
+
+            // Create a customer and product select list for the dropdown
             SelectList customerList = new SelectList(customers, "CustomerID", "CustomerFullName");
             SelectList productList = new SelectList(products, "ProductID", "ProductFull");
 
+            // Get the current date and time
             DateTime now = DateTime.Now;
+
+            // Get the current date and time with seconds set to 0
             DateTime dateTimeWithSecondsZero = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
 
+            // Create a new list with OrderDetailViewModels
             var orderDetailsList = new List<OrderDetailViewModel>();
 
+            // Create a new OrderDetailViewModel and give it the selectlist for the products
             var initOrderDetail = new OrderDetailViewModel
             {
                 Products = productList
             };
 
+            // Add the newly created OrderDetailViewModel to the list with OrderDetailViewModels
             orderDetailsList.Add(initOrderDetail);
 
+            // Create a new OrderViewModel with the properties
             var order = new OrderViewModel
             {
                 OrderDate = dateTimeWithSecondsZero,
@@ -68,13 +90,21 @@ namespace JN.Ordersystem.UI.Controllers
             return View(order);
         }
 
-        // POST: /Order/Create
+        /// <summary>
+        /// POST: /Order/Create
+        /// </summary>
+        /// <param name="model">An OrderViewModel</param>
+        /// <param name="selectedProducts">A list of OrderDetailViewModels</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Create(OrderViewModel model, List<OrderDetailViewModel> selectedProducts)
         {
+            // Check if the customerID is 0 or if the list of orderdetails is empty
             if (model.CustomerID == 0 || selectedProducts.Count == 0)
             {
+                // Give an error
                 ModelState.AddModelError("", "Please select a customer and add at least one product to the cart.");
+
                 // Retrieve the customers and products again to pass to the view
                 List<Customer> customers = await _customerService.GetAll();
                 List<Product> products = await _productService.GetAll();
@@ -83,7 +113,7 @@ namespace JN.Ordersystem.UI.Controllers
                 return View(model);
             }
 
-            // Create the order
+            // Create the order based on the OrderViewModel that was received
             var order = new Order
             {
                 OrderDate = model.OrderDate,
@@ -91,10 +121,13 @@ namespace JN.Ordersystem.UI.Controllers
                 Status = "Unfulfilled" // Set the initial status here
             };
 
+            // Create the order and save it to the database
             await _orderService.Create(order);
 
+            // Go through each OrderDetailViewModel in the list
             foreach (var orderDetail in selectedProducts)
             {
+                // Create an orderDetail based on the OrderDetailViewModel that was received
                 var multipleOrderDetail = new OrderDetail
                 {
                     OrderID = order.OrderID,
@@ -102,31 +135,49 @@ namespace JN.Ordersystem.UI.Controllers
                     Quantity = orderDetail.Quantity
                 };
 
+                // Create the orderDetail and save it to the database
                 await _orderDetailService.Create(multipleOrderDetail);
             }
-            
-            return RedirectToAction("Index", "Order"); // Redirect to the order index page
+
+            // Redirect to the order index page
+            return RedirectToAction("Index", "Order");
         }
 
+        /// <summary>
+        /// GET: Order/Edit/5
+        /// </summary>
+        /// <param name="id">The OrderID</param>
+        /// <returns>An OrderViewModel that has a list of OrderDetailViewModels</returns>
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
+            // Get all the customers
             List<Customer> customers = await _customerService.GetAll();
+
+            // Get all the products
             List<Product> products = await _productService.GetAll();
+
+            // Create a customer and product select list for the dropdown
             SelectList customerList = new SelectList(customers, "CustomerID", "CustomerFullName");
             SelectList productList = new SelectList(products, "ProductID", "ProductFull");
+
             // Get the product by its ID
             var order = await _orderService.GetById(id);
 
+            // If the order was not found
             if (order == null)
             {
-                return NotFound(); // Handle the case where the order is not found
+                // Return a blank page for now
+                return NotFound();
             }
 
+            // Create a new list with OrderDetailViewModels
             var orderDetailViewModelList = new List<OrderDetailViewModel>();
 
+            // Go through the list of OrderDetails from the Order that was received
             foreach (var orderDetail in order.OrderDetail)
             {
+                // Create for every OrderDetail a new OrderDetailViewModel
                 var orderDetailViewModel = new OrderDetailViewModel
                 {
                     OrderDetailViewID = orderDetail.OrderDetailID,
@@ -136,9 +187,11 @@ namespace JN.Ordersystem.UI.Controllers
                     Product = orderDetail.Product
                 };
 
+                // Then add the newly created OrderDetailViewModel to the list
                 orderDetailViewModelList.Add(orderDetailViewModel);
             }
 
+            // Create a new OrderViewModel based on the order that was received
             var orderViewModel = new OrderViewModel
             {
                 OrderID = order.OrderID,
@@ -153,83 +206,85 @@ namespace JN.Ordersystem.UI.Controllers
             return View(orderViewModel);
         }
 
+        /// <summary>
+        /// POST: Order/Edit/5
+        /// </summary>
+        /// <param name="id">The id of the OrderViewModel </param>
+        /// <param name="updatedOrderViewModel">The OrderViewModel itself</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Edit(int id, OrderViewModel updatedOrderViewModel)
         {
-            if (id != updatedOrderViewModel.OrderID)
-            {
-                return BadRequest(); // Handle the case where the ID in the URL and the order ID don't match
-            }
+            // Get the original order that the user tried to edit by its ID
+            var originalOrder = await _orderService.GetById(id);
 
-            var customer = await _customerService.GetById(updatedOrderViewModel.CustomerID);
+            // Get all the orderDetails of the original order
+            var originalOrderDetails = originalOrder.OrderDetail;
 
-            foreach (var orderDetailViewModel in updatedOrderViewModel.OrderDetails)
+            // Get the info of the customer of the original order
+            var customer = await _customerService.GetById(originalOrder.CustomerID);
+
+            // Go through the list of OrderDetailViewModels from the OrderViewModel that was received
+            foreach (var updatedOrderDetailViewModel in updatedOrderViewModel.OrderDetails)
             {
-                var product = await _productService.GetById(orderDetailViewModel.ProductID);
-                
-                if (orderDetailViewModel.Quantity > product.UnitsInStock)
+                // Retrieve the info of the product that was selected in the OrderDetailViewModel
+                var product = await _productService.GetById(updatedOrderDetailViewModel.ProductID);
+
+                // Get the specific original OrderDetail that the user tried to edit by its ID
+                var originalOrderDetail = await _orderDetailService.GetById(updatedOrderDetailViewModel.OrderDetailViewID);
+
+                // Check if the Quantity in the OrderDetailViewModel is greater than the Units in stock for that specific product 
+                if (updatedOrderDetailViewModel.Quantity > product.UnitsInStock)
                 {
+                    // Give an error message
                     ModelState.AddModelError("", "The quantity chosen for product: " + product.ProductFull + " is higher than the Units in Stock!");
+
+                    // Retrieve the customers and products again to pass to the view
                     List<Customer> customers = await _customerService.GetAll();
                     List<Product> products = await _productService.GetAll();
                     SelectList customerList = new SelectList(customers, "CustomerID", "CustomerFullName");
                     SelectList productList = new SelectList(products, "ProductID", "ProductFull");
-                    // Get the product by its ID
-                    var order = await _orderService.GetById(id);
 
-                    if (order == null)
+                    #region Return the original order back to the view
+                    // Give the select list of customers back to the OrderViewModel
+                    updatedOrderViewModel.Customers = customerList;
+
+                    // Assign the OrderDate of the OrderViewModel, the original OrderDate of the original order
+                    updatedOrderViewModel.OrderDate = originalOrder.OrderDate;
+
+                    // Assign the customer of the OrderViewModel, the original customer of the original order
+                    updatedOrderViewModel.Customer = customer;
+
+                    // Assign the value of every property of the OrderDetailViewModel to the value of every property of the original OrderDetails
+                    for (int index = 0; index < updatedOrderViewModel.OrderDetails.Count; index++)
                     {
-                        return NotFound(); // Handle the case where the order is not found
-                    }
+                        updatedOrderViewModel.OrderDetails[index].Products = productList;
+                        updatedOrderViewModel.OrderDetails[index].Product = originalOrderDetails[index].Product;
+                        updatedOrderViewModel.OrderDetails[index].Quantity = originalOrderDetails[index].Quantity;
+                    } 
+                    #endregion
 
-                    var orderDetailViewModelList = new List<OrderDetailViewModel>();
-
-                    foreach (var orderDetail in order.OrderDetail)
-                    {
-                        var newOrderDetailViewModel = new OrderDetailViewModel
-                        {
-                            OrderDetailViewID = orderDetail.OrderDetailID,
-                            ProductID = orderDetail.ProductID,
-                            Quantity = orderDetail.Quantity,
-                            Products = productList,
-                            Product = orderDetail.Product
-                        };
-
-                        orderDetailViewModelList.Add(newOrderDetailViewModel);
-                    }
-
-                    var orderViewModel = new OrderViewModel
-                    {
-                        OrderID = order.OrderID,
-                        OrderDate = order.OrderDate,
-                        CustomerID = order.CustomerID,
-                        Customer = order.Customer,
-                        Customers = customerList,
-                        OrderDetails = orderDetailViewModelList,
-                        Status = order.Status,
-                    };
-
-                    return View(orderViewModel);
+                    return View(updatedOrderViewModel);
                 }
+                // If the Quantity in the OrderDetailViewModel is lower than the Units in stock
+
+                // Change the values of the properties of the original OrderDetail to the values of the properties of the updatedOrderDetailViewModel
+                originalOrderDetail.ProductID = updatedOrderDetailViewModel.ProductID;
+                originalOrderDetail.Quantity = updatedOrderDetailViewModel.Quantity;
+
+                // Update the OrderDetail and save it to the database
+                await _orderDetailService.Update(originalOrderDetail.OrderDetailID, originalOrderDetail);
             }
 
-            foreach (var orderDetailViewModel in updatedOrderViewModel.OrderDetails)
-            {
-                var selectedOrderDetail = await _orderDetailService.GetById(orderDetailViewModel.OrderDetailViewID);
-                selectedOrderDetail.ProductID = orderDetailViewModel.ProductID;
-                selectedOrderDetail.Quantity = orderDetailViewModel.Quantity;
+            // Change the value of the properties of the original Order to the value of the updatedOrderViewModel
+            originalOrder.OrderDate = updatedOrderViewModel.OrderDate;
+            originalOrder.CustomerID = updatedOrderViewModel.CustomerID;
 
-                await _orderDetailService.Update(selectedOrderDetail.OrderDetailID, selectedOrderDetail);
-            }
+            // Update the Order and save it to the database
+            await _orderService.Update(originalOrder.OrderID, originalOrder);
 
-            var selectedOrder = await _orderService.GetById(updatedOrderViewModel.OrderID);
-            selectedOrder.OrderDate = updatedOrderViewModel.OrderDate;
-            selectedOrder.CustomerID = updatedOrderViewModel.CustomerID;
-            selectedOrder.Status = updatedOrderViewModel.Status;
-
-            await _orderService.Update(selectedOrder.OrderID, selectedOrder);
-
-            return RedirectToAction("Index"); // Redirect to the product index page after successful update
+            // Redirect to the order index page after successful update
+            return RedirectToAction("Index"); 
         }
 
         public async Task<ActionResult> Delete(int id)
@@ -258,10 +313,13 @@ namespace JN.Ordersystem.UI.Controllers
                 productToCheck = await _productService.GetById(orderDetail.ProductID);
                 if (orderDetail.Quantity > productToCheck.UnitsInStock)
                 {
-                    return Json(new { succes = false, 
-                                    quantityProduct = orderDetail.Quantity, 
-                                    unitsInStockProduct = productToCheck.UnitsInStock, 
-                                    productName = $"{productToCheck.ProductID}. {productToCheck.ItemName}" });
+                    return Json(new 
+                    {
+                        succes = false, 
+                        quantityProduct = orderDetail.Quantity, 
+                        unitsInStockProduct = productToCheck.UnitsInStock, 
+                        productName = $"{productToCheck.ProductID}. {productToCheck.ItemName}" 
+                    });
                 }
             }
             order.Status = status;

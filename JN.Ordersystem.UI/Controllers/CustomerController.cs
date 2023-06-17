@@ -14,7 +14,7 @@ namespace JN.Ordersystem.UI.Controllers
             _customerService = customerService;
         }
 
-        // GET: CustomerController
+        // GET: Customer
         public async Task<ActionResult> Index()
         {
             // Retrieve all customers from the customer service
@@ -23,7 +23,7 @@ namespace JN.Ordersystem.UI.Controllers
             return View(customers);
         }
 
-        // GET: CustomerController/Details/5
+        // GET: Customer/Details/5
         public async Task<ActionResult> Details(int id)
         {
             // Retrieve the customer with the specified ID from the customer service
@@ -32,7 +32,7 @@ namespace JN.Ordersystem.UI.Controllers
             return View(customer);
         }
 
-        // GET: CustomerController/Create
+        // GET: Customer/Create
         [HttpGet]
         public async Task<ActionResult> Create()
         {
@@ -42,20 +42,22 @@ namespace JN.Ordersystem.UI.Controllers
             return View(customer);
         }
 
-        // POST: CustomerController/Create
+        // POST: Customer/Create
         [HttpPost]
         public async Task<ActionResult> Create(Customer customer)
         {
             if (ModelState.IsValid)
             {
+                // Create a new customer
                 await _customerService.Create(customer);
-                return RedirectToAction("Index", "Customer"); // Redirect to the customer index page
+                // Redirect to the customer index page
+                return RedirectToAction("Index", "Customer"); 
             }
 
             return View(customer);
         }
 
-        // GET: CustomerController/Edit/5
+        // GET: Customer/Edit/5
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
@@ -65,7 +67,7 @@ namespace JN.Ordersystem.UI.Controllers
             // If the customer is not found by its id
             if (customer == null)
             {
-                // Return a blank page
+                // Return a blank page for now
                 return NotFound();
             }
 
@@ -73,36 +75,44 @@ namespace JN.Ordersystem.UI.Controllers
             return View(customer);
         }
 
-        // POST: CustomerController/Edit/5
+        // POST: Customer/Edit/5
         [HttpPost]
         public async Task<ActionResult> Edit(int id, Customer updatedCustomer)
         {
-            if (id != updatedCustomer.CustomerID)
-            {
-                return BadRequest(); // Handle the case where the ID in the URL and the product ID don't match
-            }
-
             if (ModelState.IsValid)
             {
-                var updatedEntity = await _customerService.Update(id, updatedCustomer);
+                // Update the customer
+                var customerToUpdate = await _customerService.Update(id, updatedCustomer);
 
-                if (updatedEntity == null)
+                // If the customer is not found by its id
+                if (customerToUpdate == null)
                 {
-                    return NotFound(); // Handle the case where the update was not successful
+                    // Return a blank page for now
+                    return NotFound(); 
                 }
 
-                return RedirectToAction("Index"); // Redirect to the product index page after successful update
+                // Redirect to the customer index page after successful update
+                return RedirectToAction("Index"); 
             }
 
+            // If the model that the user tried to post was not valid, pass the beginning customer back to the view
             return View(updatedCustomer);
         }
 
-        // GET: CustomerController/Delete/5
+        // GET: Customer/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            await _customerService.Delete(id);
+            // Delete the customer
+            var isDeleted = await _customerService.Delete(id);
 
-            return RedirectToAction("Index");
+            // If the delete was succesful
+            if (isDeleted)
+            {
+                return RedirectToAction("Index", "Customer");
+            }
+
+            // Else return the details of the customer for now
+            return View("Details", id);
         }
     }
 }

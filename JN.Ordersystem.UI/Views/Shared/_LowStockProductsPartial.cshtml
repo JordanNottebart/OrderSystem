@@ -2,6 +2,8 @@
 <ul>
     @foreach (var product in Model)
     {
-        <li>@product.ProductID. @product.ItemName - Units in Stock: @product.UnitsInStock</li>
+        <a href="@Url.Action("Details", "Product", new { id = product.ProductID })">
+            <li>@product.ProductID. @product.ItemName - Units in Stock: @product.UnitsInStock</li>
+        </a>
     }
 </ul>

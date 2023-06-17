@@ -21,49 +21,65 @@ namespace JN.Ordersystem.UI.Controllers
             _customerService = customerService;
         }
 
+        // GET: HomeController
         public async Task<IActionResult> Index()
         {
+            // Get all the products
             var listOfProducts = await _productService.GetAll();
+
+            // Get all the orders
             var listOfOrders = await _orderService.GetAll();
+
+            // Group all the orders with their customer
             var customerOrders = listOfOrders.GroupBy(o => o.Customer);
 
+            // Get all the products where the units in stock are lower than 20
             var listOfLowProducts = listOfProducts.Where(p => p.UnitsInStock < 20).ToList();
+
+            // Order all the orders, so that the first order in the list is the most recent one by date and filter them where the status is not "Shipped"
             var mostRecentOrder = listOfOrders.OrderByDescending(o => o.OrderDate).Where(o => o.Status != "Shipped").FirstOrDefault();
 
             decimal maxTotalSales = 0;
-            Customer mostProfitableCustomer = null;
+            Customer? mostProfitableCustomer = null;
 
+            // Go through the grouping of the customer orders
             foreach (var customerGroup in customerOrders)
             {
                 decimal totalSales = 0;
 
+                // Go through every order for that customer
                 foreach (var order in customerGroup)
                 {
+                    // Check every detail of the order
                     foreach (var detail in order.OrderDetail)
                     {
+                        // Calculate the total sales for that customer
                         totalSales += detail.Quantity * detail.Product.Price;
                     }
                 }
 
+                // If the total sales are higher than the current max total sales
                 if (totalSales > maxTotalSales)
                 {
+                    // Become the new max total sales and most profitable customer
                     maxTotalSales = totalSales;
                     mostProfitableCustomer = customerGroup.Key;
                 }
             }
 
-            var lowProductViewModel = new HomeViewModel
+            // Make a new homeviewmodel, to pass through to the view
+            var newHomeViewModel = new HomeViewModel
             {
                 Products = listOfLowProducts,
                 Order = mostRecentOrder,
                 MostProfitableCustomer = mostProfitableCustomer,
                 MaxSales = maxTotalSales
-                
             };
 
-            return View(lowProductViewModel);
+            return View(newHomeViewModel);
         }
 
+        // Not used for now
         public IActionResult Privacy()
         {
             return View();
@@ -75,16 +91,23 @@ namespace JN.Ordersystem.UI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        // Method to resupply the low product in stock
         [HttpPost]
         public async Task<ActionResult> Resupply()
         {
+            // Get all the products
             var listOfProducts = await _productService.GetAll();
 
-            var listOfLowProducts = listOfProducts.Where(p => p.UnitsInStock <= 20);
+            // Get all the products where the units in stock are lower than 20
+            var listOfLowProducts = listOfProducts.Where(p => p.UnitsInStock < 20);
 
+            // Go through the list of low products
             foreach (var product in listOfLowProducts)
             {
+                // "Resupply" the product
                 product.UnitsInStock += 50;
+
+                // Update the inventory to the database
                 _productService.UpdateInventory(product.ProductID, product.UnitsInStock);
             }
 
