@@ -25,7 +25,10 @@ namespace JN.Ordersystem.UI.Controllers
             _orderDetailService = orderDetailService;
         }
 
-        // GET: Order
+        /// <summary>
+        /// GET: Order
+        /// </summary>
+        /// <returns></returns>
         public async Task<ActionResult> Index()
         {
             // Retrieve all the orders
@@ -34,7 +37,11 @@ namespace JN.Ordersystem.UI.Controllers
             return View(orders);
         }
 
-        // GET: Order/Details/5
+        /// <summary>
+        /// GET: Order/Details/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ActionResult> Details(int id)
         {
             // Retrieve the order with the specified ID
@@ -91,7 +98,7 @@ namespace JN.Ordersystem.UI.Controllers
         }
 
         /// <summary>
-        /// POST: /Order/Create
+        /// POST: Order/Create
         /// </summary>
         /// <param name="model">An OrderViewModel</param>
         /// <param name="selectedProducts">A list of OrderDetailViewModels</param>
@@ -287,32 +294,54 @@ namespace JN.Ordersystem.UI.Controllers
             return RedirectToAction("Index"); 
         }
 
+        /// <summary>
+        /// GET: Order/Delete/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ActionResult> Delete(int id)
         {
-            var orderToDelete = await _orderService.GetById(id);
-            var orderDetailsToDelete = await _orderDetailService.GetAllOrderDetailsByOrderId(id);
+            // Delete the Order and all the OrderDetails associated with it
+            await _orderService.Delete(id);
 
-            foreach (var orderDetail in orderDetailsToDelete)
-            {
-                await _orderDetailService.Delete(orderDetail.OrderDetailID);
-            }
-
-            await _orderService.Delete(orderToDelete.OrderID);
+            // Redirect to the order index page
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// AJAX Call Post: Order/UpdateStatus
+        /// </summary>
+        /// <param name="orderId">The ID of the order</param>
+        /// <param name="status">The status of the order</param>
+        /// <returns>A JSON object</returns>
         public async Task<ActionResult> UpdateStatus(int orderId, string status)
         {
-            // Update the status in the database
+            // Retrieve the order with the specified ID
             var order = await _orderService.GetById(orderId);
+
+            // If the order is not found
+            if (order == null)
+            {
+                // Return a blank page for now
+                return NotFound();
+            }
+
+            // Retrieve all OrderDetails associated with the Order
             var orderDetails = await _orderDetailService.GetAllOrderDetailsByOrderId(orderId);
+
+            // Declare a variable to hold the product to be checked
             Product productToCheck;
 
+            // Go through the list of OrderDetails
             foreach (var orderDetail in orderDetails)
             {
+                // Retrieve the info of the product in the orderDetail
                 productToCheck = await _productService.GetById(orderDetail.ProductID);
+
+                // Check if the Quantity in the OrderDetail is greater than the Units in stock for that specific product
                 if (orderDetail.Quantity > productToCheck.UnitsInStock)
                 {
+                    // If the Quantity is greater, return a JSON object with details of the failed operation
                     return Json(new 
                     {
                         succes = false, 
@@ -322,54 +351,68 @@ namespace JN.Ordersystem.UI.Controllers
                     });
                 }
             }
+
+            // If everything was OK, then change the orderStatus to the status recieved from the Post
             order.Status = status;
+
+            // Update the Order that was changed and save it to the database
             await _orderService.Update(orderId, order);
 
-            // Fetch the updated order details
+            // Retrieve the newly updated order
             var updatedOrder = await _orderService.GetById(orderId);
 
+            // To return it as a JSON object
             return Json(new { success = true, data = updatedOrder });
         }
 
+        /// <summary>
+        /// AJAX Call Post: Order/UpdateUnitsInStock
+        /// </summary>
+        /// <param name="orderId">The ID of the Order</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> UpdateUnitsInStock(int orderId)
         {
-            try
+            // Retrieve the order with the specified ID
+            var order = await _orderService.GetById(orderId);
+
+            // If the order is not found
+            if (order == null)
             {
-                var order = await _orderService.GetById(orderId);
-
-                if (order == null)
-                {
-                    return NotFound();
-                }
-
-                foreach (var detail in order.OrderDetail)
-                {
-                    var product = await _productService.GetById(detail.ProductID);
-
-                    if (product != null && detail.Quantity <= product.UnitsInStock)
-                    {
-                        product.UnitsInStock -= detail.Quantity;
-                        await _productService.Update(product.ProductID, product);
-                    }
-                    else
-                    {
-                        return Json(new
-                        {
-                            succes = false,
-                            quantityProduct = detail.Quantity,
-                            unitsInStockProduct = product.UnitsInStock,
-                            productName = $"{product.ProductID}. {product.ItemName}"
-                        });
-                    }
-                }
-
-                return RedirectToAction("Index", "Order");
+                // Return a blank page for now
+                return NotFound();
             }
-            catch (Exception ex)
+
+            // Go through the list of OrderDetails
+            foreach (var orderDetail in order.OrderDetail)
             {
-                return BadRequest(ex.Message);
+                // Retrieve the info of the product in the orderDetail
+                var product = await _productService.GetById(orderDetail.ProductID);
+
+                // Check if the product is found and check if the Quantity in the OrderDetail is greater than the Units in stock for that specific product
+                if (product != null && orderDetail.Quantity <= product.UnitsInStock)
+                {
+                    // Subtract the Quantity from the Units in Stock
+                    product.UnitsInStock -= orderDetail.Quantity;
+
+                    // Update the product and save it to the database
+                    await _productService.Update(product.ProductID, product);
+                }
+                else
+                {
+                    // Else, return a JSON object with details of the failed operation 
+                    return Json(new
+                    {
+                        succes = false,
+                        quantityProduct = orderDetail.Quantity,
+                        unitsInStockProduct = product.UnitsInStock,
+                        productName = $"{product.ProductID}. {product.ItemName}"
+                    });
+                }
             }
+
+            // Redirect to the order index page
+            return RedirectToAction("Index", "Order");
         }
     }
 }
