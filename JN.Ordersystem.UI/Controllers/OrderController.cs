@@ -289,10 +289,20 @@ namespace JN.Ordersystem.UI.Controllers
                 {
                     var product = await _productService.GetById(detail.ProductID);
 
-                    if (product != null)
+                    if (product != null && detail.Quantity <= product.UnitsInStock)
                     {
                         product.UnitsInStock -= detail.Quantity;
                         await _productService.Update(product.ProductID, product);
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            succes = false,
+                            quantityProduct = detail.Quantity,
+                            unitsInStockProduct = product.UnitsInStock,
+                            productName = $"{product.ProductID}. {product.ItemName}"
+                        });
                     }
                 }
 

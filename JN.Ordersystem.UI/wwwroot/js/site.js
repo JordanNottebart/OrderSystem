@@ -238,8 +238,13 @@ function updateUnitsInStock(orderId) {
         type: 'POST',
         data: { orderId: orderId },
         success: function (response) {
-            // Manually reload the page to show the updated units in stock
-            location.reload();
+            if (response.failed) {
+                alert(`The quantity you have chosen (${response.quantityProduct}) is higher than the available units in stock (${response.unitsInStockProduct}) for the product ${response.productName}!`);
+            }
+            else {
+                // Manually reload the page to show the updated units in stock
+                location.reload();
+            }
         },
         error: function (xhr, status, error) {
             // Handle the error response
