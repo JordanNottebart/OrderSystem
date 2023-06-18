@@ -14,7 +14,10 @@ namespace JN.Ordersystem.UI.Controllers
             _customerService = customerService;
         }
 
-        // GET: Customer
+        /// <summary>
+        /// GET: Customer
+        /// </summary>
+        /// <returns></returns>
         public async Task<ActionResult> Index()
         {
             // Retrieve all customers from the customer service
@@ -23,7 +26,11 @@ namespace JN.Ordersystem.UI.Controllers
             return View(customers);
         }
 
-        // GET: Customer/Details/5
+        /// <summary>
+        /// GET: Customer/Details/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ActionResult> Details(int id)
         {
             // Retrieve the customer with the specified ID from the customer service
@@ -32,7 +39,10 @@ namespace JN.Ordersystem.UI.Controllers
             return View(customer);
         }
 
-        // GET: Customer/Create
+        /// <summary>
+        /// GET: Customer/Create
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> Create()
         {
@@ -42,7 +52,11 @@ namespace JN.Ordersystem.UI.Controllers
             return View(customer);
         }
 
-        // POST: Customer/Create
+        /// <summary>
+        /// POST: Customer/Create
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Create(Customer customer)
         {
@@ -57,7 +71,11 @@ namespace JN.Ordersystem.UI.Controllers
             return View(customer);
         }
 
-        // GET: Customer/Edit/5
+        /// <summary>
+        /// GET: Customer/Edit/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
@@ -75,7 +93,12 @@ namespace JN.Ordersystem.UI.Controllers
             return View(customer);
         }
 
-        // POST: Customer/Edit/5
+        /// <summary>
+        /// POST: Customer/Edit/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updatedCustomer"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Edit(int id, Customer updatedCustomer)
         {
@@ -99,7 +122,11 @@ namespace JN.Ordersystem.UI.Controllers
             return View(updatedCustomer);
         }
 
-        // GET: Customer/Delete/5
+        /// <summary>
+        /// GET: Customer/Delete/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ActionResult> Delete(int id)
         {
             // Delete the customer

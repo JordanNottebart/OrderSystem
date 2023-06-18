@@ -14,87 +14,134 @@ namespace JN.Ordersystem.UI.Controllers
             _productService = productService;
         }
 
-        // GET: ProductController
+        /// <summary>
+        /// GET: Product
+        /// </summary>
+        /// <returns></returns>
         public async Task<ActionResult> Index()
         {
+            // Retrieve all products
             var products = await _productService.GetAll();
+
             return View(products);
         }
 
-        // GET: ProductController/Details/5
+        /// <summary>
+        /// GET: Product/Details/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ActionResult> Details(int id)
         {
+            // Retrieve the product with the specified ID
             var product = await _productService.GetById(id);
+
             return View(product);
         }
 
-        // GET: /Product/Create
+        /// <summary>
+        /// GET: Product/Create
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> Create(int id)
         {
+            // Create a new instance of Product
             var product = new Product();
 
             return View(product);
         }
 
-        // POST: /Product/Create
+        /// <summary>
+        /// POST: Product/Create
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Create(Product product)
         {
             if (ModelState.IsValid)
             {
+                // Create a new product
                 await _productService.Create(product);
-                return RedirectToAction("Index", "Product"); // Redirect to the product listing page
+
+                // Redirect to the product index page
+                return RedirectToAction("Index", "Product"); 
             }
 
             return View(product);
         }
 
-        // GET: ProductController/Edit/5
+        /// <summary>
+        /// GET: Product/Edit/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
             // Get the product by its ID
             var product = await _productService.GetById(id);
 
+            // If the product is not found by its id
             if (product == null)
             {
-                return NotFound(); // Handle the case where the product is not found
+                // Return a blank page for now
+                return NotFound(); 
             }
 
+            // Pass the product that was found to the view
             return View(product);
         }
 
-        // POST: ProductController/Edit/5
+        /// <summary>
+        /// POST: Product/Edit/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updatedProduct"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Edit(int id, Product updatedProduct)
         {
-            if (id != updatedProduct.ProductID)
-            {
-                return BadRequest(); // Handle the case where the ID in the URL and the product ID don't match
-            }
-
             if (ModelState.IsValid)
             {
-                var updatedEntity = await _productService.Update(id, updatedProduct);
+                // Update the product
+                var productToUpdate = await _productService.Update(id, updatedProduct);
 
-                if (updatedEntity == null)
+                // If the product is not found by its id
+                if (productToUpdate == null)
                 {
-                    return NotFound(); // Handle the case where the update was not successful
+                    // Return a blank page for now
+                    return NotFound(); 
                 }
 
-                return RedirectToAction("Index"); // Redirect to the product index page after successful update
+                // Redirect to the product index page after successful update
+                return RedirectToAction("Index"); 
             }
 
-            return View(updatedProduct); // Return the view with validation errors if the model is not valid
+            // If the model that the user tried to post was not valid, pass the beginning product back to the view
+            return View(updatedProduct); 
         }
 
-        // GET: ProductController/Delete/5
+        /// <summary>
+        /// GET: Product/Delete/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ActionResult> Delete(int id)
         {
-            await _productService.Delete(id);
+            // Delete the product
+            var isDeleted = await _productService.Delete(id);
 
-            return RedirectToAction("Index");
+            // If the delete was succesful
+            if (isDeleted)
+            {
+                return RedirectToAction("Index", "Product");
+            }
+
+            // Else return the details of the product for now
+            return View("Details", id);
         }
     }
 }
