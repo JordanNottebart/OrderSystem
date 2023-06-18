@@ -8,9 +8,10 @@ function collapseSidebar() {
 }
 
 $(document).ready(function () {
-    // Attach click event listeners to the "Home", "Orders", "Products" and "Customers" links
+    // Attach click event listeners to the "Home", "Order", "Product" and "Customer" links
     $('a[href="/"], a[href="/Order"], a[href="/Product"], a[href="/Customer"]').on('click', function (event) {
-        event.preventDefault(); // Prevent the default click behavior
+        // Prevent the default click behavior
+        event.preventDefault(); 
 
         // Get the target URL from the link's "href" attribute
         var url = $(this).attr('href');
@@ -54,31 +55,36 @@ $(document).ready(function () {
         });
     });
 
-
+    // Convert the customerTable, productTable and orderTable based on ID to a DataTable
     $('#customerDatatable').DataTable();
     $('#productDatatable').DataTable();
     $('#orderDatatable').DataTable();
 
+    // Convert the dropdowns with ID customerDropdown and productDropdown to a Select2 dropdown
     $('#customerDropdown').select2({
     });
     $('#productDropdown').select2({
     });
+    // Convert the dropdown with the class as product-dropdown to a Select2 dropdown
     $('.product-dropdown').select2({
     });
 
     /*Home Index View*/
     $("#resupplyButton").click(function () {
+        // Post an AJAX request to the method "Resupply" in the HomeController
         $.ajax({
             url: '/Home/Resupply',
             type: 'POST',
             dataType: 'json',
             success: function (response) {
-                // Handle the success response here
+                // Show an alert that the resupply was successful
                 alert("Resupply successful!");
+
+                // Manually reload the page
                 location.reload();
             },
             error: function (xhr, status, error) {
-                // Handle the error response here
+                // If there was an error, show it as an alert
                 alert("Resupply failed: " + error);
             }
         });
@@ -95,6 +101,7 @@ $(document).ready(function () {
             return $(this).val();
         }).get();
 
+        // Check if there was a product selected and the quantity was higher than 0
         if (selectedProductID !== "" && selectedQuantity.length > 0) {
             // Check if the selected product ID already exists
             var existingProduct = selectedProducts.find(function (product) {
@@ -102,7 +109,7 @@ $(document).ready(function () {
             });
 
             if (existingProduct) {
-                // Product already exists, update the quantity
+                // Product already exists in the cart, so only update the quantity
                 existingProduct.quantities = existingProduct.quantities.map(function (quantity, index) {
                     var newQuantity = parseInt(quantity) + parseInt(selectedQuantity[index]);
                     return newQuantity.toString();
@@ -120,6 +127,7 @@ $(document).ready(function () {
             clearSelections();
             updateHiddenInputFields();
 
+            // If there are products in the cart
             if (selectedProducts.length > 0) {
 
                 // Store the selected value in the hidden field
@@ -131,29 +139,48 @@ $(document).ready(function () {
     });
 
     function updateSelectedProducts() {
+        // Clear the existing list of selected products
         $('#selectedProductList').empty();
 
         selectedProducts.forEach(function (product, index) {
+            // Create a <li> element for each selected product
             var productItem = $('<li>');
+
+            // Display the product name
             var productName = $('<span>').text('Product: ' + product.productName);
+
+             // Attach a click event handler to the delete button to remove the product
             var deleteButton = $('<button>').text('X').click(function () {
                 removeProduct(index);
             });
+
+            // Append the product name to the product item
             productItem.append(productName);
+
+            // Append the delete button to the product item
             productItem.append(deleteButton);
 
-            var quantityList = $('<ul>'); // Create a nested <ul> for quantities
+            // Create a nested <ul> for quantities
+            var quantityList = $('<ul>');
+            
             product.quantities.forEach(function (quantity) {
+                // Display each quantity
                 var quantityItem = $('<li>').text('Quantity: ' + quantity);
-                quantityList.append(quantityItem); // Append each quantity as a <li> to the nested <ul>
+
+                // Append each quantity as a <li> to the nested <ul>
+                quantityList.append(quantityItem); 
             });
 
-            productItem.append(quantityList); // Append the nested <ul> to the product item
+            // Append the nested <ul> to the product item
+            productItem.append(quantityList);
+
+            // Append the product item to the selected product list
             $('#selectedProductList').append(productItem);
         });
     }
 
     function clearSelections() {
+        // Set the value for the Quantity Input back to 1
         $('input[name^="OrderDetails"]').val('1');
     }
 
@@ -171,8 +198,13 @@ $(document).ready(function () {
     }
 
     function removeProduct(index) {
+        // Remove the product at the specified index from the selectedProducts array
         selectedProducts.splice(index, 1);
+
+        // Update the display of the selected products list
         updateSelectedProducts();
+
+        // Update the hidden input fields of the selected products
         updateHiddenInputFields();
     }
 });
@@ -211,8 +243,9 @@ function updateOrderStatus(orderId, status, updateUnits) {
         type: 'POST',
         data: { orderId: orderId, status: status },
         success: function (response) {
-            // Handle the success response
+            // If the response was succes
             if (response.success) {
+                // If the updateUnits bool were set to true
                 if (updateUnits) {
                     // Send the AJAX POST request to update the units in stock
                     updateUnitsInStock(orderId);
@@ -222,11 +255,11 @@ function updateOrderStatus(orderId, status, updateUnits) {
                 }
             } else {
                 // Display an error message if the update failed
-                alert(`The quantity you have chosen (${response.quantityProduct}) is higher than the available units in stock (${response.unitsInStockProduct}) for the product ${response.productName}!`);
+                alert(`The quantity you have chosen: ${response.quantityProduct}\nis higher than the available units in stock: ${response.unitsInStockProduct}\nfor the product: ${response.productName}!`);
             }
         },
         error: function (xhr, status, error) {
-            // Handle the error response
+            // Show the error in the console if it failed
             console.error(error);
         }
     });
@@ -238,8 +271,10 @@ function updateUnitsInStock(orderId) {
         type: 'POST',
         data: { orderId: orderId },
         success: function (response) {
+            // If the response was failed
             if (response.failed) {
-                alert(`The quantity you have chosen (${response.quantityProduct}) is higher than the available units in stock (${response.unitsInStockProduct}) for the product ${response.productName}!`);
+                // Display an error message if the update failed
+                alert(`The quantity you have chosen: ${response.quantityProduct}\nis higher than the available units in stock: ${response.unitsInStockProduct}\nfor the product: ${response.productName}!`);
             }
             else {
                 // Manually reload the page to show the updated units in stock
@@ -247,7 +282,7 @@ function updateUnitsInStock(orderId) {
             }
         },
         error: function (xhr, status, error) {
-            // Handle the error response
+            // Show the error in the console if it failed
             console.error(error);
         }
     });
