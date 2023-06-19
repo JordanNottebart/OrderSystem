@@ -133,10 +133,51 @@ If everyting went fine, we should see our first product in the list. Again, noti
 	- To instantly delete the product.
 
 ###Adding Orders
+Once we have atleast one customer and one product in the database, we can finally add an order. Navigate to the orders page using the sidebar. 
+Here we see another empty list. Click on the "New Order" button, to start creating an order. Again, fill in the fields. All fields are required.
+- Order Date
+	- This is already set to the current date, but this can be changed.
+- Customer
+	- Choose a customer from the list
+		- We can search for a customer using the ID or just the name.
+- Products
+	- Choose a product from the list
+		- Again, we can search for a product using the ID or just the name.
+- Quantity
+	- Choose the quantity of the product that you want to add to the cart.
+- When done choosing, we can add the product to the cart by clicking the "Add Product To Cart" button.
+- We can add or remove multiple products to/from the cart.
+- When done adding, we can click on the "Create" button to finalize the order.
+- After clicking on create, we will be redirected back to the list of orders. 
 
+If everyting went fine, we should see our first order in the list. Notice how, we now also have another button other than the standard actions:
+- Confirm/Process button
+	- When we click on the "Confirm" button, it will do 2 things:
+		- First, it will check if there was a quantity chosen for a product that exceeds the number of units in stock for that specific product.
+			- If it passes the check, the status will update to "Pending".
+			- If the check fails, an alert will be displayed indicating the product for which the quantity exceeds the available units in stock.
+		- Second, when the status changes to "Pending", the button will change to "Process".
+	- When we now click on the "Process" button, it will do a couple of things:
+		- First, it checks again if there was a quantity chosen for a product that exceeds the number of units in stock for that specific product.
+			- If it passes the check, the status will update to "Shipped"
+			- If the check fails, an alert with the same error will be shown.
+		- Second, when the status changes to "Shipped", the button itself will be removed.
+		- Third, the "Edit" button will also be removed.
+- Edit
+	- To edit the order.
+	- If the status is "Shipped", this button will be removed.
+- Details
+	- To see more details of the order.
+		- In the details, we can also confirm/process the order.
+- Delete
+	- To instantly delete the order and with it the order details.
 
-
-
+###Editing Orders
+Currently, it is only possible to edit:
+- The order date
+- The customer
+- The current amount of items
+	- So if there were only 2 seperate products chosen, we can only edit for these 2 products.
 
 ## Known Bugs
 
