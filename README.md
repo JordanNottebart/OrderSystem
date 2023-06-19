@@ -170,14 +170,24 @@ If everyting went fine, we should see our first order in the list. Notice how, w
 	- To see more details of the order.
 		- In the details, we can also confirm/process the order.
 - Delete
-	- To instantly delete the order and with it the order details.
+	- To instantly delete the order and with it, all the corresponding order details.
 
 ###Editing Orders
 Currently, it is only possible to edit:
 - The order date
 - The customer
 - The current amount of items
-	- So if there were only 2 seperate products chosen, we can only edit for these 2 products.
+	- So if there were only 2 separate products chosen, we can only edit for these 2 products.
+
 
 ## Known Bugs
+
+###Creating/Editing Orders
+1. When creating or editing orders, if a customer is selected and a product is added to the cart, 
+then later change the customer without adding anything new to the cart and click on 'Create', the order will still be placed under the initially selected customer.
+
+### Overall Performance
+1. When constantly switching pages from the sidebar, the memory increases and doesn't go back down.
+
+No further bugs have been identified at this time. 
 
