@@ -1,5 +1,26 @@
 #ORDERSYSTEM
 
+#Table of Contents
+- Introduction
+	- Purpose
+	- Key Features
+	- Technologies used
+	- Libraries used
+- Installation and Configuration
+	- Setting Up The Database
+	- Configuring The Application
+- Usage
+	- Dashboard
+	- Customers
+	- Products
+	- Adding Orders
+	- Editing Orders
+- Known bugs
+	- Creating/Editing Orders
+	- Overall Performance
+- API
+- Responsive
+- Future Features
 
 ##Introduction
 
@@ -186,8 +207,27 @@ Currently, it is only possible to edit:
 1. When creating or editing orders, if a customer is selected and a product is added to the cart, 
 then later change the customer without adding anything new to the cart and click on 'Create', the order will still be placed under the initially selected customer.
 
-### Overall Performance
+###Overall Performance
 1. When constantly switching pages from the sidebar, the memory increases and doesn't go back down.
 
 No further bugs have been identified at this time. 
 
+
+##API
+This project also contains an API, with the standard CRUD features.
+
+
+##Responsive
+This application is only usable for PC and for an iPad with dimensions 810x1080.
+
+##Future Features
+- Make use of the suppliers.
+- Add or remove products in the Edit page for the Orders.
+- Better validation e.g.:
+	- Check for valid customer email
+	- Check for letters in customer phone number
+	- Make use of an admin account
+	- ...
+- Make the application entirely responsive.
+- Use commas for the price of the product.
+- ...
