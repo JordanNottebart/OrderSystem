@@ -415,7 +415,7 @@ body {
         }
 }
 
-/*iPad landscape mode*/
+/*iPad landscape mode (1080x810)*/
 @media (orientation: landscape) and (max-width: 1080px) {
     #FinancialGraph {
         width: 50%;
