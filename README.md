@@ -18,35 +18,33 @@ friendliness and seamless integration with the company's existing processes.
 
 ###Technologies used
 - Front-end technologies
-	1. JavaScript
-	2. CSS
-
+	- JavaScript
+	- CSS
 
 - Back-end technologies
-	1. ASP.NET Core
-	2. C#
-	3. MVC
-	4. AJAX
-	5. Entity Framework Core
-	6. SQL Server
-	7. Dependency Injection
-	8. REST APIs
-	9. API Documentation (OpenAPI)
+	- ASP.NET Core
+	- C#
+	- MVC
+	- AJAX
+	- Entity Framework Core
+	- SQL Server
+	- Dependency Injection
+	- REST APIs
+	- API Documentation (OpenAPI)
 
 ###Libraries used
 - Front-end
-	1. Bootstrap
-	2. Datatables CSS
-	3. Google Fonts (Material Icons)
-	4. Select2 CSS
-
+	- Bootstrap
+	- Datatables CSS
+	- Google Fonts (Material Icons)
+	- Select2 CSS
 
 - Back-end
-	1. jQuery
-	2. Bootstrap JavaScipt
-	3. Datatables JavaScript Plugin
-	4. Font Awesome
-	5. Select2 JavaScript Plugin
+	- jQuery
+	- Bootstrap JavaScipt
+	- Datatables JavaScript Plugin
+	- Font Awesome
+	- Select2 JavaScript Plugin
 
 
 ##Installation and Configuration
@@ -63,4 +61,47 @@ friendliness and seamless integration with the company's existing processes.
 1. Open the JN.Ordersystem Solution in Visual Studio 2022.
 2. Navigate to JN.OrderSystem.DAL.
 3. Open DataContext.cs
-4. In the optionsBuilder.UseSqlServer(); replace the current string to your SQL Server connection string. 
+4. In the optionsBuilder.UseSqlServer(); replace the current string with your SQL Server connection string.
+
+
+##Usage
+
+###Dashboard
+Upon opening the application, you will see the Dashboard.
+	- Graphs:
+		- It currently displays 2 random graphs as pictures, which can be further developed into fully functional graphs in the future.
+
+	- Latest Order Needing Attention (Top right):
+		- If there are orders in the database, it will display the most recent order that doesn't have the status of "Shipped".
+		- It will show the order's ID, date, customer details, total items, sales total, and status.
+		- You can click on the order ID or customer details to view more information about the order or customer, respectively.
+		- If all orders have been processed or there are no orders needing attention, it will display a text stating that all orders have been processed.
+
+	- Most Profitable Customer (Middle right):
+		- If there are orders in the database, it will display the customer who made the highest total purchase amount across all orders.
+		- The total sales amount is calculated by adding the purchase amount of all the orders made by that specific customer.
+		- It will show the customer's name and ID, which can be clicked to view more information about the customer.
+		- Underneath, it will display the total sales amount for that customer.
+		- If there are no orders in the database, it will display a text stating that there are currently no orders.
+
+	- Products with Low Stock (Bottom right):
+		- If there are products in the database that currently have less than 20 units in stock, they will be displayed.
+		- Each product will have its id, name and the current units in stock shown.
+		- You can click on a product to view more details about that specific product.
+		- At the top of the list, there is a "Resupply" button.
+		- Clicking on the "Resupply" button will simulate a resupply from the suppliers by adding 50 units to the units in stock for all the low-stock products.
+		- After clicking the "Resupply" button, an alert will appear indicating whether the resupply was successful or not.
+	
+
+###Adding Customers
+
+
+
+
+
+
+
+
+
+## Known Bugs
+
