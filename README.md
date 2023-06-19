@@ -92,7 +92,7 @@ Upon opening the application, you will see the Dashboard.
 	- After clicking the "Resupply" button, an alert will appear indicating whether the resupply was successful or not.
 	
 ###Customers
-Let's start by adding our first customer. First, navigate to the customers page from the sidebar. Here you will see a list but with no entries in it. Click on the "New Customer" button, to add a customer to the database.
+Let's start by adding our first customer. First, navigate to the customers page from the sidebar. Here we will see a list but with no entries in it. Click on the "New Customer" button, to add a customer to the database.
 This will redirect us to the Create Customer page. Fill in the fields. All fields are required.
 - Last name (string with max. 50 characters)
 - First name (string with max. 50 characters)
@@ -114,8 +114,23 @@ If everyting went fine, we should see our first customer in the list. Notice tha
 	- To instantly delete the customer.
 
 ###Products
+Next, we can create a product. Navigate to the products page using the sidebar. Here we see another empty list. Click on the "New Product" button, to add a product to the database.
+This will redirect us to the Create Product page. Again, fill in the fields. All fields are required.
+- Product Name (string with max. 50 characters)
+- Description (string with max. a large amount of characters)
+- Price (decimal)
+	- Note: It is currently not possible to use a "," in the number. So just use whole numbers for now.
+- Units In Stock (whole number)
+- Click on create to save the product to the database.
+- After clicking on create, we will be redirected back to the list of products. 
 
-
+If everyting went fine, we should see our first product in the list. Again, notice that we have a couple of actions, next to the product details. These actions are:
+- Edit
+	- To edit the info of the product.
+- Details
+	- To see more details of the product.
+- Delete
+	- To instantly delete the product.
 
 ###Adding Orders
 
