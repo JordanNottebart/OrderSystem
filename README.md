@@ -92,8 +92,7 @@ Upon opening the application, you will see the Dashboard.
 	- After clicking the "Resupply" button, an alert will appear indicating whether the resupply was successful or not.
 	
 ###Customers
-Let's start by adding our first customer. First, navigate to the customers page from the sidebar. Here you will see a list but with no entries in it. 
-Click on the "New Customer" button, to add a customer to the database. This will redirect us to the Create Customer page. Fill in the fields. All fields are required.
+Let's start by adding our first customer. First, navigate to the customers page from the sidebar. Here you will see a list but with no entries in it. Click on the "New Customer" button, to add a customer to the database. This will redirect us to the Create Customer page. Fill in the fields. All fields are required.
 	- Last name (string with max. 50 characters)
 	- First name (string with max. 50 characters)
 	- Address (string with max. 70 characters)
