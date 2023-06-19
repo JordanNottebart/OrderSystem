@@ -183,7 +183,8 @@ If everyting went fine, we should see our first order in the list. Notice how, w
 			- If it passes the check, the status will update to "Shipped"
 			- If the check fails, an alert with the same error will be shown.
 		- Second, when the status changes to "Shipped", the button itself will be removed.
-		- Third, the "Edit" button will also be removed.
+		- Third, the quantity of the product chosen is subtracted from the Units in Stock for that product.
+		- Fourth, the "Edit" button will also be removed.
 - Edit
 	- To edit the order.
 	- If the status is "Shipped", this button will be removed.
