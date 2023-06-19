@@ -226,8 +226,8 @@ This application is only usable for PC and for an iPad with dimensions 810x1080.
 - Better validation e.g.:
 	- Check for valid customer email
 	- Check for letters in customer phone number
-	- Make use of an admin account
 	- ...
+- Make use of an admin account
 - Make the application entirely responsive.
 - Use commas for the price of the product.
 - ...
