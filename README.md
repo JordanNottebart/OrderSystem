@@ -5,8 +5,7 @@
 
 ###Purpose
 The purpose of this project is to develop an order management system for a company 
-that can effectively track and manage product inventory. The system should prioritize user-
-friendliness and seamless integration with the company's existing processes.
+that can effectively track and manage product inventory. The system should prioritize being easy to use and seamless integration with the company's existing processes.
 
 ###Key features
 1. Order Management:
@@ -92,12 +91,32 @@ Upon opening the application, you will see the Dashboard.
 	- Clicking on the "Resupply" button will simulate a resupply from the suppliers by adding 50 units to the units in stock for all the low-stock products.
 	- After clicking the "Resupply" button, an alert will appear indicating whether the resupply was successful or not.
 	
+###Customers
+Let's start by adding our first customer. First, navigate to the customers page from the sidebar. Here you will see a list but with no entries in it. 
+Click on the "New Customer" button, to add a customer to the database. This will redirect us to the Create Customer page. Fill in the fields. All fields are required.
+	- Last name (string with max. 50 characters)
+	- First name (string with max. 50 characters)
+	- Address (string with max. 70 characters)
+	- Postal Code (string with max. 10 characters)
+	- City (string with max. 50 characters)
+	- Email (string with max. 100 characters)
+	- Phone number (string with max. 10 characters)
+		- Note: this is a string, otherwise the first 0 in some phone numbers aren't saved.
+	- Click on create to save the customer to the database.
+After clicking on create, we will be redirected back to the list of customers. If everyting went fine, we should see our first customer in the list.
+Notice that we have a couple of actions, next to the customer details. These actions are:
+	- Edit
+		- To edit the info of the customer.
+	- Details
+		- To see more details of the customer.
+	- Delete
+		- To instantly delete the customer.
 
-###Adding Customers
+###Products
 
 
 
-
+###Adding Orders
 
 
 
