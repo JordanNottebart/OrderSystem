@@ -55,19 +55,6 @@ body {
             color: #f1f1f1;
         }
 
-main .sidebar {
-    /* Positioning */
-    position: absolute;
-    top: 0;
-    right: 25px;
-
-    /* Font */
-    font-size: 36px;
-
-    /*Margin*/
-    margin-left: 50px;
-}
-
 .custom-table {
     /* Layout */
     width: 100%;
@@ -353,12 +340,168 @@ main .sidebar {
     transition: margin-left 0.5s;
 }
 
-@media screen and (max-height: 450px) {
+/*iPad portrait mode (810x1080)*/
+@media (orientation: portrait) and (max-width: 810px) {
+    .container {
+        margin-left: 100px !important;
+    }
+
+    .orderIndexPageContainer,
+    .productIndexPageContainer,
+    .customerIndexPageContainer {
+        margin-left: -30px !important;
+    }
+
+    #FinancialGraph {
+        width: 90%;
+        height: 90%;
+        position: relative;
+        left: 70px;
+    }
+
+    #GrossProfit {
+        width: 40%;
+        height: 40%;
+        position: relative;
+        top: -100px;
+        left: -40px;
+    }
+
+    .custom-table {
+        width: 460px;
+    }
+        .custom-table th,
+        .custom-table td {
+            font-size: 11px;
+        }
+
+    #recentOrderContainer {
+        height: 180px;
+        width: 480px;
+        top: 420px;
+    }
+        #recentOrderContainer h4 {
+            font-size: 14px;
+        }
+
+        #recentOrderContainer th,
+        #recentOrderContainer td {
+            font-size: 12px;
+        }
+
+    #mostProfitableCustomer {
+        margin-top: 300px;
+        font-size: 13px;
+        height: 100px;
+        left: 90px;
+    }
+        #mostProfitableCustomer h3 {
+            font-size: 17px;
+        }
+
+        #mostProfitableCustomer h4 {
+            font-size: 14px;
+        }
+
+    #lowStockProductsContainer {
+        margin-top: -151px;
+        font-size: 13px;
+        height: 130px;
+        right: 5px;
+    }
+
+        #lowStockProductsContainer h4 {
+            font-size: 14px;
+        }
+}
+
+/*iPad landscape mode*/
+@media (orientation: landscape) and (max-width: 1080px) {
+    #FinancialGraph {
+        width: 50%;
+        position: relative;
+        left: 40px;
+    }
+
+    #GrossProfit {
+        width: 40%;
+        position: relative;
+        top: -70px;
+        left: 30px;
+    }
+
+    .container {
+        margin-left: 100px !important;
+    }
+
+    .orderIndexPageContainer,
+    .productIndexPageContainer,
+    .customerIndexPageContainer {
+        margin-left: -30px !important;
+    }
+
+    #recentOrderContainer {
+        height: 180px;
+        width: 500px;
+    }
+
+    #mostProfitableCustomer {
+        width: 500px;
+    }
+
+    #lowStockProductsContainer {
+        width: 500px;
+    }
+}
+/*TO DO
+    Responsive Phone
+*/
+/*@media screen and (max-width: 450px) {
     .sidebar {
-        padding-top: 15px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 300px;
+        z-index: 999;
     }
 
         .sidebar a {
-            font-size: 18px;
+            font-size: 15px;
+            padding: 0px 0px 0px 125px;
+            margin: 0px 0px 0px 0px;
         }
-}
+
+    .container {
+        margin-top: 300px;
+    }
+
+    #FinancialGraph {
+        width: 20px;
+        height: 10px
+    }
+
+    #orderDatatable th td{
+        width: 50px !important;
+    }
+
+    table#orderDatatable {
+        table-layout: fixed;
+    }
+
+    /*#productDatatable th td {
+        width: 30px !important;
+    }
+
+    table#productDatatable {
+        table-layout: fixed;
+    }
+
+    #customerDatatable th td {
+        width: 32px !important;
+    }
+
+    table#customerDatatable {
+        table-layout: fixed;
+    }
+}*/
