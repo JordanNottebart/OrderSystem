@@ -25,7 +25,7 @@ namespace JN.Ordersystem.DAL
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlServer("Server=.;DataBase=JN.Ordersystem;User Id=ordersystemmanager;Password=test123;TrustServerCertificate=true");
+            optionsBuilder.UseSqlServer("YOUR CONNECTION STRING HERE");
         }
     }
 }
