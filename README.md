@@ -17,9 +17,10 @@
 	- Editing Orders
 - Known bugs
 	- Creating/Editing Orders
+	- Deleting Customers/Product in an existing order 	
 	- Overall Performance
 - API
-- Responsive
+- Responsiveness
 - Future Features
 
 ##Introduction
@@ -202,11 +203,15 @@ Currently, it is only possible to edit:
 	- So if there were only 2 separate products chosen, we can only edit for these 2 products.
 
 
-## Known Bugs
+##Known Bugs
 
 ###Creating/Editing Orders
 1. When creating or editing orders, if a customer is selected and a product is added to the cart, 
 then later change the customer without adding anything new to the cart and click on 'Create', the order will still be placed under the initially selected customer.
+2. When creating an order, it is possible to add invalid characters for the quantity.
+
+###Deleting Customers/Product in an existing order
+1. When deleting a product or a customer that are registered in an existing order, a crash happens.
 
 ###Overall Performance
 1. When constantly switching pages from the sidebar, the memory increases and doesn't go back down.
@@ -218,7 +223,7 @@ No further bugs have been identified at this time.
 This project also contains an API, with the standard CRUD features.
 
 
-##Responsive
+##Responsiveness
 This application is only usable for PC and for an iPad with dimensions 810x1080.
 
 ##Future Features
