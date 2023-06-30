@@ -1,6 +1,6 @@
-#ORDERSYSTEM
+# ORDERSYSTEM
 
-#Table of Contents
+# Table of Contents
 - Introduction
 	- Purpose
 	- Key Features
@@ -23,13 +23,13 @@
 - Responsiveness
 - Future Features
 
-##Introduction
+## Introduction
 
-###Purpose
+### Purpose
 The purpose of this project is to develop an order management system for a company 
 that can effectively track and manage product inventory. The system should prioritize being easy to use and seamless integration with the company's existing processes.
 
-###Key features
+### Key features
 1. Order Management:
 	- Ability to receive, process, and track orders. 
 2. Inventory Management:
