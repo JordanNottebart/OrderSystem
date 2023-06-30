@@ -37,7 +37,7 @@ that can effectively track and manage product inventory. The system should prior
 3. Customer Data Management:
 	- Ability to store and manage customer information.
 
-###Technologies used
+### Technologies used
 - Front-end technologies
 	- JavaScript
 	- CSS
@@ -53,7 +53,7 @@ that can effectively track and manage product inventory. The system should prior
 	- REST APIs
 	- API Documentation (OpenAPI)
 
-###Libraries used
+### Libraries used
 - Front-end
 	- Bootstrap
 	- Datatables CSS
@@ -68,9 +68,9 @@ that can effectively track and manage product inventory. The system should prior
 	- Select2 JavaScript Plugin
 
 
-##Installation and Configuration
+## Installation and Configuration
 
-###Setting Up The Database
+### Setting Up The Database
 1. Locate the .sql file in the project.
 2. Open SQL Server Management Studio (SSMS) and connect to your SQL Server instance.
 3. Open the .sql file in a text editor, copy all the SQL statements, and paste them into the query window in SSMS.
@@ -78,16 +78,16 @@ that can effectively track and manage product inventory. The system should prior
 5. Execute the entire script by clicking the "Execute" button.
 6. Once the script execution completes successfully, you can verify that the database objects were created by expanding the "Tables" node.
 
-###Configuring The Application
+### Configuring The Application
 1. Open the JN.Ordersystem Solution in Visual Studio 2022.
 2. Navigate to JN.OrderSystem.DAL.
 3. Open DataContext.cs
 4. In the optionsBuilder.UseSqlServer(); replace the current string with your SQL Server connection string.
 
 
-##Usage
+## Usage
 
-###Dashboard
+### Dashboard
 Upon opening the application, you will see the Dashboard.
 - Graphs:
 	- It currently displays 2 random graphs as pictures, which can be further developed into fully functional graphs in the future.
@@ -113,7 +113,7 @@ Upon opening the application, you will see the Dashboard.
 	- Clicking on the "Resupply" button will simulate a resupply from the suppliers by adding 50 units to the units in stock for all the low-stock products.
 	- After clicking the "Resupply" button, an alert will appear indicating whether the resupply was successful or not.
 	
-###Customers
+### Customers
 Let's start by adding our first customer. First, navigate to the customers page from the sidebar. Here we will see a list but with no entries in it. Click on the "New Customer" button, to add a customer to the database.
 This will redirect us to the Create Customer page. Fill in the fields. All fields are required.
 - Last name (string with max. 50 characters)
@@ -135,7 +135,7 @@ If everyting went fine, we should see our first customer in the list. Notice tha
 - Delete
 	- To instantly delete the customer.
 
-###Products
+### Products
 Next, we can create a product. Navigate to the products page using the sidebar. Here we see another empty list. Click on the "New Product" button, to add a product to the database.
 This will redirect us to the Create Product page. Again, fill in the fields. All fields are required.
 - Product Name (string with max. 50 characters)
@@ -154,7 +154,7 @@ If everyting went fine, we should see our first product in the list. Again, noti
 - Delete
 	- To instantly delete the product.
 
-###Adding Orders
+### Adding Orders
 Once we have atleast one customer and one product in the database, we can finally add an order. Navigate to the orders page using the sidebar. 
 Here we see another empty list. Click on the "New Order" button, to start creating an order. Again, fill in the fields. All fields are required.
 - Order Date
@@ -195,7 +195,7 @@ If everyting went fine, we should see our first order in the list. Notice how, w
 - Delete
 	- To instantly delete the order and with it, all the corresponding order details.
 
-###Editing Orders
+### Editing Orders
 Currently, it is only possible to edit:
 - The order date
 - The customer
@@ -203,30 +203,30 @@ Currently, it is only possible to edit:
 	- So if there were only 2 separate products chosen, we can only edit for these 2 products.
 
 
-##Known Bugs
+## Known Bugs
 
-###Creating/Editing Orders
+### Creating/Editing Orders
 1. When creating or editing orders, if a customer is selected and a product is added to the cart, 
 then later change the customer without adding anything new to the cart and click on 'Create', the order will still be placed under the initially selected customer.
 2. When creating an order, it is possible to add invalid characters for the quantity.
 
-###Deleting Customers/Product in an existing order
+### Deleting Customers/Product in an existing order
 1. When deleting a product or a customer that are registered in an existing order, a crash happens.
 
-###Overall Performance
+### Overall Performance
 1. When constantly switching pages from the sidebar, the memory increases and doesn't go back down.
 
 No further bugs have been identified at this time. 
 
 
-##API
+## API
 This project also contains an API, with the standard CRUD features.
 
 
-##Responsiveness
+## Responsiveness
 This application is only usable for PC and for an iPad with dimensions 810x1080.
 
-##Future Features
+## Future Features
 - Make use of the suppliers.
 - Add or remove products in the Edit page for the Orders.
 - Better validation e.g.:
